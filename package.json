@@ -4,9 +4,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "copy-cv": "node -e \"const fs=require('fs');const s='SantiagoLopezZavaletta_CV.pdf';if(fs.existsSync(s)){fs.copyFileSync(s,'public/'+s);console.log('CV copied to public/'+s);}else{console.warn('CV not found in root: '+s);}\"",
-    "predev": "npm run copy-cv",
-    "prebuild": "npm run copy-cv",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
