@@ -26,7 +26,7 @@ export const LEAD = [
   "Delivery & program management",
   "Scope, risk & stakeholder governance",
   "P&L & margin ownership",
-  "Cross-functional teams",
+  "Cross-functional teams & staffing",
 ];
 
 export const BUILD = [
