@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Santiago Lopez Zavaletta, Senior AI Project Manager. Project Manager who builds.";
+  "Santiago López Zavaletta, Senior AI Project Manager. Project Manager who builds.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -84,7 +84,7 @@ export default function OpengraphImage() {
             fontFamily: "monospace",
           }}
         >
-          <span>Santiago Lopez Zavaletta</span>
+          <span>Santiago López Zavaletta</span>
           <span style={{ color: "#6b6b6b" }}>slzavaletta.com</span>
         </div>
       </div>

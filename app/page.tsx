@@ -452,7 +452,7 @@ export default function Home() {
               className={`${SECTION} flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between`}
             >
               <p className="font-mono text-sm text-faint">
-                Santiago Lopez Zavaletta · Senior AI Project Manager
+                Santiago López Zavaletta · Senior AI Project Manager
               </p>
               <a
                 href="/SantiagoLopezZavaletta_CV.pdf"

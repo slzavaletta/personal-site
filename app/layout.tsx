@@ -4,7 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import "./globals.css";
 
 const SITE_URL = "https://slzavaletta.com";
-const NAME = "Santiago Lopez Zavaletta";
+const NAME = "Santiago López Zavaletta";
 const ROLE = "Senior AI Project Manager";
 const DESCRIPTION =
   "Senior project manager for AI and software delivery who also builds the agentic tooling, self-hosted infrastructure, and automation that runs the programs he leads.";
