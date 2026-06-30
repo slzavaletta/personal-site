@@ -1,0 +1,31 @@
+{
+  "name": "slzavaletta-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "copy-cv": "node -e \"const fs=require('fs');const s='SantiagoLopezZavaletta_CV.pdf';if(fs.existsSync(s)){fs.copyFileSync(s,'public/'+s);console.log('CV copied to public/'+s);}else{console.warn('CV not found in root: '+s);}\"",
+    "predev": "npm run copy-cv",
+    "prebuild": "npm run copy-cv",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
+    "geist": "^1.3.1",
+    "motion": "^11.18.0",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0"
+  }
+}

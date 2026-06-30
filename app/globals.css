@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+/* ============================================================
+   COLOR CONSISTENCY LOCK
+   One palette, one accent (#3FB950), whole page. No serif.
+   ============================================================ */
+@theme {
+  --color-bg: #0c0c0c;
+  --color-surface: #171717;
+  --color-surface-2: #1f1f1f;
+  --color-text: #fafafa;
+  --color-muted: #a1a1a1;
+  --color-faint: #8b8b8b; /* >= 4.5:1 on --color-bg for WCAG AA small text */
+  --color-line: #262626;
+  --color-line-strong: #333333;
+
+  /* single accent, locked page-wide */
+  --color-accent: #3fb950;
+  --color-accent-soft: #2ea043;
+  --color-accent-mint: #a7f3d0;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+
+  --radius: 0.75rem;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(63, 185, 80, 0.24);
+  color: #fafafa;
+}
+
+/* Visible focus for full keyboard nav */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   GRADIENT FLOURISH (the ONE expressive color moment)
+   Applied ONLY to the word "builds" (and optionally "+5pp").
+   Low-saturation ramp #3FB950 -> #A7F3D0, same font family.
+   Solid-color fallback first for contrast / a11y.
+   ============================================================ */
+.text-gradient-builds {
+  color: var(--color-accent); /* a11y + no-background-clip fallback */
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .text-gradient-builds {
+    background: linear-gradient(
+      100deg,
+      var(--color-accent) 0%,
+      #6fd585 55%,
+      var(--color-accent-mint) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+/* ============================================================
+   BRAND STATUS DOT — the ONE permitted idle motion.
+   A slow, calm opacity breath like a terminal status light.
+   Not a blink, not a pulse, no ring. Static under reduced motion.
+   ============================================================ */
+.brand-dot {
+  animation: brand-breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes brand-breathe {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(63, 185, 80, 0.45);
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 3px rgba(63, 185, 80, 0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-dot {
+    animation: none;
+    opacity: 1;
+    box-shadow: 0 0 6px rgba(63, 185, 80, 0.3);
+  }
+}
+
+/* ============================================================
+   CARD HOVER — gradient border (the existing #3FB950 -> #A7F3D0
+   ramp) + a minimal accent glow. Appears ONLY on hover, then
+   fades; resting state is unchanged. Corners follow each box's
+   own radius via the mask technique (border-image breaks with
+   border-radius). No idle loops.
+   ============================================================ */
+/* Fast ease-IN on :hover (150ms), gentle ease-OUT on leave (480ms). The base
+   duration governs the return-to-rest; the :hover duration governs the enter. */
+.hover-glow {
+  position: relative;
+  transition: box-shadow 480ms ease-out;
+}
+
+.hover-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px; /* gradient border thickness */
+  background: linear-gradient(135deg, #3fb950, #a7f3d0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 480ms ease-out;
+  pointer-events: none;
+}
+
+.hover-glow:hover::after {
+  opacity: 1;
+  transition: opacity 150ms ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 14px rgba(63, 185, 80, 0.15);
+  transition: box-shadow 150ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-glow,
+  .hover-glow::after,
+  .hover-glow:hover,
+  .hover-glow:hover::after {
+    transition: none;
+  }
+}
+
+/* Hairline helper used by data sections */
+.rule-fade {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-line-strong) 12%,
+    var(--color-line-strong) 88%,
+    transparent
+  );
+}
