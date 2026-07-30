@@ -1,0 +1,158 @@
+"use client";
+
+import { useRef, useState } from "react";
+import { Mail, Menu } from "lucide-react";
+
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import { NAV_LINKS, SITE_LINKS } from "@/app/lib/content";
+
+export function SiteHeader() {
+  const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false);
+  const mobileTriggerRef = useRef<HTMLButtonElement>(null);
+  const mobileNavigationTargetRef = useRef<HTMLElement | null>(null);
+
+  const prepareMobileNavigationFocus = (href: string) => {
+    const section = document.querySelector<HTMLElement>(href);
+    const target =
+      section?.querySelector<HTMLElement>("h2, h3") ?? section ?? null;
+
+    if (target) {
+      target.tabIndex = -1;
+    }
+
+    mobileNavigationTargetRef.current = target;
+    setMobileNavigationOpen(false);
+  };
+
+  return (
+    <header className="relative border-b border-rule-strong bg-paper">
+      <div className="page-shell flex min-h-20 items-center justify-between gap-6">
+        <a
+          href="#top"
+          className="group inline-flex min-h-11 min-w-11 items-center gap-3 text-ink"
+          aria-label="SLZ — Santiago López Zavaletta, back to top"
+        >
+          <span
+            aria-hidden="true"
+            className="grid size-9 place-items-center border border-ink font-heading text-sm font-bold tracking-[-0.08em] transition-colors duration-150 ease-editorial group-hover:bg-ink group-hover:text-paper"
+          >
+            SLZ
+          </span>
+          <span
+            aria-hidden="true"
+            className="hidden whitespace-nowrap font-mono text-[0.6875rem] font-medium tracking-[0.08em] uppercase sm:block md:hidden lg:block"
+          >
+            Buenos Aires / AR
+          </span>
+        </a>
+
+        <nav
+          aria-label="Primary navigation"
+          className="hidden items-center gap-7 md:flex"
+        >
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="hairline-link inline-flex min-h-11 min-w-11 items-center justify-center font-mono text-[0.6875rem] font-medium tracking-[0.08em] uppercase"
+            >
+              {link.label}
+            </a>
+          ))}
+          <a
+            href={SITE_LINKS.email}
+            className={buttonVariants({ variant: "outline" })}
+          >
+            Email Santiago
+            <Mail data-icon="inline-end" aria-hidden="true" />
+          </a>
+        </nav>
+
+        <div className="md:hidden">
+          <Sheet
+            open={mobileNavigationOpen}
+            onOpenChange={(open) => {
+              if (open) {
+                mobileNavigationTargetRef.current = null;
+              }
+              setMobileNavigationOpen(open);
+            }}
+          >
+            <SheetTrigger
+              render={
+                <Button
+                  ref={mobileTriggerRef}
+                  variant="ghost"
+                  size="icon"
+                  aria-label="Open navigation"
+                />
+              }
+            >
+              <Menu aria-hidden="true" />
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              finalFocus={() =>
+                mobileNavigationTargetRef.current ?? mobileTriggerRef.current
+              }
+            >
+              <SheetHeader>
+                <SheetTitle className="sr-only">Navigation</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Jump to a section or email Santiago.
+                </SheetDescription>
+              </SheetHeader>
+
+              <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-5 pt-16">
+                <p className="utility-label text-graphite">On this page</p>
+                <nav
+                  aria-label="Mobile navigation"
+                  className="mt-5 flex flex-col border-t border-rule-strong"
+                >
+                  {NAV_LINKS.map((link, index) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => prepareMobileNavigationFocus(link.href)}
+                      className="flex min-h-16 items-center justify-between border-b border-rule text-2xl font-semibold tracking-[-0.035em]"
+                    >
+                      <span>{link.label}</span>
+                      <span
+                        aria-hidden="true"
+                        className="font-mono text-[0.6875rem] font-medium text-signal"
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </a>
+                  ))}
+                </nav>
+              </div>
+
+              <div className="shrink-0 border-t border-rule-strong p-5">
+                <a
+                  href={SITE_LINKS.email}
+                  className={cn(
+                    buttonVariants({ variant: "default" }),
+                    "w-full",
+                  )}
+                >
+                  Email Santiago
+                  <Mail data-icon="inline-end" aria-hidden="true" />
+                </a>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
+  );
+}

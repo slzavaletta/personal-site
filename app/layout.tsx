@@ -1,35 +1,55 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
+import { Archivo, IBM_Plex_Mono, Source_Sans_3 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { MotionProvider } from "@/app/components/motion/MotionProvider";
 import "./globals.css";
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const sourceSans = Source_Sans_3({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-utility",
+  display: "swap",
+});
 
 const SITE_URL = "https://slzavaletta.com";
 const NAME = "Santiago López Zavaletta";
-const ROLE = "Senior AI Project Manager";
+const ROLE = "Technical Project Manager";
 const DESCRIPTION =
-  "Senior project manager for AI and software delivery who also builds the agentic tooling, self-hosted infrastructure, and automation that runs the programs he leads.";
+  "Technical Project Manager and Scrum Master running AI and software delivery across the United States and Latin America, with P&L ownership and a growing focus on AI deployment.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${NAME} - ${ROLE}`,
-    template: `%s - ${NAME}`,
+    default: `${NAME} — ${ROLE}`,
+    template: `%s — ${NAME}`,
   },
   description: DESCRIPTION,
   applicationName: `${NAME} portfolio`,
   authors: [{ name: NAME, url: SITE_URL }],
   creator: NAME,
+  category: "portfolio",
   keywords: [
-    "AI Project Manager",
-    "Program Management",
-    "AI Delivery",
-    "Agentic AI",
-    "Claude skills",
-    "Delivery Manager",
     "Technical Project Manager",
+    "Scrum Master",
+    "AI delivery",
+    "AI deployment",
+    "Software delivery",
+    "Program management",
     "P&L ownership",
+    "Distributed teams",
     "Globant",
   ],
   alternates: {
@@ -39,13 +59,13 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: NAME,
-    title: `${NAME} - ${ROLE}`,
+    title: `${NAME} — ${ROLE}`,
     description: DESCRIPTION,
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${NAME} - ${ROLE}`,
+    title: `${NAME} — ${ROLE}`,
     description: DESCRIPTION,
   },
   robots: {
@@ -61,8 +81,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0c0c",
-  colorScheme: "dark",
+  themeColor: "#F6F7F5",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -80,11 +100,12 @@ const personJsonLd = {
     name: "Globant",
   },
   knowsAbout: [
-    "AI Delivery",
-    "Program Management",
-    "Agentic AI tooling",
+    "Technical delivery",
+    "Scrum",
+    "AI delivery",
+    "Program management",
     "P&L ownership",
-    "Self-hosted infrastructure",
+    "Distributed team leadership",
     "Workflow automation",
   ],
   sameAs: [
@@ -97,20 +118,25 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html
+      lang="en"
+      className={`${archivo.variable} ${sourceSans.variable} ${ibmPlexMono.variable}`}
+    >
       <body>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:font-mono focus:text-sm focus:text-bg"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:min-h-11 focus:bg-ink focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-paper focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-signal"
         >
           Skip to content
         </a>
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         <Analytics />
         <SpeedInsights />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(personJsonLd).replace(/</g, "\\u003c"),
+          }}
         />
       </body>
     </html>

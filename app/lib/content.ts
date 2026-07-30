@@ -1,300 +1,420 @@
-export const NAV_LINKS = [
-  { label: "Lab", href: "#lab" },
-  { label: "Work", href: "#work" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
-] as const;
-
-export type ProofStat =
-  | {
-      kind: "count";
-      value: number;
-      prefix?: string;
-      suffix?: string;
-      label: string;
-    }
-  | { kind: "static"; display: string; label: string };
-
-export const PROOF: ProofStat[] = [
-  { kind: "count", value: 10, suffix: "+", label: "years in delivery" },
-  { kind: "static", display: "$700k-$5M", label: "portfolios under P&L" },
-  { kind: "count", value: 8, label: "industries" },
-  { kind: "count", value: 5, prefix: "+", suffix: "pp", label: "account margin" },
-];
-
-export const LEAD = [
-  "Delivery & program management",
-  "Scope, risk & stakeholder governance",
-  "P&L & margin ownership",
-  "Cross-functional teams & staffing",
-];
-
-export const BUILD = [
-  "Agentic AI skills & tooling",
-  "Self-hosted infrastructure & agents",
-  "Workflow automation (n8n, Jira Automations)",
-  "Process automation with Claude",
-];
-
-export type LabCard = {
-  name: string;
-  blurb: string;
-  stack: string[];
-  href?: string;
-  demoHref?: string; // in-page anchor to a live demo section
-  featured?: boolean;
+export type NavLink = {
+  label: string;
+  href: `#${string}`;
 };
 
-export const LAB: LabCard[] = [
-  {
-    name: "Scope Sentinel",
-    blurb:
-      "Agentic Claude skill that protects the delivery baseline. It reads an incoming client request and classifies it in-scope, out-of-scope, or ambiguous against the SOW, with a verified verbatim citation, effort sizing, and a draft change request. Human-in-the-loop throughout.",
-    stack: ["Claude skills", "Python"],
-    href: "https://github.com/slzavaletta/skills",
-    demoHref: "#scope-sentinel",
-    featured: true,
-  },
-  {
-    name: "SOW Intake",
-    blurb:
-      "Turns a Statement of Work into living, cited project memory: a machine-readable baseline plus a human-readable delivery brief, with mandatory citations and risk flags. Fails loud with NOT_FOUND and flags rather than guessing.",
-    stack: ["Claude skills", "Python", "JSON Schema"],
-    href: "https://github.com/slzavaletta/skills",
-    featured: true,
-  },
-  {
-    name: "LifeOS",
-    blurb:
-      "A personal agentic operating system for planning and decision support, built around Claude, with custom, extensible protocols at its core. In early development.",
-    stack: ["Claude", "Python"],
-  },
-  {
-    name: "Self-hosted infra & agents",
-    blurb:
-      "Personal self-hosted stack (VPS, Docker, Caddy reverse proxy, Tailscale) running workflow automation, self-hosted project tracking, and a personal agent (Hermes). Evidence of operating real infrastructure, not no-code.",
-    stack: ["Docker", "Caddy", "Tailscale", "n8n", "Plane", "Hermes"],
-  },
-  {
-    name: "Agentic systems R&D",
-    blurb:
-      "Hands-on work with agent orchestration and evaluation tooling: building, wiring, and evaluating multi-agent workflows to go deeper on the engineering behind AI delivery. Early and ongoing.",
-    stack: ["LangGraph", "Mastra", "Langfuse", "pgvector"],
-  },
-];
+export const NAV_LINKS = [
+  { label: "Work", href: "#work" },
+  { label: "Approach", href: "#approach" },
+  { label: "Tools", href: "#tools" },
+  { label: "Experience", href: "#experience" },
+  { label: "Contact", href: "#contact" },
+] as const satisfies readonly NavLink[];
 
-export type Role = {
+export const SITE_LINKS = {
+  email: "mailto:santiago@slzavaletta.com",
+  resume: "/SantiagoLopezZavaletta_CV.pdf",
+  linkedin: "https://www.linkedin.com/in/slzavaletta",
+  github: "https://github.com/slzavaletta",
+  skillsRepository: "https://github.com/slzavaletta/skills",
+} as const;
+
+export const HERO = {
+  role: "Technical Project Manager and Scrum Master at Globant.",
+  firstName: "Santiago",
+  lastName: "López Zavaletta",
+  statement:
+    "I run AI and software delivery—from staffing and P&L to Scrum, risk, and client decisions.",
+  supporting:
+    "My career started in infrastructure. Today I work between clients, executives, and technical teams across the United States and Latin America.",
+  direction:
+    "I’m preparing for a move into AI deployment: choosing the use case, running the pilot, supporting adoption, and helping the client make a scale-or-stop decision.",
+  primaryAction: { label: "Read the work", href: "#work" },
+  secondaryAction: {
+    label: "Download résumé",
+    href: SITE_LINKS.resume,
+  },
+} as const;
+
+export type ProofPoint = {
+  value: string;
+  label: string;
+};
+
+export const PROOF = [
+  {
+    value: "10+ years",
+    label: "across infrastructure and technical delivery",
+  },
+  {
+    value: "$5M",
+    label: "current AI delivery account",
+  },
+  {
+    value: "40% → 45%",
+    label: "account margin after staffing and delivery changes",
+  },
+  {
+    value: "6 POCs",
+    label: "delivered while building a Digital Twin capability",
+  },
+] as const satisfies readonly ProofPoint[];
+
+export const CURRENT_AND_NEXT = {
+  heading: "What I do now. What I’m preparing to do next.",
+  current: {
+    label: "Current practice",
+    title: "I manage the scope, budget, people, risk, and the work itself.",
+    body:
+      "At Globant, I own scope, budget, staffing, timelines, dependencies, risk, client communication, and the Scrum cadence for distributed software teams. My portfolio work has ranged from $700k to $5M, with cross-functional teams of up to 36 people. I use financial and delivery metrics to make tradeoffs while the team still has room to act.",
+  },
+  next: {
+    label: "Next direction",
+    title: "The AI deployment work I want to lead next.",
+    body:
+      "AI can produce a persuasive demo before a company knows how—or whether—to adopt it. The harder work is choosing the right use case, handling data and security constraints, supporting the people whose work will change, and deciding whether the evidence is strong enough to continue. That is the work I want to lead next.",
+  },
+  credential:
+    "I’m pursuing the Claude Certified Architect certification and building hands-on depth through delivery tooling, automation, self-hosted infrastructure, and experiments with agent workflows.",
+} as const;
+
+export type CaseMarginalia = {
+  context: string;
+  constraint: string;
+  work: string;
+  signal: string;
+};
+
+export type CaseStudy = {
+  id: string;
+  number: string;
+  label: string;
+  period: string;
+  title: string;
+  summary: string;
+  marginalia: CaseMarginalia;
+};
+
+export const WORK_INTRO = {
+  heading: "Selected work.",
+  body: "Three examples: what was difficult, what I owned, and what changed.",
+} as const;
+
+export const CASE_STUDIES = [
+  {
+    id: "ai-delivery",
+    number: "01",
+    label: "AI delivery",
+    period: "Globant · Oct 2025–present",
+    title: "Improving margin and reducing overhead on a $5M AI account.",
+    summary:
+      "A multidisciplinary AI account had margin pressure and too much recurring delivery work happening by hand. I own staffing, capacity, and P&L for a 20-person delivery team within a 40-person account, run Scrum and governance, and automate recurring work with Claude and Jira. Account margin moved from 40% to 45%.",
+    marginalia: {
+      context:
+        "AI delivery across data science, engineering, front-end, and DevSecOps.",
+      constraint:
+        "Margin pressure and recurring operational overhead.",
+      work:
+        "Staffing mix, capacity planning, RAID governance, Scrum, and workflow automation.",
+      signal: "Five percentage points of margin improvement.",
+    },
+  },
+  {
+    id: "digital-twin-studio",
+    number: "02",
+    label: "Digital Twin Studio",
+    period: "Globant · Dec 2024–Oct 2025",
+    title: "Building a new Digital Twin capability through six POCs.",
+    summary:
+      "Globant wanted a Digital Twin capability in a domain that was new to the team. I led a five-person LATAM POD, delivered a six-month, $90k fixed-price factory twin, worked with external partners, and supported presales. The first POC took roughly five weeks; the studio went on to deliver six.",
+    marginalia: {
+      context:
+        "A new real-time 3D capability with no existing delivery model.",
+      constraint:
+        "An unfamiliar domain, external partners, and a fixed-price commitment.",
+      work:
+        "Team design, vendor coordination, POC delivery, and a repeatable studio model.",
+      signal:
+        "Six POCs, roughly five weeks to the first, and a $90k fixed-price delivery.",
+    },
+  },
+  {
+    id: "mergers-and-acquisitions",
+    number: "03",
+    label: "M&A and corporate development",
+    period: "Globant · Jun 2022–Mar 2023",
+    title: "Coordinating four M&A programs across four countries.",
+    summary:
+      "I coordinated due diligence across three Latin American acquisitions and the post-merger integration of a European firm. The work covered legal, marketing, IT, and change-management risk across approximately 940 people.",
+    marginalia: {
+      context: "Simultaneous due diligence and post-merger work.",
+      constraint:
+        "Different countries, functions, and decision owners.",
+      work:
+        "Cross-functional coordination, risk tracking, stakeholder communication, and integration planning.",
+      signal: "Four deals covering approximately 940 people.",
+    },
+  },
+] as const satisfies readonly CaseStudy[];
+
+export type DecisionBriefField = {
+  number: string;
+  title: string;
+  prompt: string;
+};
+
+export const PILOT_DECISION_BRIEF = {
+  label: "Preparing for AI deployment",
+  heading: "Before a pilot starts, I want five things written down.",
+  body:
+    "I’m developing this brief from my current TPM work as I prepare for AI deployment roles; it isn’t presented as a formal practice I already run.",
+  fields: [
+    {
+      number: "01",
+      title: "The business problem",
+      prompt: "What is costly, slow, risky, or otherwise worth changing?",
+    },
+    {
+      number: "02",
+      title: "The users",
+      prompt:
+        "Whose workflow needs to change, and what support will they need?",
+    },
+    {
+      number: "03",
+      title: "The constraints",
+      prompt:
+        "What do data access, security, integrations, time, and competing tools allow?",
+    },
+    {
+      number: "04",
+      title: "The success signal",
+      prompt: "What evidence would be credible enough to act on?",
+    },
+    {
+      number: "05",
+      title: "The decision",
+      prompt:
+        "What will the evidence allow the customer to stop, fix, expand, or buy?",
+    },
+  ] satisfies readonly DecisionBriefField[],
+} as const;
+
+export type SystemAction = {
+  label: string;
+  href: string;
+  external?: boolean;
+};
+
+export type DeliverySystem = {
+  id: string;
+  name: string;
+  body: string;
+  actions: readonly SystemAction[];
+};
+
+export const SYSTEMS = {
+  heading: "Delivery systems I build.",
+  projects: [
+    {
+      id: "scope-sentinel",
+      name: "Scope Sentinel",
+      body:
+        "Client requests rarely arrive with a clean label. Scope Sentinel reads the request against the SOW, cites the exact clause, estimates the effort, and drafts the next step. When the evidence is missing, it says so.",
+      actions: [
+        { label: "Try the walkthrough", href: "#scope-sentinel" },
+        {
+          label: "View the source on GitHub",
+          href: SITE_LINKS.skillsRepository,
+          external: true,
+        },
+      ],
+    },
+    {
+      id: "sow-intake",
+      name: "SOW Intake",
+      body:
+        "SOW Intake turns a contract into a cited delivery baseline that people and agents can use. Missing evidence is marked as missing instead of being filled with a plausible answer.",
+      actions: [
+        {
+          label: "View the source on GitHub",
+          href: SITE_LINKS.skillsRepository,
+          external: true,
+        },
+      ],
+    },
+  ] satisfies readonly DeliverySystem[],
+  infrastructure: {
+    label: "Behind the experiments",
+    body:
+      "I also run the infrastructure behind my own experiments: Docker, Caddy, Tailscale, n8n, project tracking, and personal agents on a self-hosted VPS.",
+  },
+} as const;
+
+export type Tool = {
+  name: string;
+  logoSrc: string;
+};
+
+export type ToolGroup = {
+  id: string;
+  label: string;
+  note: string;
+  exploratory?: boolean;
+  tools: readonly Tool[];
+};
+
+const logo = (file: string) => `/logos/${file}.svg`;
+
+export const TOOL_SECTION = {
+  heading: "Tools, grouped by how I use them.",
+  body:
+    "Tools matter when they shorten a feedback loop, make a decision easier to trace, or remove work a team should not be doing by hand.",
+} as const;
+
+export const TOOL_GROUPS = [
+  {
+    id: "run",
+    label: "Run the work",
+    note:
+      "I use these for scope, backlogs, delivery decisions, and shared context.",
+    tools: [
+      { name: "Jira", logoSrc: logo("jira") },
+      { name: "Azure DevOps", logoSrc: logo("azuredevops") },
+      { name: "Linear", logoSrc: logo("linear") },
+      { name: "Figma", logoSrc: logo("figma") },
+    ],
+  },
+  {
+    id: "build",
+    label: "Build and automate",
+    note:
+      "The tools I use to draft, test, and remove repeatable delivery work.",
+    tools: [
+      { name: "Claude", logoSrc: logo("claude") },
+      {
+        name: "ChatGPT / Codex",
+        logoSrc: logo("openai"),
+      },
+      { name: "Gemini", logoSrc: logo("gemini") },
+      { name: "n8n", logoSrc: logo("n8n") },
+    ],
+  },
+  {
+    id: "operate",
+    label: "Ship and operate",
+    note:
+      "A practical stack for scripts, source control, containers, and the infrastructure behind my experiments.",
+    tools: [
+      { name: "Python", logoSrc: logo("python") },
+      {
+        name: "Bash / PowerShell",
+        logoSrc: logo("gnubash"),
+      },
+      { name: "GitHub", logoSrc: logo("github") },
+      { name: "Docker", logoSrc: logo("docker") },
+    ],
+  },
+  {
+    id: "explore",
+    label: "Explore AI systems",
+    note:
+      "Active learning: I use these to understand orchestration, observability, evaluation, and retrieval more deeply.",
+    exploratory: true,
+    tools: [
+      { name: "Mastra", logoSrc: logo("mastra") },
+      { name: "LangGraph", logoSrc: logo("langgraph") },
+      { name: "Langfuse", logoSrc: logo("langfuse") },
+      { name: "pgvector", logoSrc: logo("postgresql") },
+    ],
+  },
+  {
+    id: "signal",
+    label: "Read the signal",
+    note:
+      "Reporting that helps teams and clients see what changed and decide what to do next.",
+    tools: [
+      { name: "Power BI", logoSrc: logo("powerbi") },
+    ],
+  },
+] as const satisfies readonly ToolGroup[];
+
+export type ExperienceItem = {
   company: string;
   period: string;
   title: string;
-  impact: string;
+  body: string;
 };
 
-export const EXPERIENCE: Role[] = [
+export const EXPERIENCE_SECTION = {
+  heading: "How I got here.",
+} as const;
+
+export const EXPERIENCE = [
   {
     company: "Globant",
-    period: "2021-Present",
-    title: "Senior Project Manager",
-    impact:
-      "AI/Web3, Digital Twin, Hospitality (hotels & cruise), and M&A delivery across US & LATAM. Currently leading AI delivery on a $5M program (+5pp margin).",
-  },
-  {
-    company: "ExxonMobil",
-    period: "2018-2021",
-    title: "System Administrator",
-    impact:
-      "Oil & Gas. Enterprise middleware, infrastructure, and security compliance.",
-  },
-  {
-    company: "gA",
-    period: "2014-2018",
-    title: "Technical Project Lead",
-    impact:
-      "Life Sciences. UNIX-to-Windows migrations for Johnson & Johnson MD&D.",
+    period: "2021–present",
+    title: "Technical Project Manager and Scrum Master",
+    body:
+      "AI delivery, Digital Twin, hospitality, and M&A work across the United States and Latin America. I manage scope, P&L, staffing, risk, delivery cadence, and client communication.",
   },
   {
     company: "XOOR",
     period: "2022",
-    title: "Project Manager (freelance)",
-    impact: "Web and mobile delivery.",
+    title: "Freelance Project Manager",
+    body: "Web and mobile delivery.",
   },
-];
+  {
+    company: "ExxonMobil",
+    period: "2018–2021",
+    title: "System Administrator",
+    body:
+      "Enterprise infrastructure, security, reporting, and service transition.",
+  },
+  {
+    company: "gA",
+    period: "2014–2018",
+    title: "Technical Project Lead",
+    body:
+      "Enterprise migration and performance-testing programs in life sciences.",
+  },
+] as const satisfies readonly ExperienceItem[];
 
-export type CaseStudy = {
-  title: string;
-  meta: string;
-  problem: string;
-  action: string;
-  result: string;
-  viz: "margin" | "poc" | "deals";
+export type Certification = {
+  name: string;
+  issuer?: string;
+  status: "Earned" | "In progress";
 };
 
-export const CASES: CaseStudy[] = [
+export const CERTIFICATIONS = [
   {
-    title: "AI Delivery, $5M account",
-    meta: "Globant · Oct 2025 - Present",
-    problem:
-      "A $5M account with a multidisciplinary org (AI Data Scientists & Engineers, Front-end, DevSecOps) under margin pressure and high manual operational overhead.",
-    action:
-      "Owned staffing, capacity and P&L over a 20-person delivery team (within a 40-person, 2-PM account); ran governance with RACI / RAID / status reporting; served as Scrum Master; built process automation with Claude and Jira Automations to cut manual overhead.",
-    result:
-      "Margin moved 40% to 45% (+5pp) through staffing optimization and delivery efficiency, with reduced manual operational load and faster workflows.",
-    viz: "margin",
+    name: "Certified ScrumMaster",
+    issuer: "Scrum Alliance",
+    status: "Earned",
   },
   {
-    title: "Digital Twin Studio",
-    meta: "Globant · Dec 2024 - Oct 2025",
-    problem:
-      "Globant needed to stand up a Digital Twin capability (real-time 3D / Unreal Engine) from scratch and validate it with client-facing POCs in a new domain.",
-    action:
-      "Led the POC team; directed a 5-person LATAM POD (2 Digital Twin Designers, 3D Artist, Technical Artist, Game Developer); delivered a factory digital twin as a packaged Windows app (fixed-price, 6 months, $90k); led partnership negotiations and external vendor management; supported presales.",
-    result:
-      "6 POCs delivered (factory twin for a major US manufacturer, office twin, VR bookshop walkthrough, real-time vehicle configurator for a major US automaker); first POC in roughly 5 weeks; a repeatable studio model.",
-    viz: "poc",
+    name: "Certified SAFe 6 Agilist",
+    issuer: "Scaled Agile",
+    status: "Earned",
   },
   {
-    title: "M&A / Corporate Development",
-    meta: "Globant · Jun 2022 - Mar 2023",
-    problem:
-      "Inorganic growth required running due diligence and integration across multiple acquisitions in parallel, across countries.",
-    action:
-      "Due diligence on 3 LATAM acquisitions (around 640 people combined: digital marketing, digital agency, Salesforce practice) plus post-merger integration of 1 European firm (around 300 people, digital transformation); coordinated legal, marketing and IT; managed change-management risk.",
-    result:
-      "3 due-diligence targets integrated and the European post-merger integration executed. 4 deals, around 940 people, 4 countries. Operating at corp-dev level, rare for a delivery PM.",
-    viz: "deals",
+    name: "Claude Certified Architect",
+    status: "In progress",
   },
-];
-
-// Digital Twin: only the real facts from the case copy.
-export const POC = {
-  count: 6,
-  stats: [
-    { value: 90, prefix: "$", suffix: "k", sub: "fixed-price" },
-    { value: 6, suffix: " mo", sub: "delivery window" },
-    { value: 5, suffix: "", sub: "person LATAM POD" },
-    { value: 5, prefix: "~", suffix: " wk", sub: "to first POC" },
-  ],
-  named: [
-    "Factory twin (US manufacturer)",
-    "Office twin",
-    "VR bookshop walkthrough",
-    "Real-time vehicle configurator (US automaker)",
-  ],
-};
-
-// M&A: deal headcounts (owner-provided), sum ~940 across 4 countries.
-export const DEALS = [
-  { label: "LATAM acquisition", people: 190, kind: "Due diligence" },
-  { label: "LATAM acquisition", people: 275, kind: "Due diligence" },
-  { label: "LATAM acquisition", people: 173, kind: "Due diligence" },
-  { label: "European firm", people: 300, kind: "Post-merger integration" },
-];
-
-export type Metric =
-  | {
-      kind: "ring";
-      value: number;
-      prefix?: string;
-      suffix?: string;
-      label: string;
-    }
-  | { kind: "band"; display: string; label: string; note: string };
-
-export const METRICS: Metric[] = [
-  {
-    kind: "ring",
-    value: 95,
-    prefix: "~",
-    suffix: "%",
-    label: "On-time milestone delivery",
-  },
-  {
-    kind: "band",
-    display: "±5%",
-    label: "P&L forecast accuracy",
-    note: "forecast vs actual",
-  },
-  {
-    kind: "ring",
-    value: 30,
-    prefix: "~",
-    suffix: "%",
-    label: "Manual ops time cut via automation",
-  },
-  {
-    kind: "ring",
-    value: 88,
-    prefix: "~",
-    suffix: "%",
-    label: "Billable utilization",
-  },
-];
-
-// marks = ordered candidate logo URLs. Every logo is vendored under
-// /public/logos so nothing depends on a runtime third-party CDN fetch. All are
-// normalized to one flat monochrome via CSS mask in the Logo component, so marks
-// from different original sources render identically. mono = last-resort letter.
-export type StackItem = { name: string; marks: string[]; mono?: string };
-export type StackGroup = { group: string; items: StackItem[] };
-
-const logo = (file: string) => `/logos/${file}.svg`;
-
-export const STACK: StackGroup[] = [
-  {
-    group: "AI & Automation",
-    items: [
-      { name: "Claude / Claude Code", marks: [logo("claude")], mono: "C" },
-      { name: "ChatGPT / Codex", marks: [logo("openai")], mono: "O" },
-      { name: "Gemini", marks: [logo("gemini")], mono: "G" },
-      { name: "n8n", marks: [logo("n8n")] },
-    ],
-  },
-  {
-    group: "Delivery & PM",
-    items: [
-      { name: "Jira", marks: [logo("jira")] },
-      { name: "Azure DevOps", marks: [logo("azuredevops")], mono: "A" },
-      { name: "Linear", marks: [logo("linear")] },
-      { name: "Figma", marks: [logo("figma")] },
-    ],
-  },
-  {
-    group: "Build & Infra",
-    items: [
-      { name: "Python", marks: [logo("python")] },
-      { name: "Shell (Bash/PowerShell)", marks: [logo("gnubash")], mono: "S" },
-      { name: "GitHub", marks: [logo("github")] },
-      { name: "Docker", marks: [logo("docker")] },
-    ],
-  },
-  {
-    group: "AI Engineering",
-    items: [
-      { name: "Mastra", marks: [logo("mastra")], mono: "M" },
-      { name: "LangGraph", marks: [logo("langgraph")] },
-      { name: "Langfuse", marks: [logo("langfuse")], mono: "L" },
-      { name: "pgvector", marks: [logo("postgresql")] },
-    ],
-  },
-  {
-    group: "Data",
-    items: [{ name: "Power BI", marks: [logo("powerbi")], mono: "P" }],
-  },
-];
+] as const satisfies readonly Certification[];
 
 export const INDUSTRIES = [
+  "AI",
+  "Digital Twin",
+  "Hospitality",
+  "M&A",
   "Life Sciences",
   "Oil & Gas",
   "Consulting",
-  "Gaming",
-  "Digital Twin",
-  "Hospitality (Hotels & Cruise)",
-  "M&A",
-  "AI",
-];
+] as const;
 
-export const CERTS = [
-  { name: "Certified ScrumMaster (CSM)", body: "Scrum Alliance" },
-  { name: "Certified SAFe 6 Agilist", body: "Scaled Agile" },
-  { name: "Claude Certified Architect", body: "in progress" },
-];
+export const CONTACT = {
+  heading: "I’m looking for my next role in AI deployment.",
+  body:
+    "If you need a Technical Project Manager who can own the delivery around an AI pilot—scope, people, risk, budget, and client decisions—I’d like to talk.",
+} as const;

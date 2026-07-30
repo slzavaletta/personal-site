@@ -1,30 +1,32 @@
-<div align="center">
+# Santiago López Zavaletta — Personal site
 
-# Santiago López Zavaletta — personal site
+Single-page portfolio for a Technical Project Manager and Scrum Master working
+across AI and software delivery, with a clear direction toward AI deployment.
 
-_Project Manager who builds._ Single-page, dark-editorial portfolio for a Senior AI Project Manager.
-
-[![Next.js](https://img.shields.io/badge/Next.js-15-3FB950?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org)
-[![React](https://img.shields.io/badge/React-19-3FB950?style=flat-square&logo=react&logoColor=white)](https://react.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-3FB950?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3FB950?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Vercel](https://img.shields.io/badge/Vercel-deploy-3FB950?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
+[Next.js](https://nextjs.org)
+[React](https://react.dev)
+[Tailwind CSS](https://tailwindcss.com)
+[TypeScript](https://www.typescriptlang.org)
+[Vercel](https://vercel.com)
 
 **[slzavaletta.com](https://slzavaletta.com)**
 
-![Hero](docs/hero.png)
-
-</div>
-
 ## Highlights
 
-- **One accent, locked.** Signal green `#3FB950` across the page; the `#3FB950 → #A7F3D0` gradient lives in exactly three spots.
-- **Motion with intent.** Entrance / scroll / cursor-driven only, no idle loops, fully `prefers-reduced-motion` safe.
-- **Cursor-reactive hero** (Motion values, never React state), **`Cmd`/`Ctrl` + `K`** command palette, and a live **Scope Sentinel** demo - a faithful, pre-computed walkthrough of an agentic Claude skill (no API, no fake loader).
+- **Personal Editorial direction.** Warm paper, ink, field gray, and one red
+  signal color, with a restrained Deployment Fieldbook layer.
+- **Evidence-led positioning.** Current TPM and Scrum Master experience stays
+  distinct from the AI deployment work Santiago is preparing to lead next.
+- **Motion with restraint.** A short authored hero sequence, limited section
+  reveals, and a decision trace; all respect `prefers-reduced-motion`.
+- **Two practical delivery systems.** Scope Sentinel includes an accessible,
+  pre-computed walkthrough. SOW Intake links to its source.
 
 ## Stack
 
-Next.js 15 (App Router / RSC) · React 19 · Tailwind v4 · Motion · Geist + Geist Mono · Phosphor · Vercel (Analytics + Speed Insights) · TypeScript.
+Next.js 15 (App Router / RSC) · React 19 · Tailwind v4 · Motion · Base UI /
+Shadcn · Archivo + Source Sans 3 + IBM Plex Mono · Lucide · Vercel Analytics +
+Speed Insights · TypeScript.
 
 ## Run it
 
@@ -40,16 +42,14 @@ npm run build    # production build (static)
 
 ```
 app/
-├─ page.tsx          # the single page, section by section
-├─ layout.tsx        # metadata, fonts, JSON-LD, analytics
-├─ globals.css       # Tailwind v4 tokens + design locks
-├─ lib/content.ts    # all copy + data (edit the site here)
-└─ components/       # sections + components/motion/* (canvas, reveals, demos)
-public/logos/        # vendored, mono-normalized tech logos
+├─ page.tsx                 # page structure and reading order
+├─ layout.tsx               # metadata, fonts, JSON-LD, analytics
+├─ globals.css              # palette, type, layout, and motion tokens
+├─ lib/content.ts           # copy and portfolio data
+└─ components/              # editorial sections, motion, and demos
+components/ui/              # curated Shadcn / Base UI primitives
+public/logos/               # local tool marks
 ```
 
-Most edits are just `app/lib/content.ts`. Deployed on Vercel; pushes to `main` ship automatically.
-
----
-
-<div align="center"><sub>The manager an engineer respects and a VP understands.</sub></div>
+Most content edits live in `app/lib/content.ts`. The production build is
+statically rendered.

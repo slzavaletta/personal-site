@@ -1,13 +1,34 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import {
+  m,
+  useAnimationControls,
+  useIsomorphicLayoutEffect,
+  useReducedMotion,
+  type Variants,
+} from "motion/react";
 import type { ReactNode } from "react";
 
-const EASE = [0.16, 1, 0.3, 1] as const;
+import {
+  MOTION_DISTANCE,
+  MOTION_DURATION,
+  MOTION_EASE,
+  MOTION_STAGGER,
+} from "./tokens";
+
+type RevealElement =
+  | "div"
+  | "section"
+  | "li"
+  | "article"
+  | "header"
+  | "footer"
+  | "aside";
 
 /**
- * Single-element scroll reveal: opacity 0->1 + translateY 16px->0, ~450ms.
- * Fires once on entry, then still. Static under prefers-reduced-motion.
+ * A restrained, one-time reveal for the few sections that need reading-order
+ * emphasis. `initial={false}` keeps server-rendered content visible before
+ * hydration; Motion only adds the hidden state once the client is ready.
  */
 export function Reveal({
   children,
@@ -18,18 +39,43 @@ export function Reveal({
   children: ReactNode;
   delay?: number;
   className?: string;
-  as?: "div" | "section" | "li" | "article" | "header" | "footer";
+  as?: RevealElement;
 }) {
   const reduce = useReducedMotion();
-  const MotionTag = motion[as];
+  const controls = useAnimationControls();
+  const MotionTag = m[as];
+  const shouldReduce = reduce === true;
+
+  const variants: Variants = shouldReduce
+    ? {
+        hidden: { opacity: 1, y: 0 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0 } },
+      }
+    : {
+        hidden: { opacity: 0, y: MOTION_DISTANCE.subtle },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: MOTION_DURATION.standard,
+            ease: MOTION_EASE,
+            delay: Math.max(0, delay),
+          },
+        },
+      };
+
+  useIsomorphicLayoutEffect(() => {
+    controls.set(shouldReduce ? "visible" : "hidden");
+  }, [controls, shouldReduce]);
 
   return (
     <MotionTag
       className={className}
-      initial={reduce ? false : { opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      variants={variants}
+      initial={false}
+      animate={controls}
+      whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.45, ease: EASE, delay }}
     >
       {children}
     </MotionTag>
@@ -38,18 +84,36 @@ export function Reveal({
 
 const groupVariants: Variants = {
   hidden: {},
-  show: {
-    transition: { staggerChildren: 0.07 },
+  visible: {
+    transition: { staggerChildren: MOTION_STAGGER },
   },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
+  hidden: { opacity: 0, y: MOTION_DISTANCE.subtle },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: MOTION_DURATION.standard,
+      ease: MOTION_EASE,
+    },
+  },
+};
+
+const reducedGroupVariants: Variants = {
+  hidden: {},
+  visible: { transition: { duration: 0, staggerChildren: 0 } },
+};
+
+const reducedItemVariants: Variants = {
+  hidden: { opacity: 1, y: 0 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0 } },
 };
 
 /**
- * Staggered container: grid children rise in sequence (~70ms apart).
+ * A compact stagger for related evidence, not a generic page-wide effect.
+ * Use only with direct `StaggerItem` descendants.
  */
 export function Stagger({
   children,
@@ -63,19 +127,21 @@ export function Stagger({
   amount?: number;
 }) {
   const reduce = useReducedMotion();
-  const MotionTag = motion[as];
+  const controls = useAnimationControls();
+  const MotionTag = m[as];
+  const shouldReduce = reduce === true;
 
-  if (reduce) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
+  useIsomorphicLayoutEffect(() => {
+    controls.set(shouldReduce ? "visible" : "hidden");
+  }, [controls, shouldReduce]);
 
   return (
     <MotionTag
       className={className}
-      variants={groupVariants}
-      initial="hidden"
-      whileInView="show"
+      variants={shouldReduce ? reducedGroupVariants : groupVariants}
+      initial={false}
+      animate={controls}
+      whileInView="visible"
       viewport={{ once: true, amount }}
     >
       {children}
@@ -93,15 +159,14 @@ export function StaggerItem({
   as?: "div" | "li" | "article";
 }) {
   const reduce = useReducedMotion();
-  const MotionTag = motion[as];
-
-  if (reduce) {
-    const Tag = as;
-    return <Tag className={className}>{children}</Tag>;
-  }
+  const MotionTag = m[as];
 
   return (
-    <MotionTag className={className} variants={itemVariants}>
+    <MotionTag
+      className={className}
+      variants={reduce === true ? reducedItemVariants : itemVariants}
+      initial={false}
+    >
       {children}
     </MotionTag>
   );
