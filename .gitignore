@@ -29,3 +29,6 @@ next-env.d.ts
 
 # vercel
 .vercel
+
+# local visual brainstorming companion
+.superpowers/
