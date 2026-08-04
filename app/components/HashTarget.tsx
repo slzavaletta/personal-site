@@ -38,6 +38,25 @@ export function HashTarget() {
     }
     if (!target) return;
 
+    /*
+     * On a reload or a back/forward the browser restores the reader's own
+     * scroll position, and that is better intent than a hash they may have
+     * scrolled past long ago — so leave it alone. It does not always manage
+     * it, though: a reload of `/?v=r1#experience` from scrollY 2000 landed at
+     * 0, keeping neither. So only stand back when a position was actually
+     * restored; a restored top is indistinguishable from a dropped one, and
+     * the hash is the better answer for both.
+     *
+     * A fresh navigation never yields: the failing case left the page at
+     * scrollY 5, not 0, so "did the browser move us at all" is not a test that
+     * can be trusted there.
+     */
+    const [entry] = performance.getEntriesByType(
+      "navigation",
+    ) as PerformanceNavigationTiming[];
+    const isRestorable = entry ? entry.type !== "navigate" : false;
+    if (isRestorable && window.scrollY > 100) return;
+
     const element = target;
     let cancelled = false;
 
