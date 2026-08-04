@@ -10,6 +10,10 @@ import {
   SITE_LINKS,
 } from "@/app/lib/content";
 import { Reveal } from "@/app/components/motion/Reveal";
+import {
+  TimelineRow,
+  TimelineTrace,
+} from "@/app/components/motion/TimelineTrace";
 
 export function ExperienceAndCredentials() {
   return (
@@ -38,9 +42,9 @@ export function ExperienceAndCredentials() {
         </Reveal>
 
         <div className="mt-10 grid gap-16 lg:grid-cols-12 lg:gap-8">
-          <ol className="border-l border-rule-strong lg:col-span-8">
+          <TimelineTrace className="lg:col-span-8">
             {EXPERIENCE.map((item, index) => (
-              <li
+              <TimelineRow
                 key={`${item.company}-${item.period}`}
                 className="timeline-row grid gap-4 border-t border-rule py-8 pl-6 sm:grid-cols-12 sm:gap-6 sm:pl-9"
               >
@@ -68,9 +72,9 @@ export function ExperienceAndCredentials() {
                 <p className="text-sm leading-relaxed text-graphite sm:col-span-5">
                   {item.body}
                 </p>
-              </li>
+              </TimelineRow>
             ))}
-          </ol>
+          </TimelineTrace>
 
           <aside
             aria-label="Credentials and areas of experience"

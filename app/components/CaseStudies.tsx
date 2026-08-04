@@ -36,7 +36,7 @@ function FlagshipCase({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
     <Reveal
       as="article"
-      className="scroll-mt-24 border-t border-rule-strong py-10 lg:py-14"
+      className="case-row scroll-mt-24 border-t border-rule-strong py-10 lg:py-14"
     >
       <div id={caseStudy.id} className="grid gap-8 lg:grid-cols-12 lg:gap-8">
         <CaseHeader caseStudy={caseStudy} />
@@ -74,7 +74,7 @@ function DenseCase({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
     <Reveal
       as="article"
-      className="scroll-mt-24 border-t border-rule-strong py-9 lg:py-10"
+      className="case-row scroll-mt-24 border-t border-rule-strong py-9 lg:py-10"
     >
       <div id={caseStudy.id} className="grid gap-6 lg:grid-cols-12 lg:gap-8">
         <CaseHeader caseStudy={caseStudy} />

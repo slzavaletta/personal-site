@@ -8,6 +8,7 @@ import { EditorialHero } from "@/app/components/EditorialHero";
 import { ExperienceAndCredentials } from "@/app/components/ExperienceAndCredentials";
 import { PilotDecisionBrief } from "@/app/components/PilotDecisionBrief";
 import { ProofBand } from "@/app/components/ProofBand";
+import { SectionIndex } from "@/app/components/SectionIndex";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { SystemsAndTools } from "@/app/components/SystemsAndTools";
 
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
+      <SectionIndex />
       <main id="main" tabIndex={-1}>
         <EditorialHero />
         <ProofBand />

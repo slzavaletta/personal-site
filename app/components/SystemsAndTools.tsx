@@ -11,7 +11,7 @@ import { ScopeSentinelDemo } from "@/app/components/ScopeSentinelDemo";
 export function SystemsAndTools() {
   return (
     <>
-      <section className="section-block bg-paper">
+      <section id="systems" className="section-block scroll-mt-8 bg-paper">
         <div className="page-shell">
           <Reveal className="grid gap-8 border-t border-rule-strong pt-4 lg:grid-cols-12">
             <div className="lg:col-span-8">

@@ -11,6 +11,24 @@ export const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ] as const satisfies readonly NavLink[];
 
+/**
+ * The numbered spine the page already prints in its own section kickers. The
+ * index reuses it rather than inventing a second numbering that could drift
+ * out of scroll order. Approach, Evidence and the pilot brief are unnumbered
+ * interstitials and are deliberately absent.
+ */
+export const SECTION_INDEX = [
+  { number: "01", label: "Selected work", href: "#work" },
+  { number: "02", label: "Built around the work", href: "#systems" },
+  { number: "03", label: "Working set", href: "#tools" },
+  { number: "04", label: "Experience", href: "#experience" },
+  { number: "05", label: "Contact", href: "#contact" },
+] as const satisfies readonly {
+  number: string;
+  label: string;
+  href: `#${string}`;
+}[];
+
 export const SITE_LINKS = {
   email: "mailto:santiago@slzavaletta.com",
   resume: "/SantiagoLopezZavaletta_CV.pdf",

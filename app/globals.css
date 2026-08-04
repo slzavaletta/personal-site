@@ -248,12 +248,47 @@
     content: "";
     transform: scaleX(0.22);
     transform-origin: left;
-    transition: transform var(--duration-hover) var(--ease-editorial-curve);
+    transition: transform 180ms var(--ease-editorial-curve);
   }
 
   .text-link:hover::after,
   .text-link:focus-visible::after {
     transform: scaleX(1);
+  }
+
+  /*
+   * An absolutely-positioned underline is laid out against the first fragment
+   * of a wrapped inline, so a two-line link would get a partial rule. Both
+   * link treatments here are `inline-flex`, which is atomic and never breaks
+   * across lines, so the transform stays correct. Anything that does wrap
+   * needs `background-size` on a gradient instead.
+   */
+
+  /*
+   * Case rows: an accent that wipes down the left edge on hover and focus.
+   * It is an interaction state only — nothing is drawn at rest — and it is
+   * never the sole focus signal, since the focused link inside carries the
+   * outline.
+   */
+  .case-row {
+    position: relative;
+  }
+
+  .case-row::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 3px;
+    background: var(--signal);
+    content: "";
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--duration-hover) var(--ease-editorial-curve);
+  }
+
+  .case-row:focus-within::before {
+    transform: scaleY(1);
   }
 
   /*
@@ -272,6 +307,33 @@
 
   .site-header[data-past-hero] {
     box-shadow: 0 1px 12px -6px oklch(0.18673 0.00763 145.26 / 32%);
+  }
+
+  /*
+   * Scroll depth, drawn on the header's own rule. State, not decoration —
+   * which is why it survives `prefers-reduced-motion` further down, where a
+   * blanket rule would otherwise clamp its duration to 1ms.
+   */
+  .scroll-progress {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: var(--signal);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  @supports (animation-timeline: scroll(root block)) {
+    .scroll-progress:not([data-fallback]) {
+      animation-name: scroll-progress;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      /* After every other animation longhand: the shorthand resets it. */
+      animation-timeline: scroll(root block);
+    }
   }
 
   .hero-grid {
@@ -713,6 +775,25 @@
     transform: rotate(-4deg) scale(1.06);
   }
 
+  /*
+   * The rule is its own element rather than a border, so it can be drawn with
+   * `scaleY`. The markers stay `::before` on the rows — siblings of the rule
+   * rather than descendants — so they never inherit its Y-scale.
+   */
+  .timeline-trace {
+    position: relative;
+    list-style: none;
+  }
+
+  .timeline-trace__rule {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 1px;
+    background: var(--rule-strong);
+    transform-origin: top center;
+  }
+
   .timeline-row {
     position: relative;
   }
@@ -726,7 +807,7 @@
     border: 1px solid var(--ink);
     background: var(--paper);
     content: "";
-    transform: rotate(45deg);
+    transform: rotate(45deg) scale(var(--diamond-scale, 1));
   }
 
   .hairline-link {
@@ -747,6 +828,10 @@
 }
 
 @media (hover: hover) {
+  .case-row:hover::before {
+    transform: scaleY(1);
+  }
+
   .system-card:hover {
     border-color: var(--signal);
     transform: translateY(-3px);
@@ -759,6 +844,96 @@
   .tool-cell:hover .tool-mark {
     opacity: 1;
     transform: rotate(-4deg) scale(1.06);
+  }
+}
+
+/*
+ * Section index. Hidden below 1280px, where the shell fills the viewport and
+ * there is no gutter to sit in. Between 1280 and 1800 only the numbers fit;
+ * the labels appear once the shell caps and real margin opens up.
+ */
+.section-index {
+  display: none;
+}
+
+@media (min-width: 80rem) {
+  .section-index {
+    position: fixed;
+    top: 50%;
+    left: max(0.75rem, calc((100vw - 90rem) / 2 - 9rem));
+    z-index: 30;
+    display: block;
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity 300ms var(--ease-editorial-curve);
+    pointer-events: none;
+  }
+
+  .section-index[data-visible] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .section-index ol {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    list-style: none;
+  }
+
+  .section-index__link {
+    display: flex;
+    min-height: 1.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--graphite);
+    font-family: var(--font-utility), ui-monospace, monospace;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color var(--duration-hover) var(--ease-editorial-curve);
+  }
+
+  .section-index__rule {
+    width: 0;
+    height: 1px;
+    background: var(--signal-ink);
+    transition: width var(--duration-hover) var(--ease-editorial-curve);
+  }
+
+  .section-index__link:hover,
+  .section-index__link:focus-visible,
+  .section-index__link[aria-current="location"] {
+    color: var(--signal-ink);
+  }
+
+  .section-index__link[aria-current="location"] .section-index__rule {
+    width: 1rem;
+  }
+
+  .section-index__label {
+    display: none;
+  }
+}
+
+@media (min-width: 112.5rem) {
+  .section-index {
+    left: calc((100vw - 108rem) / 2 - 13rem);
+  }
+
+  .section-index__label {
+    display: inline;
+  }
+}
+
+@keyframes scroll-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
   }
 }
 
@@ -819,6 +994,17 @@
     scroll-behavior: auto !important;
     transition-delay: 0ms !important;
     transition-duration: 1ms !important;
+  }
+
+  /*
+   * Carved out of the blanket rule above. The progress hairline conveys where
+   * you are in the document, not decoration, so it keeps working — a
+   * scroll-driven animation has no duration in time, and clamping it to 1ms
+   * would freeze it at zero. It tracks scroll without any transition, which is
+   * what reduced motion actually asks for.
+   */
+  .scroll-progress {
+    animation-duration: auto !important;
   }
 
   .system-card:hover,
