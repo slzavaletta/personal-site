@@ -208,7 +208,7 @@ export function ScopeSentinelDemo() {
           </div>
         </div>
 
-        <p className="mt-9 border-t border-rule pt-5 text-[0.8125rem] leading-relaxed text-graphite">
+        <p className="mt-7 border-t border-rule pt-4 text-[0.8125rem] leading-relaxed text-graphite">
           Fictional sample data. The real skill works inside Claude against an
           actual SOW and request; citations and draft actions remain subject to
           human review.

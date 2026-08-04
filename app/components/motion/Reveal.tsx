@@ -7,14 +7,24 @@ import {
   useReducedMotion,
   type Variants,
 } from "motion/react";
-import { useRef, type ReactNode } from "react";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useRef,
+} from "react";
+import type { ReactElement, ReactNode } from "react";
 
 import {
   MOTION_DISTANCE,
   MOTION_DURATION,
   MOTION_EASE,
   MOTION_STAGGER,
+  MOTION_STAGGER_CAP,
 } from "./tokens";
+import { shouldStartHidden } from "./revealState";
+import { useInViewOnce } from "./useInViewOnce";
 import { useRevealFallback } from "./useRevealFallback";
 
 type RevealElement =
@@ -29,7 +39,8 @@ type RevealElement =
 /**
  * A restrained, one-time reveal for the few sections that need reading-order
  * emphasis. `initial={false}` keeps server-rendered content visible before
- * hydration; Motion only adds the hidden state once the client is ready.
+ * hydration; Motion only adds the hidden state once the client is ready, and
+ * only when `shouldStartHidden` confirms something can take it back off.
  */
 export function Reveal({
   children,
@@ -45,6 +56,7 @@ export function Reveal({
   const reduce = useReducedMotion();
   const controls = useAnimationControls();
   const ref = useRef<HTMLDivElement>(null);
+  const inView = useInViewOnce(ref);
   const MotionTag = m[as] as typeof m.div;
   const shouldReduce = reduce === true;
 
@@ -67,8 +79,31 @@ export function Reveal({
       };
 
   useIsomorphicLayoutEffect(() => {
-    controls.set(shouldReduce ? "visible" : "hidden");
+    if (shouldReduce) {
+      controls.set("visible");
+      return;
+    }
+
+    try {
+      controls.set(shouldStartHidden(ref) ? "hidden" : "visible");
+    } catch {
+      controls.set("visible");
+    }
   }, [controls, shouldReduce]);
+
+  /*
+   * An observer driving the controls, rather than `whileInView` alongside
+   * them. A `while` gesture does not take over an `animate` prop that is an
+   * imperative controller, so the pair silently never revealed anything the
+   * reader scrolled to — only content already on screen, rescued by the
+   * fallback below, ever appeared. The library's own `useInView` did not fire
+   * here either; `useInViewOnce` is a plain observer and does.
+   */
+  useEffect(() => {
+    if (shouldReduce || inView) {
+      void controls.start("visible");
+    }
+  }, [controls, inView, shouldReduce]);
 
   useRevealFallback(ref, controls, !shouldReduce);
 
@@ -79,8 +114,6 @@ export function Reveal({
       variants={variants}
       initial={false}
       animate={controls}
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
     >
       {children}
     </MotionTag>
@@ -89,26 +122,30 @@ export function Reveal({
 
 const groupVariants: Variants = {
   hidden: {},
-  visible: {
-    transition: { staggerChildren: MOTION_STAGGER },
-  },
+  visible: {},
 };
 
+/**
+ * The delay is per item rather than `staggerChildren` so it can be capped:
+ * past the sixth sibling every item shares the same offset, and a long list
+ * never has a visibly late arrival.
+ */
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: MOTION_DISTANCE.editorial },
-  visible: {
+  visible: (index: number = 0) => ({
     opacity: 1,
     y: 0,
     transition: {
       duration: MOTION_DURATION.editorial,
       ease: MOTION_EASE,
+      delay: Math.min(index, MOTION_STAGGER_CAP) * MOTION_STAGGER,
     },
-  },
+  }),
 };
 
 const reducedGroupVariants: Variants = {
   hidden: {},
-  visible: { transition: { duration: 0, staggerChildren: 0 } },
+  visible: { transition: { duration: 0 } },
 };
 
 const reducedItemVariants: Variants = {
@@ -134,12 +171,28 @@ export function Stagger({
   const reduce = useReducedMotion();
   const controls = useAnimationControls();
   const ref = useRef<HTMLDivElement>(null);
+  const inView = useInViewOnce(ref);
   const MotionTag = m[as] as typeof m.div;
   const shouldReduce = reduce === true;
 
   useIsomorphicLayoutEffect(() => {
-    controls.set(shouldReduce ? "visible" : "hidden");
+    if (shouldReduce) {
+      controls.set("visible");
+      return;
+    }
+
+    try {
+      controls.set(shouldStartHidden(ref) ? "hidden" : "visible");
+    } catch {
+      controls.set("visible");
+    }
   }, [controls, shouldReduce]);
+
+  useEffect(() => {
+    if (shouldReduce || inView) {
+      void controls.start("visible");
+    }
+  }, [controls, inView, shouldReduce]);
 
   useRevealFallback(ref, controls, !shouldReduce);
 
@@ -150,10 +203,12 @@ export function Stagger({
       variants={shouldReduce ? reducedGroupVariants : groupVariants}
       initial={false}
       animate={controls}
-      whileInView="visible"
-      viewport={{ once: true, amount }}
     >
-      {children}
+      {Children.map(children, (child, index) =>
+        isValidElement<{ index?: number }>(child)
+          ? cloneElement(child as ReactElement<{ index?: number }>, { index })
+          : child,
+      )}
     </MotionTag>
   );
 }
@@ -162,17 +217,21 @@ export function StaggerItem({
   children,
   className,
   as = "div",
+  index = 0,
 }: {
   children: ReactNode;
   className?: string;
   as?: "div" | "li" | "article";
+  /** Injected by `Stagger`; drives the capped per-item delay. */
+  index?: number;
 }) {
   const reduce = useReducedMotion();
-  const MotionTag = m[as];
+  const MotionTag = m[as] as typeof m.div;
 
   return (
     <MotionTag
       className={className}
+      custom={index}
       variants={reduce === true ? reducedItemVariants : itemVariants}
       initial={false}
     >

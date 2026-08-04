@@ -5,6 +5,7 @@ import {
   Stagger,
   StaggerItem,
 } from "@/app/components/motion/Reveal";
+import { CountUpValue } from "@/app/components/motion/CountUpValue";
 
 /**
  * The proof index closes the hero rather than standing on its own: same paper
@@ -34,16 +35,20 @@ export function ProofBand() {
                   {`${item.trend.from} to ${item.trend.to}`}
                 </span>
                 <span aria-hidden="true" className="proof-index__from">
-                  {item.trend.from}
+                  <CountUpValue value={item.trend.from} />
                 </span>
                 <ArrowRight
                   aria-hidden="true"
                   className="proof-index__arrow"
                 />
-                <span aria-hidden="true">{item.trend.to}</span>
+                <span aria-hidden="true">
+                  <CountUpValue value={item.trend.to} />
+                </span>
               </p>
             ) : (
-              <p className="proof-index__value">{item.value}</p>
+              <p className="proof-index__value">
+                <CountUpValue value={item.value} />
+              </p>
             )}
             <p className="proof-index__label">{item.label}</p>
           </StaggerItem>

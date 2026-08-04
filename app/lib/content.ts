@@ -11,6 +11,24 @@ export const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ] as const satisfies readonly NavLink[];
 
+/**
+ * The numbered spine the page already prints in its own section kickers. The
+ * index reuses it rather than inventing a second numbering that could drift
+ * out of scroll order. Approach, Evidence and the pilot brief are unnumbered
+ * interstitials and are deliberately absent.
+ */
+export const SECTION_INDEX = [
+  { number: "01", label: "Selected work", href: "#work" },
+  { number: "02", label: "Built around the work", href: "#systems" },
+  { number: "03", label: "Working set", href: "#tools" },
+  { number: "04", label: "Experience", href: "#experience" },
+  { number: "05", label: "Contact", href: "#contact" },
+] as const satisfies readonly {
+  number: string;
+  label: string;
+  href: `#${string}`;
+}[];
+
 export const SITE_LINKS = {
   email: "mailto:santiago@slzavaletta.com",
   resume: "/SantiagoLopezZavaletta_CV.pdf",
@@ -24,11 +42,11 @@ export const HERO = {
   firstName: "Santiago",
   lastName: "López Zavaletta",
   statement:
-    "I run AI and software delivery—from staffing and P&L to Scrum, risk, and client decisions.",
+    "I run enterprise AI and software delivery—from staffing and P&L to risk, adoption, and the client decisions that follow.",
   supporting:
     "My career started in infrastructure. Today I work between clients, executives, and technical teams across the United States and Latin America.",
   direction:
-    "I’m preparing for a move into AI deployment: choosing the use case, running the pilot, supporting adoption, and helping the client make a scale-or-stop decision.",
+    "Enterprise AI deployment is the work: choosing the use case, running the pilot, supporting the people whose work changes, and making the scale-or-stop call on evidence—across three enterprise implementations and a $5M AI account.",
   primaryAction: { label: "Read the work", href: "#work" },
   secondaryAction: {
     label: "Download résumé",
@@ -60,10 +78,14 @@ export const PROOF: readonly ProofPoint[] = [
     value: "6 POCs",
     label: "delivered while building a Digital Twin capability",
   },
+  {
+    value: "3 go-lives",
+    label: "enterprise AI implementations, on time and fully adopted",
+  },
 ];
 
 export const CURRENT_AND_NEXT = {
-  heading: "What I do now. What I’m preparing to do next.",
+  heading: "What I do now. Where I’m taking it next.",
   current: {
     label: "Current practice",
     title: "I manage the scope, budget, people, risk, and the work itself.",
@@ -71,10 +93,10 @@ export const CURRENT_AND_NEXT = {
       "At Globant, I own scope, budget, staffing, timelines, dependencies, risk, client communication, and the Scrum cadence for distributed software teams. My portfolio work has ranged from $700k to $5M, with cross-functional teams of up to 36 people. I use financial and delivery metrics to make tradeoffs while the team still has room to act.",
   },
   next: {
-    label: "Next direction",
-    title: "The AI deployment work I want to lead next.",
+    label: "Where this goes",
+    title: "The AI deployment work I lead, and where I’m taking it.",
     body:
-      "AI can produce a persuasive demo before a company knows how—or whether—to adopt it. The harder work is choosing the right use case, handling data and security constraints, supporting the people whose work will change, and deciding whether the evidence is strong enough to continue. That is the work I want to lead next.",
+      "AI can produce a persuasive demo before a company knows how—or whether—to adopt it. The harder work is choosing the right use case, handling data and security constraints, supporting the people whose work will change, and deciding whether the evidence is strong enough to continue. That is the work I do, and the work I want more of.",
   },
   credential:
     "I’m pursuing the Claude Certified Architect certification and building hands-on depth through delivery tooling, automation, self-hosted infrastructure, and experiments with agent workflows.",
@@ -166,10 +188,10 @@ export type DecisionBriefField = {
 };
 
 export const PILOT_DECISION_BRIEF = {
-  label: "Preparing for AI deployment",
+  label: "Running an AI deployment",
   heading: "Before a pilot starts, I want five things written down.",
   body:
-    "I’m developing this brief from my current TPM work as I prepare for AI deployment roles; it isn’t presented as a formal practice I already run.",
+    "This is the brief I work from: what the delivery team and the client both have to agree on before the first sprint, drawn from the implementations I have run.",
   fields: [
     {
       number: "01",
@@ -340,25 +362,43 @@ export type ExperienceItem = {
   period: string;
   title: string;
   body: string;
+  /**
+   * Marks a role that ran alongside Globant rather than after it. Three of
+   * these overlap in time, which is accurate and matches the CV — a reader
+   * scanning dates will notice it before reading the descriptions, so it is
+   * labelled rather than obscured.
+   */
+  concurrent?: boolean;
 };
 
 export const EXPERIENCE_SECTION = {
   heading: "How I got here.",
+  note: "Two engagements ran concurrently with my role at Globant, and are marked below.",
 } as const;
 
 export const EXPERIENCE = [
   {
     company: "Globant",
     period: "2021–present",
-    title: "Technical Delivery Leader",
+    title: "Technical Project Manager",
     body:
-      "AI delivery, Digital Twin, hospitality, and M&A work across the United States and Latin America. I manage scope, P&L, staffing, risk, delivery cadence, and client communication.",
+      "End-to-end delivery, forecasting, and P&L for US and LATAM digital transformation portfolios from $700k to $5M, with cross-functional teams of up to 36. Launched Globant’s Digital Twin Studio and standardized AI-assisted delivery reporting across the account.",
   },
   {
-    company: "XOOR",
-    period: "2022",
-    title: "Freelance Project Manager",
-    body: "Web and mobile delivery.",
+    company: "ZN Love",
+    period: "2026–present",
+    title: "Fractional Project Manager",
+    concurrent: true,
+    body:
+      "Client relationships and delivery health across a three-project portfolio spanning entertainment, workforce technology, and creative production. Building the PMO from the ground up: presales discovery, SOW, governance, and change control.",
+  },
+  {
+    company: "Blue Crab Consulting",
+    period: "2025–2026",
+    title: "Engagement Manager",
+    concurrent: true,
+    body:
+      "Led functional and technical consultants across three enterprise Eightfold AI implementations — a global beverage leader, a leading LATAM retailer, and a top US research university — delivering on-time go-lives and full adoption, and scaling one deployment from its Mexico launch across additional LATAM markets.",
   },
   {
     company: "ExxonMobil",
@@ -379,6 +419,7 @@ export const EXPERIENCE = [
 export type Certification = {
   name: string;
   issuer?: string;
+  year?: string;
   status: "Earned" | "In progress";
 };
 
@@ -386,27 +427,32 @@ export const CERTIFICATIONS = [
   {
     name: "Certified ScrumMaster",
     issuer: "Scrum Alliance",
+    year: "2024",
     status: "Earned",
   },
   {
     name: "Certified SAFe 6 Agilist",
     issuer: "Scaled Agile",
+    year: "2024",
     status: "Earned",
   },
   {
-    name: "Claude Certified Architect",
+    name: "Claude Certified Architect — Foundations",
     status: "In progress",
   },
 ] as const satisfies readonly Certification[];
 
 export const INDUSTRIES = [
   "AI",
+  "Talent technology",
   "Digital Twin",
+  "Retail",
+  "Higher education",
+  "Consumer goods",
   "Hospitality",
   "M&A",
   "Life Sciences",
   "Oil & Gas",
-  "Consulting",
 ] as const;
 
 export const CONTACT = {

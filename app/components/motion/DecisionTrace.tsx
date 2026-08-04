@@ -2,8 +2,7 @@
 
 import {
   m,
-  useAnimationControls,
-  useInView,
+  useAnimationControls,
   useIsomorphicLayoutEffect,
   useReducedMotion,
   type Variants,
@@ -11,6 +10,8 @@ import {
 import { useEffect, useRef } from "react";
 
 import { MOTION_DURATION, MOTION_EASE } from "./tokens";
+import { shouldStartHidden } from "./revealState";
+import { useInViewOnce } from "./useInViewOnce";
 import { useRevealFallback } from "./useRevealFallback";
 
 export type DecisionTraceField = {
@@ -87,11 +88,20 @@ export function DecisionTrace({
   const containerRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const controls = useAnimationControls();
-  const inView = useInView(containerRef, { once: true, amount: 0.2 });
+  const inView = useInViewOnce(containerRef);
   const shouldReduce = reduce === true;
 
   useIsomorphicLayoutEffect(() => {
-    controls.set(shouldReduce ? "visible" : "hidden");
+    if (shouldReduce) {
+      controls.set("visible");
+      return;
+    }
+
+    try {
+      controls.set(shouldStartHidden(containerRef) ? "hidden" : "visible");
+    } catch {
+      controls.set("visible");
+    }
   }, [controls, shouldReduce]);
 
   useEffect(() => {

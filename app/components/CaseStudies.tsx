@@ -36,7 +36,7 @@ function FlagshipCase({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
     <Reveal
       as="article"
-      className="scroll-mt-24 border-t border-rule-strong py-10 lg:py-14"
+      className="case-row scroll-mt-24 border-t border-rule-strong py-10 lg:py-14"
     >
       <div id={caseStudy.id} className="grid gap-8 lg:grid-cols-12 lg:gap-8">
         <CaseHeader caseStudy={caseStudy} />
@@ -74,7 +74,7 @@ function DenseCase({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
     <Reveal
       as="article"
-      className="scroll-mt-24 border-t border-rule-strong py-9 lg:py-10"
+      className="case-row scroll-mt-24 border-t border-rule-strong py-9 lg:py-10"
     >
       <div id={caseStudy.id} className="grid gap-6 lg:grid-cols-12 lg:gap-8">
         <CaseHeader caseStudy={caseStudy} />
@@ -120,7 +120,7 @@ export function CaseStudies() {
   return (
     <section id="work" className="section-block scroll-mt-8">
       <div className="page-shell">
-        <Reveal className="grid gap-7 border-t border-rule-strong pt-5 lg:grid-cols-12 lg:items-end">
+        <Reveal className="grid gap-7 border-t border-rule-strong pt-4 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
             <p className="utility-label text-signal-ink">01 / Selected work</p>
             <h2 className="editorial-heading mt-5">{WORK_INTRO.heading}</h2>

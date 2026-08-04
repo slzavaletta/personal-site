@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { NAV_LINKS, SITE_LINKS } from "@/app/lib/content";
+import { ScrollProgress } from "@/app/components/motion/ScrollProgress";
 
 export function SiteHeader() {
   const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false);
@@ -179,6 +180,8 @@ export function SiteHeader() {
           </Sheet>
         </div>
       </div>
+
+      <ScrollProgress />
     </header>
   );
 }
