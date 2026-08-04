@@ -22,7 +22,7 @@ export function CurrentAndNext() {
         <div className="mt-9 grid items-stretch border-y border-rule-strong lg:grid-cols-12">
           <Reveal
             as="article"
-            className="py-10 lg:col-span-7 lg:border-r lg:border-rule-strong lg:py-14 lg:pr-14"
+            className="py-8 lg:col-span-7 lg:border-r lg:border-rule-strong lg:py-10 lg:pr-12"
           >
             <p className="utility-label text-graphite">
               {CURRENT_AND_NEXT.current.label}
@@ -46,7 +46,7 @@ export function CurrentAndNext() {
           <Reveal
             as="article"
             delay={0.05}
-            className="bg-signal px-6 py-10 text-paper sm:px-10 lg:col-span-5 lg:px-12 lg:py-14"
+            className="bg-signal px-6 py-8 text-paper sm:px-10 lg:col-span-5 lg:px-10 lg:py-10"
           >
             <p className="utility-label text-paper">
               {CURRENT_AND_NEXT.next.label}

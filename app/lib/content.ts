@@ -350,7 +350,7 @@ export const EXPERIENCE = [
   {
     company: "Globant",
     period: "2021–present",
-    title: "Technical Project Manager",
+    title: "Technical Delivery Leader",
     body:
       "AI delivery, Digital Twin, hospitality, and M&A work across the United States and Latin America. I manage scope, P&L, staffing, risk, delivery cadence, and client communication.",
   },
@@ -412,5 +412,5 @@ export const INDUSTRIES = [
 export const CONTACT = {
   heading: "I’m looking for my next role in AI deployment.",
   body:
-    "If you need a Technical Project Manager who can own the delivery around an AI pilot—scope, people, risk, budget, and client decisions—I’d like to talk.",
+    "If you need a technical delivery leader who can own the delivery around an AI pilot—scope, people, risk, budget, and client decisions—I’d like to talk.",
 } as const;

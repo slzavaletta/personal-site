@@ -17,7 +17,7 @@ export function ContactSection() {
             05 / Contact
           </p>
           <div className="lg:col-span-9">
-            <h2 className="max-w-[13ch] text-5xl font-semibold leading-[0.9] tracking-[-0.065em] sm:text-7xl lg:text-[7.8rem]">
+            <h2 className="max-w-[13ch] text-4xl font-semibold leading-[0.94] tracking-[-0.065em] sm:text-6xl lg:text-[5.5rem]">
               {CONTACT.heading}
             </h2>
             <p className="reading-copy mt-8">{CONTACT.body}</p>
@@ -75,7 +75,7 @@ export function SiteFooter() {
           Santiago López Zavaletta
         </p>
         <p className="font-mono text-[0.8125rem] leading-relaxed text-paper/58 sm:text-right lg:col-span-4 lg:text-center">
-          Technical Project Manager / Buenos Aires
+          Technical delivery leader / Buenos Aires
         </p>
         <div className="flex items-center gap-5 sm:col-span-2 sm:justify-end lg:col-span-4">
           <a

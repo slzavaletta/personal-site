@@ -30,7 +30,7 @@ export function SystemsAndTools() {
             {SYSTEMS.projects.map((project) => (
               <article
                 key={project.id}
-                className="system-card border-b border-rule p-6 sm:p-8 lg:col-span-5 lg:border-b-0 lg:border-r lg:border-rule"
+                className="system-card border-b border-rule p-6 sm:p-7 lg:col-span-5 lg:border-b-0 lg:border-r lg:border-rule"
               >
                 <p className="utility-label text-graphite">Delivery system</p>
                 <h3 className="mt-8 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
@@ -62,7 +62,7 @@ export function SystemsAndTools() {
             ))}
 
             <div
-              className="flex flex-col justify-between bg-field p-6 sm:p-8 lg:col-span-2"
+              className="flex flex-col justify-between bg-field p-6 sm:p-7 lg:col-span-2"
             >
               <p className="utility-label text-signal-ink">
                 {SYSTEMS.infrastructure.label}
@@ -73,13 +73,13 @@ export function SystemsAndTools() {
             </div>
           </div>
 
-          <div id="scope-sentinel" className="scroll-mt-24 pt-12 sm:pt-16">
+          <div id="scope-sentinel" className="scroll-mt-24 pt-10 sm:pt-12">
             <Reveal className="grid gap-7 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-7">
                 <p className="utility-label text-signal-ink">
                   Scope Sentinel / Walkthrough
                 </p>
-                <h3 className="mt-5 max-w-[16ch] text-4xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-6xl">
+                <h3 className="mt-5 max-w-[16ch] text-3xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-5xl">
                   Follow a client request from SOW clause to next step.
                 </h3>
               </div>
@@ -101,7 +101,7 @@ export function SystemsAndTools() {
               <p className="utility-label text-signal-on-dark">
                 03 / Working set
               </p>
-              <h2 className="mt-5 max-w-[13ch] text-4xl font-semibold leading-[0.95] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
+              <h2 className="mt-5 max-w-[13ch] text-4xl font-semibold leading-[0.95] tracking-[-0.055em] sm:text-5xl lg:text-6xl">
                 {TOOL_SECTION.heading}
               </h2>
             </div>

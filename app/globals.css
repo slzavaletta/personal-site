@@ -206,7 +206,7 @@
   .editorial-heading {
     max-width: 14ch;
     font-family: var(--font-display), Arial, sans-serif;
-    font-size: clamp(2.65rem, 6vw, 6.4rem);
+    font-size: clamp(2.4rem, 4.6vw, 4.4rem);
     font-weight: 620;
     letter-spacing: -0.06em;
     line-height: 0.94;
@@ -602,7 +602,7 @@
    */
   .tool-groups {
     display: grid;
-    margin-top: clamp(3rem, 5vw, 6rem);
+    margin-top: clamp(2.25rem, 3.6vw, 3.5rem);
     gap: clamp(2.5rem, 4vw, 3.5rem);
     grid-template-columns: minmax(0, 1fr);
   }
@@ -643,10 +643,10 @@
 
   .tool-cell {
     display: flex;
-    min-height: 4.25rem;
+    min-height: 3.25rem;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.85rem 0;
+    padding: 0.55rem 0;
     border-top: 1px solid oklch(0.97482 0.00284 128.49 / 18%);
     color: oklch(0.97482 0.00284 128.49 / 72%);
     transition: color var(--duration-quick) var(--ease-editorial-curve);
