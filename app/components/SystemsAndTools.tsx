@@ -111,16 +111,16 @@ export function SystemsAndTools() {
             </p>
           </Reveal>
 
-          <div className="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3">
+          <div className="tool-groups">
             {TOOL_GROUPS.map((group) => (
-              <article key={group.id}>
-                <div className="flex min-h-8 items-start justify-between gap-4">
+              <article key={group.id} className="tool-group">
+                <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
                   <h3 className="utility-label text-paper">{group.label}</h3>
                   {"exploratory" in group && group.exploratory ? (
                     <Badge variant="inverse">Active learning</Badge>
                   ) : null}
                 </div>
-                <p className="mt-4 min-h-16 text-sm leading-relaxed text-paper/58">
+                <p className="mt-4 text-sm leading-relaxed text-paper/58">
                   {group.note}
                 </p>
                 <ul className="mt-5">

@@ -8,27 +8,26 @@ import {
   useReducedMotion,
   type Variants,
 } from "motion/react";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef } from "react";
 
 import { MOTION_DURATION, MOTION_EASE } from "./tokens";
 
-export type DecisionTracePoint = {
-  label: string;
-  detail?: ReactNode;
+export type DecisionTraceField = {
+  number: string;
+  title: string;
+  prompt: string;
 };
 
 type DecisionTraceProps = {
-  points: readonly DecisionTracePoint[];
+  fields: readonly DecisionTraceField[];
   className?: string;
-  orientation?: "horizontal" | "vertical";
   ariaLabel?: string;
 };
 
 const traceVariants: Variants = {
-  hidden: { opacity: 0, pathLength: 0 },
+  hidden: { scaleY: 0 },
   visible: {
-    opacity: 1,
-    pathLength: 1,
+    scaleY: 1,
     transition: {
       duration: MOTION_DURATION.editorial,
       ease: MOTION_EASE,
@@ -37,35 +36,58 @@ const traceVariants: Variants = {
 };
 
 const reducedTraceVariants: Variants = {
-  hidden: { opacity: 1, pathLength: 1 },
+  hidden: { scaleY: 1 },
+  visible: { scaleY: 1, transition: { duration: 0 } },
+};
+
+const listVariants: Variants = {
+  hidden: {},
   visible: {
-    opacity: 1,
-    pathLength: 1,
-    transition: { duration: 0 },
+    transition: { delayChildren: 0.08, staggerChildren: 0.07 },
   },
 };
 
+const fieldVariants: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: MOTION_DURATION.standard, ease: MOTION_EASE },
+  },
+};
+
+const reducedListVariants: Variants = {
+  hidden: {},
+  visible: { transition: { duration: 0, staggerChildren: 0 } },
+};
+
+const reducedFieldVariants: Variants = {
+  hidden: { opacity: 1, y: 0 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0 } },
+};
+
 /**
- * A one-time visual link between related evidence.
+ * The five fields of the pilot decision brief, set as the document they
+ * describe: a ruled form with the trace drawn down its margin.
  *
- * The SVG is decorative; the ordered list is the accessible source of truth
- * and is always present in server-rendered HTML.
+ * The trace is a vertical rule scaled on the Y axis rather than an SVG
+ * pathLength trace, which renders with gaps in some browsers once the viewBox
+ * is stretched. It reads as the spine of one document, not as a five-step
+ * process diagram — the fields are read in order, but they are not stages.
+ *
+ * The ordered list is the accessible source of truth and is always present in
+ * server-rendered HTML; `initial={false}` keeps it visible before hydration.
  */
 export function DecisionTrace({
-  points,
+  fields,
   className,
-  orientation = "horizontal",
-  ariaLabel = "Decision trace",
+  ariaLabel = "Decision brief fields",
 }: DecisionTraceProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const controls = useAnimationControls();
-  const inView = useInView(containerRef, { once: true, amount: 0.35 });
+  const inView = useInView(containerRef, { once: true, amount: 0.2 });
   const shouldReduce = reduce === true;
-  const isVertical = orientation === "vertical";
-  const viewBox = isVertical ? "0 0 56 240" : "0 0 600 56";
-  const path = isVertical ? "M 28 12 V 228" : "M 12 28 H 588";
-  const pointCount = Math.max(points.length, 1);
 
   useIsomorphicLayoutEffect(() => {
     controls.set(shouldReduce ? "visible" : "hidden");
@@ -80,57 +102,35 @@ export function DecisionTrace({
   return (
     <div
       ref={containerRef}
-      className={["decision-trace", className].filter(Boolean).join(" ")}
-      data-orientation={orientation}
+      className={["decision-brief", className].filter(Boolean).join(" ")}
     >
-      <svg
-        className="decision-trace__visual"
-        viewBox={viewBox}
-        preserveAspectRatio="none"
+      <m.span
         aria-hidden="true"
-        focusable="false"
+        className="decision-brief__trace"
+        variants={shouldReduce ? reducedTraceVariants : traceVariants}
+        initial={false}
+        animate={controls}
+      />
+
+      <m.ol
+        className="decision-brief__fields"
+        aria-label={ariaLabel}
+        variants={shouldReduce ? reducedListVariants : listVariants}
+        initial={false}
+        animate={controls}
       >
-        <m.path
-          d={path}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          vectorEffect="non-scaling-stroke"
-          variants={shouldReduce ? reducedTraceVariants : traceVariants}
-          initial={false}
-          animate={controls}
-        />
-        {points.map((point, index) => {
-          const progress = pointCount === 1 ? 0.5 : index / (pointCount - 1);
-          const cx = isVertical ? 28 : 12 + 576 * progress;
-          const cy = isVertical ? 12 + 216 * progress : 28;
-
-          return (
-            <circle
-              key={`${point.label}-${index}`}
-              cx={cx}
-              cy={cy}
-              r="3"
-              fill="currentColor"
-              vectorEffect="non-scaling-stroke"
-            />
-          );
-        })}
-      </svg>
-
-      <ol className="decision-trace__labels" aria-label={ariaLabel}>
-        {points.map((point, index) => (
-          <li
-            key={`${point.label}-${index}`}
-            className="decision-trace__point"
+        {fields.map((field) => (
+          <m.li
+            key={field.number}
+            className="decision-brief__field"
+            variants={shouldReduce ? reducedFieldVariants : fieldVariants}
           >
-            <span className="decision-trace__label">{point.label}</span>
-            {point.detail ? (
-              <span className="decision-trace__detail">{point.detail}</span>
-            ) : null}
-          </li>
+            <span className="decision-brief__number">{field.number}</span>
+            <span className="decision-brief__title">{field.title}</span>
+            <span className="decision-brief__prompt">{field.prompt}</span>
+          </m.li>
         ))}
-      </ol>
+      </m.ol>
     </div>
   );
 }

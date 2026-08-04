@@ -18,6 +18,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+dev-ps.log
 
 # local env
 .env*.local
@@ -32,3 +33,6 @@ next-env.d.ts
 
 # local visual brainstorming companion
 .superpowers/
+
+# machine-scoped agent settings (absolute paths); launch.json is shared
+.claude/settings.local.json
