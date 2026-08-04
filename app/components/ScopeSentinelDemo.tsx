@@ -89,7 +89,7 @@ export function ScopeSentinelDemo() {
   const active = REQUESTS[selectedIndex] ?? REQUESTS[0];
 
   return (
-    <div className="mt-12 grid border-y border-rule-strong lg:grid-cols-12">
+    <div className="mt-8 grid border-y border-rule-strong lg:grid-cols-12">
       <div className="bg-field p-6 sm:p-8 lg:col-span-4 lg:border-r lg:border-rule-strong">
         <div className="flex items-start justify-between gap-4">
           <div>

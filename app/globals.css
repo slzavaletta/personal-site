@@ -185,8 +185,13 @@
     padding-inline: clamp(1rem, 4vw, 4rem);
   }
 
+  /*
+   * 88px top and bottom on desktop, down from 152. Five section boundaries
+   * were carrying 304px of dead space each; the page reads as diluted rather
+   * than dense, and this is the single largest lever against that.
+   */
   .section-block {
-    padding-block: clamp(5rem, 10vw, 9.5rem);
+    padding-block: clamp(3rem, 6.2vw, 5.5rem);
   }
 
   .utility-label {

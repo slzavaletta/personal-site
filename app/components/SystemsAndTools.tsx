@@ -26,7 +26,7 @@ export function SystemsAndTools() {
             </p>
           </Reveal>
 
-          <div className="mt-14 grid border-y border-rule-strong lg:grid-cols-12">
+          <div className="mt-9 grid border-y border-rule-strong lg:grid-cols-12">
             {SYSTEMS.projects.map((project) => (
               <article
                 key={project.id}
@@ -73,7 +73,7 @@ export function SystemsAndTools() {
             </div>
           </div>
 
-          <div id="scope-sentinel" className="scroll-mt-24 pt-20 sm:pt-28">
+          <div id="scope-sentinel" className="scroll-mt-24 pt-12 sm:pt-16">
             <Reveal className="grid gap-7 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-7">
                 <p className="utility-label text-signal-ink">
@@ -94,7 +94,7 @@ export function SystemsAndTools() {
         </div>
       </section>
 
-      <section id="tools" className="scroll-mt-20 bg-inverse text-paper">
+      <section id="tools" className="scroll-mt-8 bg-inverse text-paper">
         <div className="page-shell section-block">
           <Reveal className="grid gap-8 border-t border-paper/35 pt-5 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">

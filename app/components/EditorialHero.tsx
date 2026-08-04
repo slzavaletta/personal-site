@@ -12,7 +12,7 @@ export function EditorialHero() {
 
   return (
     <section id="top" className="hero-grid scroll-mt-0">
-      <div className="page-shell pb-14 pt-8 sm:pb-20 sm:pt-12 lg:pb-24">
+      <div className="page-shell pb-10 pt-8 sm:pb-12 sm:pt-12 lg:pb-14">
         <HeroReveal>
           <HeroRevealItem
             as="p"
@@ -23,7 +23,7 @@ export function EditorialHero() {
           </HeroRevealItem>
 
           <h1
-            className="display-name mt-14 uppercase sm:mt-20 lg:mt-24"
+            className="display-name mt-9 uppercase sm:mt-8 lg:mt-10"
             aria-label={`${HERO.firstName} ${HERO.lastName}`}
           >
             <HeroRevealItem as="span" kind="name">
@@ -36,7 +36,7 @@ export function EditorialHero() {
             ))}
           </h1>
 
-          <div className="mt-16 grid gap-10 border-t border-rule-strong pt-6 sm:mt-20 lg:grid-cols-12 lg:gap-8">
+          <div className="mt-10 grid gap-10 border-t border-rule-strong pt-6 sm:mt-8 lg:grid-cols-12 lg:gap-8">
             <HeroRevealItem
               as="p"
               className="text-2xl font-semibold leading-[1.12] tracking-[-0.04em] sm:text-3xl lg:col-span-6 lg:text-[2.4rem]"

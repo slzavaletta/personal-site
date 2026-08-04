@@ -9,7 +9,7 @@ const NOTE_LABELS = {
 
 export function CaseStudies() {
   return (
-    <section id="work" className="section-block scroll-mt-20">
+    <section id="work" className="section-block scroll-mt-8">
       <div className="page-shell">
         <Reveal className="grid gap-7 border-t border-rule-strong pt-5 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
@@ -19,7 +19,7 @@ export function CaseStudies() {
           <p className="reading-copy lg:col-span-4">{WORK_INTRO.body}</p>
         </Reveal>
 
-        <div className="mt-16 sm:mt-24">
+        <div className="mt-10 sm:mt-24">
           {CASE_STUDIES.map((caseStudy) => (
             <Reveal
               as="article"
@@ -59,7 +59,7 @@ export function CaseStudies() {
                 </div>
               </div>
 
-              <dl className="mt-12 grid border-y border-rule sm:grid-cols-3 lg:ml-[16.666%]">
+              <dl className="mt-8 grid border-y border-rule sm:grid-cols-3 lg:ml-[16.666%]">
                 {(["context", "constraint", "work"] as const).map((key) => (
                   <div
                     key={key}

@@ -10,7 +10,7 @@ import { CONTACT, SITE_LINKS } from "@/app/lib/content";
 
 export function ContactSection() {
   return (
-    <section id="contact" className="scroll-mt-20 bg-field">
+    <section id="contact" className="scroll-mt-8 bg-field">
       <div className="page-shell section-block">
         <div className="grid gap-10 border-t border-rule-strong pt-5 lg:grid-cols-12">
           <p className="utility-label text-signal-ink lg:col-span-3">

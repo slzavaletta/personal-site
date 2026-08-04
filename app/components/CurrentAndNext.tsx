@@ -10,7 +10,7 @@ const OPERATING_AREAS = [
 
 export function CurrentAndNext() {
   return (
-    <section id="approach" className="section-block scroll-mt-20">
+    <section id="approach" className="section-block scroll-mt-8">
       <div className="page-shell">
         <Reveal>
           <p className="utility-label text-signal-ink">Current / Next</p>
@@ -19,7 +19,7 @@ export function CurrentAndNext() {
           </h2>
         </Reveal>
 
-        <div className="mt-14 grid items-stretch border-y border-rule-strong lg:grid-cols-12">
+        <div className="mt-9 grid items-stretch border-y border-rule-strong lg:grid-cols-12">
           <Reveal
             as="article"
             className="py-10 lg:col-span-7 lg:border-r lg:border-rule-strong lg:py-14 lg:pr-14"

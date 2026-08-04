@@ -32,7 +32,7 @@ export function PilotDecisionBrief() {
           only once the main column is wide enough to set a field on one line.
           Below that the notes fall under the brief as a pair.
         */}
-        <div className="mt-16 grid gap-12 sm:mt-20 xl:grid-cols-12 xl:gap-8">
+        <div className="mt-10 grid gap-12 sm:mt-8 xl:grid-cols-12 xl:gap-8">
           <DecisionTrace
             className="xl:col-span-8"
             fields={PILOT_DECISION_BRIEF.fields}

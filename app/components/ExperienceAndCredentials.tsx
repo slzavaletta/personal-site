@@ -13,7 +13,7 @@ import { Reveal } from "@/app/components/motion/Reveal";
 
 export function ExperienceAndCredentials() {
   return (
-    <section id="experience" className="section-block scroll-mt-20">
+    <section id="experience" className="section-block scroll-mt-8">
       <div className="page-shell">
         <Reveal className="grid gap-8 border-t border-rule-strong pt-5 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
@@ -34,7 +34,7 @@ export function ExperienceAndCredentials() {
           </div>
         </Reveal>
 
-        <div className="mt-16 grid gap-16 lg:grid-cols-12 lg:gap-8">
+        <div className="mt-10 grid gap-16 lg:grid-cols-12 lg:gap-8">
           <ol className="border-l border-rule-strong lg:col-span-8">
             {EXPERIENCE.map((item, index) => (
               <li
@@ -102,7 +102,7 @@ export function ExperienceAndCredentials() {
               </div>
             </div>
 
-            <div className="mt-12">
+            <div className="mt-8">
               <p className="utility-label text-graphite">
                 Areas I&apos;ve worked in
               </p>
