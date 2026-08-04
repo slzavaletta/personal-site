@@ -128,7 +128,7 @@ export function SiteHeader() {
                       <span>{link.label}</span>
                       <span
                         aria-hidden="true"
-                        className="font-mono text-[0.6875rem] font-medium text-signal"
+                        className="font-mono text-[0.6875rem] font-medium text-signal-ink"
                       >
                         {String(index + 1).padStart(2, "0")}
                       </span>

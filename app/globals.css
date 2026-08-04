@@ -9,8 +9,19 @@
   /* Personal Editorial */
   --paper: oklch(0.97482 0.00284 128.49);
   --ink: oklch(0.18673 0.00763 145.26);
+  /*
+   * The accent does two jobs, so it carries two values.
+   *
+   * `--signal` paints surfaces, rules, marks and focus rings, where the
+   * identity wants the brighter red and the 3:1 non-text threshold applies.
+   *
+   * `--signal-ink` sets red *text* on light surfaces. It is `--signal`
+   * darkened 8.9% in lightness, which lifts it from 4.94:1 to 6.10:1 on paper
+   * and from 4.41:1 to 5.44:1 on the field surface — the second of those was
+   * under the 4.5:1 floor.
+   */
   --signal: oklch(0.54878 0.17446 30.53);
-  --signal-on-field: oklch(0.533 0.17303 29.8);
+  --signal-ink: oklch(0.5 0.17446 30.53);
   --signal-on-dark: oklch(0.6883 0.17211 32.99);
   --field: oklch(0.93542 0.00666 160.07);
   --graphite: oklch(0.4867 0.01366 161.64);
@@ -85,7 +96,7 @@
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-signal: var(--signal);
-  --color-signal-on-field: var(--signal-on-field);
+  --color-signal-ink: var(--signal-ink);
   --color-signal-on-dark: var(--signal-on-dark);
   --color-field: var(--field);
   --color-graphite: var(--graphite);
@@ -402,7 +413,7 @@
     position: absolute;
     top: 0.95rem;
     left: 0;
-    color: var(--signal);
+    color: var(--signal-ink);
     content: counter(editorial-item, decimal-leading-zero);
     font-family: var(--font-utility), ui-monospace, monospace;
     font-size: 0.6875rem;
@@ -680,7 +691,7 @@
 
   .hairline-link:hover,
   .hairline-link:focus-visible {
-    color: var(--signal);
+    color: var(--signal-ink);
   }
 
   .bg-inverse .hairline-link:hover,

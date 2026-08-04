@@ -93,7 +93,7 @@ export function ScopeSentinelDemo() {
       <div className="bg-field p-6 sm:p-8 lg:col-span-4 lg:border-r lg:border-rule-strong">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="utility-label text-signal-on-field">
+            <p className="utility-label text-signal-ink">
               Sample baseline
             </p>
             <h4 className="mt-4 text-2xl font-semibold tracking-[-0.035em]">
@@ -152,7 +152,7 @@ export function ScopeSentinelDemo() {
               value={String(index)}
               aria-label={`Analyze request ${index + 1}: ${sample.request}`}
             >
-              <span className="mr-3 font-mono text-[0.6875rem] text-signal group-aria-pressed/toggle:text-signal-on-dark">
+              <span className="mr-3 font-mono text-[0.6875rem] text-signal-ink group-aria-pressed/toggle:text-signal-on-dark">
                 {String(index + 1).padStart(2, "0")}
               </span>
               {sample.request}

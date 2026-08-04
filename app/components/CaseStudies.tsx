@@ -13,7 +13,7 @@ export function CaseStudies() {
       <div className="page-shell">
         <Reveal className="grid gap-7 border-t border-rule-strong pt-5 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-            <p className="utility-label text-signal">01 / Selected work</p>
+            <p className="utility-label text-signal-ink">01 / Selected work</p>
             <h2 className="editorial-heading mt-5">{WORK_INTRO.heading}</h2>
           </div>
           <p className="reading-copy lg:col-span-4">{WORK_INTRO.body}</p>
@@ -31,7 +31,7 @@ export function CaseStudies() {
                 className="grid gap-10 lg:grid-cols-12 lg:gap-8"
               >
                 <header className="lg:col-span-2">
-                  <p className="font-mono text-4xl font-medium tracking-[-0.08em] text-signal">
+                  <p className="font-mono text-4xl font-medium tracking-[-0.08em] text-signal-ink">
                     {caseStudy.number}
                   </p>
                   <p className="utility-label mt-4 text-ink">
@@ -50,7 +50,7 @@ export function CaseStudies() {
                 </div>
 
                 <div className="case-signal self-start p-6 sm:p-8 lg:col-span-4">
-                  <p className="utility-label text-signal-on-field">
+                  <p className="utility-label text-signal-ink">
                     Result signal
                   </p>
                   <p className="mt-9 text-2xl font-semibold leading-tight tracking-[-0.035em] sm:text-3xl">

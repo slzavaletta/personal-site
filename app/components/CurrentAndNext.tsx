@@ -13,7 +13,7 @@ export function CurrentAndNext() {
     <section id="approach" className="section-block scroll-mt-20">
       <div className="page-shell">
         <Reveal>
-          <p className="utility-label text-signal">Current / Next</p>
+          <p className="utility-label text-signal-ink">Current / Next</p>
           <h2 className="editorial-heading mt-5">
             {CURRENT_AND_NEXT.heading}
           </h2>

@@ -13,7 +13,7 @@ export function ContactSection() {
     <section id="contact" className="scroll-mt-20 bg-field">
       <div className="page-shell section-block">
         <div className="grid gap-10 border-t border-rule-strong pt-5 lg:grid-cols-12">
-          <p className="utility-label text-signal-on-field lg:col-span-3">
+          <p className="utility-label text-signal-ink lg:col-span-3">
             05 / Contact
           </p>
           <div className="lg:col-span-9">

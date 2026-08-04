@@ -17,7 +17,7 @@ export function ExperienceAndCredentials() {
       <div className="page-shell">
         <Reveal className="grid gap-8 border-t border-rule-strong pt-5 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-            <p className="utility-label text-signal">04 / Experience</p>
+            <p className="utility-label text-signal-ink">04 / Experience</p>
             <h2 className="editorial-heading mt-5">
               {EXPERIENCE_SECTION.heading}
             </h2>
@@ -42,7 +42,7 @@ export function ExperienceAndCredentials() {
                 className="timeline-row grid gap-4 border-t border-rule py-8 pl-6 sm:grid-cols-12 sm:gap-6 sm:pl-9"
               >
                 <div className="sm:col-span-3">
-                  <p className="utility-label text-signal">
+                  <p className="utility-label text-signal-ink">
                     {String(index + 1).padStart(2, "0")}
                   </p>
                   <p className="mt-3 font-mono text-xs text-graphite">

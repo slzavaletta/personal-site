@@ -19,7 +19,7 @@ export function EditorialHero() {
             className="utility-label flex items-center justify-between gap-4 border-t border-rule-strong pt-3 text-graphite"
           >
             <span>{HERO.role}</span>
-            <span className="hidden text-signal sm:inline">SLZ / 2026</span>
+            <span className="hidden text-signal-ink sm:inline">SLZ / 2026</span>
           </HeroRevealItem>
 
           <h1

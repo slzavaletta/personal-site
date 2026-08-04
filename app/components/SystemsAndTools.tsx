@@ -15,7 +15,7 @@ export function SystemsAndTools() {
         <div className="page-shell">
           <Reveal className="grid gap-8 border-t border-rule-strong pt-5 lg:grid-cols-12">
             <div className="lg:col-span-8">
-              <p className="utility-label text-signal-on-field">
+              <p className="utility-label text-signal-ink">
                 02 / Built around the work
               </p>
               <h2 className="editorial-heading mt-5">{SYSTEMS.heading}</h2>
@@ -64,7 +64,7 @@ export function SystemsAndTools() {
             <div
               className="flex flex-col justify-between bg-field p-6 sm:p-8 lg:col-span-2"
             >
-              <p className="utility-label text-signal-on-field">
+              <p className="utility-label text-signal-ink">
                 {SYSTEMS.infrastructure.label}
               </p>
               <p className="mt-8 text-sm leading-relaxed text-ink">
@@ -76,7 +76,7 @@ export function SystemsAndTools() {
           <div id="scope-sentinel" className="scroll-mt-24 pt-20 sm:pt-28">
             <Reveal className="grid gap-7 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-7">
-                <p className="utility-label text-signal">
+                <p className="utility-label text-signal-ink">
                   Scope Sentinel / Walkthrough
                 </p>
                 <h3 className="mt-5 max-w-[16ch] text-4xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-6xl">
