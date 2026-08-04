@@ -9,8 +9,19 @@
   /* Personal Editorial */
   --paper: oklch(0.97482 0.00284 128.49);
   --ink: oklch(0.18673 0.00763 145.26);
+  /*
+   * The accent does two jobs, so it carries two values.
+   *
+   * `--signal` paints surfaces, rules, marks and focus rings, where the
+   * identity wants the brighter red and the 3:1 non-text threshold applies.
+   *
+   * `--signal-ink` sets red *text* on light surfaces. It is `--signal`
+   * darkened 8.9% in lightness, which lifts it from 4.94:1 to 6.10:1 on paper
+   * and from 4.41:1 to 5.44:1 on the field surface — the second of those was
+   * under the 4.5:1 floor.
+   */
   --signal: oklch(0.54878 0.17446 30.53);
-  --signal-on-field: oklch(0.533 0.17303 29.8);
+  --signal-ink: oklch(0.5 0.17446 30.53);
   --signal-on-dark: oklch(0.6883 0.17211 32.99);
   --field: oklch(0.93542 0.00666 160.07);
   --graphite: oklch(0.4867 0.01366 161.64);
@@ -54,6 +65,8 @@
 
   /* Motion scale */
   --duration-quick: 150ms;
+  /* Hover and focus feedback, kept inside the 150-200ms band. */
+  --duration-hover: 200ms;
   --duration-standard: 250ms;
   --duration-reveal: 500ms;
   --ease-editorial-curve: cubic-bezier(0.22, 1, 0.36, 1);
@@ -85,7 +98,7 @@
   --color-paper: var(--paper);
   --color-ink: var(--ink);
   --color-signal: var(--signal);
-  --color-signal-on-field: var(--signal-on-field);
+  --color-signal-ink: var(--signal-ink);
   --color-signal-on-dark: var(--signal-on-dark);
   --color-field: var(--field);
   --color-graphite: var(--graphite);
@@ -174,13 +187,18 @@
     padding-inline: clamp(1rem, 4vw, 4rem);
   }
 
+  /*
+   * 88px top and bottom on desktop, down from 152. Five section boundaries
+   * were carrying 304px of dead space each; the page reads as diluted rather
+   * than dense, and this is the single largest lever against that.
+   */
   .section-block {
-    padding-block: clamp(5rem, 10vw, 9.5rem);
+    padding-block: clamp(3rem, 6.2vw, 5.5rem);
   }
 
   .utility-label {
     font-family: var(--font-utility), ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.11em;
     line-height: 1.3;
@@ -190,7 +208,7 @@
   .editorial-heading {
     max-width: 14ch;
     font-family: var(--font-display), Arial, sans-serif;
-    font-size: clamp(2.65rem, 6vw, 6.4rem);
+    font-size: clamp(2.5rem, 5.2vw, 5rem);
     font-weight: 620;
     letter-spacing: -0.06em;
     line-height: 0.94;
@@ -199,7 +217,7 @@
   .reading-copy {
     max-width: 64ch;
     color: var(--graphite);
-    font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
+    font-size: 1.25rem;
     line-height: 1.65;
   }
 
@@ -224,12 +242,30 @@
     content: "";
     transform: scaleX(0.22);
     transform-origin: left;
-    transition: transform var(--duration-standard) var(--ease-editorial-curve);
+    transition: transform var(--duration-hover) var(--ease-editorial-curve);
   }
 
   .text-link:hover::after,
   .text-link:focus-visible::after {
     transform: scaleX(1);
+  }
+
+  /*
+   * The rule under the header is permanent — it belongs to the page's rule
+   * system, not to the scroll state. Lifting off the hero is what adds the
+   * translucency, the backdrop blur and a hairline shadow: together they say
+   * "this is floating over content now". The blur is load-bearing, not
+   * decorative — without it the content sliding underneath would compete with
+   * the navigation.
+   */
+  .site-header {
+    transition:
+      background-color var(--duration-hover) var(--ease-editorial-curve),
+      box-shadow var(--duration-hover) var(--ease-editorial-curve);
+  }
+
+  .site-header[data-past-hero] {
+    box-shadow: 0 1px 12px -6px oklch(0.18673 0.00763 145.26 / 32%);
   }
 
   .hero-grid {
@@ -348,7 +384,7 @@
   .proof-index__label {
     max-width: 30ch;
     color: var(--graphite);
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     line-height: 1.55;
   }
 
@@ -402,10 +438,10 @@
     position: absolute;
     top: 0.95rem;
     left: 0;
-    color: var(--signal);
+    color: var(--signal-ink);
     content: counter(editorial-item, decimal-leading-zero);
     font-family: var(--font-utility), ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     letter-spacing: 0.08em;
   }
 
@@ -440,7 +476,7 @@
     --brief-gutter: clamp(1.25rem, 2.4vw, 2.25rem);
     --brief-number: clamp(2.25rem, 4vw, 3rem);
     --brief-rule: oklch(0.97482 0.00284 128.49 / 16%);
-    --brief-row-pad: clamp(1.5rem, 2.6vw, 2.25rem);
+    --brief-row-pad: clamp(1rem, 1.8vw, 1.5rem);
 
     position: relative;
   }
@@ -492,17 +528,17 @@
    * Hung in the margin, optically centred on the title's cap height. Measured
    * against Archivo at line-height 1.1: the cap-height midpoint sits 0.51em
    * below the title's box top. Subtract half the number's own line box
-   * (0.6875rem at line-height 1.9) to get its box top.
+   * (0.8125rem at line-height 1.9) to get its box top.
    */
   .decision-brief__number {
     position: absolute;
     top: calc(
-      var(--brief-row-pad) + 0.51 * clamp(1.375rem, 2.1vw, 1.9rem) - 0.653rem
+      var(--brief-row-pad) + 0.51 * clamp(1.375rem, 2.1vw, 1.9rem) - 0.772rem
     );
     left: var(--brief-gutter);
     color: var(--signal-on-dark);
     font-family: var(--font-utility), ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.08em;
     line-height: 1.9;
@@ -524,7 +560,7 @@
     /* Reserves two lines so the row rhythm holds wherever the copy is short. */
     min-height: 3.2em;
     color: oklch(0.97482 0.00284 128.49 / 72%);
-    font-size: 1.0625rem;
+    font-size: 1rem;
     grid-area: prompt;
     line-height: 1.6;
   }
@@ -569,8 +605,8 @@
 
   .system-card {
     transition:
-      border-color var(--duration-standard) var(--ease-editorial-curve),
-      transform var(--duration-standard) var(--ease-editorial-curve);
+      border-color var(--duration-hover) var(--ease-editorial-curve),
+      transform var(--duration-hover) var(--ease-editorial-curve);
   }
 
   .system-card:focus-within {
@@ -586,7 +622,7 @@
    */
   .tool-groups {
     display: grid;
-    margin-top: clamp(3rem, 5vw, 6rem);
+    margin-top: clamp(2.25rem, 3.6vw, 3.5rem);
     gap: clamp(2.5rem, 4vw, 3.5rem);
     grid-template-columns: minmax(0, 1fr);
   }
@@ -627,10 +663,10 @@
 
   .tool-cell {
     display: flex;
-    min-height: 4.25rem;
+    min-height: 3.25rem;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.85rem 0;
+    padding: 0.55rem 0;
     border-top: 1px solid oklch(0.97482 0.00284 128.49 / 18%);
     color: oklch(0.97482 0.00284 128.49 / 72%);
     transition: color var(--duration-quick) var(--ease-editorial-curve);
@@ -680,7 +716,7 @@
 
   .hairline-link:hover,
   .hairline-link:focus-visible {
-    color: var(--signal);
+    color: var(--signal-ink);
   }
 
   .bg-inverse .hairline-link:hover,

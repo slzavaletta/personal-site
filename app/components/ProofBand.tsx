@@ -16,10 +16,10 @@ export function ProofBand() {
   return (
     <section
       aria-labelledby="proof-heading"
-      className="page-shell pb-16 sm:pb-20 lg:pb-24"
+      className="page-shell pb-10 sm:pb-12 lg:pb-14"
     >
       <div className="flex items-center gap-5">
-        <h2 id="proof-heading" className="utility-label text-signal">
+        <h2 id="proof-heading" className="utility-label text-signal-ink">
           Evidence
         </h2>
         <span aria-hidden="true" className="h-px flex-1 bg-rule-strong" />

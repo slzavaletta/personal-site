@@ -5,16 +5,25 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { MotionProvider } from "@/app/components/motion/MotionProvider";
 import "./globals.css";
 
+/*
+ * Archivo and Source Sans carry the hero, so they stay on the critical path.
+ * IBM Plex Mono only sets small labels; `preload: false` keeps it off the
+ * first-paint contention while `swap` still renders it the moment it lands.
+ * next/font generates the metric-matched Arial fallbacks automatically, so a
+ * late swap does not reflow.
+ */
 const archivo = Archivo({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
+  preload: true,
 });
 
 const sourceSans = Source_Sans_3({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
+  preload: true,
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -22,13 +31,14 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
   variable: "--font-utility",
   display: "swap",
+  preload: false,
 });
 
 const SITE_URL = "https://slzavaletta.com";
 const NAME = "Santiago López Zavaletta";
-const ROLE = "Technical Project Manager";
+const ROLE = "Technical Delivery Leader | Enterprise AI Deployment";
 const DESCRIPTION =
-  "Technical Project Manager and Scrum Master running AI and software delivery across the United States and Latin America, with P&L ownership and a growing focus on AI deployment.";
+  "Technical delivery leader working in enterprise AI deployment: choosing the use case, running the pilot, supporting adoption, and taking the scale-or-stop decision. Ten years of delivery across the United States and Latin America, with staffing and P&L ownership.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -42,8 +52,8 @@ export const metadata: Metadata = {
   creator: NAME,
   category: "portfolio",
   keywords: [
-    "Technical Project Manager",
-    "Scrum Master",
+    "Technical Delivery Leader",
+    "Enterprise AI deployment",
     "AI delivery",
     "AI deployment",
     "Software delivery",

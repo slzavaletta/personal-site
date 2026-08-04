@@ -13,11 +13,11 @@ import { Reveal } from "@/app/components/motion/Reveal";
 
 export function ExperienceAndCredentials() {
   return (
-    <section id="experience" className="section-block scroll-mt-20">
+    <section id="experience" className="section-block scroll-mt-8">
       <div className="page-shell">
         <Reveal className="grid gap-8 border-t border-rule-strong pt-5 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
-            <p className="utility-label text-signal">04 / Experience</p>
+            <p className="utility-label text-signal-ink">04 / Experience</p>
             <h2 className="editorial-heading mt-5">
               {EXPERIENCE_SECTION.heading}
             </h2>
@@ -34,7 +34,7 @@ export function ExperienceAndCredentials() {
           </div>
         </Reveal>
 
-        <div className="mt-16 grid gap-16 lg:grid-cols-12 lg:gap-8">
+        <div className="mt-10 grid gap-16 lg:grid-cols-12 lg:gap-8">
           <ol className="border-l border-rule-strong lg:col-span-8">
             {EXPERIENCE.map((item, index) => (
               <li
@@ -42,10 +42,10 @@ export function ExperienceAndCredentials() {
                 className="timeline-row grid gap-4 border-t border-rule py-8 pl-6 sm:grid-cols-12 sm:gap-6 sm:pl-9"
               >
                 <div className="sm:col-span-3">
-                  <p className="utility-label text-signal">
+                  <p className="utility-label text-signal-ink">
                     {String(index + 1).padStart(2, "0")}
                   </p>
-                  <p className="mt-3 font-mono text-xs text-graphite">
+                  <p className="mt-3 font-mono text-[0.8125rem] text-graphite">
                     {item.period}
                   </p>
                 </div>
@@ -102,7 +102,7 @@ export function ExperienceAndCredentials() {
               </div>
             </div>
 
-            <div className="mt-12">
+            <div className="mt-8">
               <p className="utility-label text-graphite">
                 Areas I&apos;ve worked in
               </p>

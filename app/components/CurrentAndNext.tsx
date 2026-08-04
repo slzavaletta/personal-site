@@ -10,19 +10,19 @@ const OPERATING_AREAS = [
 
 export function CurrentAndNext() {
   return (
-    <section id="approach" className="section-block scroll-mt-20">
+    <section id="approach" className="section-block scroll-mt-8">
       <div className="page-shell">
         <Reveal>
-          <p className="utility-label text-signal">Current / Next</p>
+          <p className="utility-label text-signal-ink">Current / Next</p>
           <h2 className="editorial-heading mt-5">
             {CURRENT_AND_NEXT.heading}
           </h2>
         </Reveal>
 
-        <div className="mt-14 grid items-stretch border-y border-rule-strong lg:grid-cols-12">
+        <div className="mt-9 grid items-stretch border-y border-rule-strong lg:grid-cols-12">
           <Reveal
             as="article"
-            className="py-10 lg:col-span-7 lg:border-r lg:border-rule-strong lg:py-14 lg:pr-14"
+            className="py-8 lg:col-span-7 lg:border-r lg:border-rule-strong lg:py-10 lg:pr-12"
           >
             <p className="utility-label text-graphite">
               {CURRENT_AND_NEXT.current.label}
@@ -46,7 +46,7 @@ export function CurrentAndNext() {
           <Reveal
             as="article"
             delay={0.05}
-            className="bg-signal px-6 py-10 text-paper sm:px-10 lg:col-span-5 lg:px-12 lg:py-14"
+            className="bg-signal px-6 py-8 text-paper sm:px-10 lg:col-span-5 lg:px-10 lg:py-10"
           >
             <p className="utility-label text-paper">
               {CURRENT_AND_NEXT.next.label}
@@ -54,7 +54,7 @@ export function CurrentAndNext() {
             <h3 className="mt-5 max-w-[13ch] text-3xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
               {CURRENT_AND_NEXT.next.title}
             </h3>
-            <p className="mt-7 text-lg leading-relaxed text-paper">
+            <p className="mt-7 text-xl leading-relaxed text-paper">
               {CURRENT_AND_NEXT.next.body}
             </p>
           </Reveal>

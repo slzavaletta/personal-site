@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const alt =
-  "Santiago López Zavaletta — Technical Project Manager. AI and software delivery, with AI deployment as the next step.";
+  "Santiago López Zavaletta — Technical Delivery Leader, Enterprise AI Deployment.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -45,7 +45,7 @@ export default function OpengraphImage() {
         >
           <span>SLZ / Buenos Aires</span>
           <span style={{ color: colors.graphite }}>
-            Technical Project Manager
+            Technical Delivery Leader
           </span>
         </div>
 
