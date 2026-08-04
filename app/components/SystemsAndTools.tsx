@@ -13,7 +13,7 @@ export function SystemsAndTools() {
     <>
       <section className="section-block bg-paper">
         <div className="page-shell">
-          <Reveal className="grid gap-8 border-t border-rule-strong pt-5 lg:grid-cols-12">
+          <Reveal className="grid gap-8 border-t border-rule-strong pt-4 lg:grid-cols-12">
             <div className="lg:col-span-8">
               <p className="utility-label text-signal-ink">
                 02 / Built around the work
@@ -96,7 +96,7 @@ export function SystemsAndTools() {
 
       <section id="tools" className="scroll-mt-8 bg-inverse text-paper">
         <div className="page-shell section-block">
-          <Reveal className="grid gap-8 border-t border-paper/35 pt-5 lg:grid-cols-12 lg:items-end">
+          <Reveal className="grid gap-8 border-t border-paper/35 pt-4 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-8">
               <p className="utility-label text-signal-on-dark">
                 03 / Working set

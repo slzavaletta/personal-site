@@ -18,7 +18,7 @@ export function PilotDecisionBrief() {
   return (
     <section id="pilot-brief" className="bg-inverse text-paper">
       <div className="page-shell section-block">
-        <Reveal className="border-t border-paper/35 pt-5">
+        <Reveal className="border-t border-paper/35 pt-4">
           <p className="utility-label text-signal-on-dark">
             {PILOT_DECISION_BRIEF.label}
           </p>

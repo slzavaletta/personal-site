@@ -15,7 +15,7 @@ export function ExperienceAndCredentials() {
   return (
     <section id="experience" className="section-block scroll-mt-8">
       <div className="page-shell">
-        <Reveal className="grid gap-8 border-t border-rule-strong pt-5 lg:grid-cols-12 lg:items-end">
+        <Reveal className="grid gap-8 border-t border-rule-strong pt-4 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">
             <p className="utility-label text-signal-ink">04 / Experience</p>
             <h2 className="editorial-heading mt-5">

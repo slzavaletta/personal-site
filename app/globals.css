@@ -188,12 +188,17 @@
   }
 
   /*
-   * 88px top and bottom on desktop, down from 152. Five section boundaries
-   * were carrying 304px of dead space each; the page reads as diluted rather
-   * than dense, and this is the single largest lever against that.
+   * 52px top and bottom on desktop, down from 88 and originally 152.
+   *
+   * Measured at 2560, the gap between the last text of one block and the
+   * first of the next ran 225-261px: this padding twice over, plus the 20px
+   * above each section kicker and the trailing margins inside each block. 52
+   * brings those bands to roughly 160px, which is what pays for the role,
+   * the credential years, the four chips and the fifth metric that pass 2
+   * adds.
    */
   .section-block {
-    padding-block: clamp(3rem, 6.2vw, 5.5rem);
+    padding-block: clamp(2.25rem, 4vw, 3.25rem);
   }
 
   .utility-label {
