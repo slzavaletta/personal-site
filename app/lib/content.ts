@@ -24,11 +24,11 @@ export const HERO = {
   firstName: "Santiago",
   lastName: "López Zavaletta",
   statement:
-    "I run AI and software delivery—from staffing and P&L to Scrum, risk, and client decisions.",
+    "I run enterprise AI and software delivery—from staffing and P&L to risk, adoption, and the client decisions that follow.",
   supporting:
     "My career started in infrastructure. Today I work between clients, executives, and technical teams across the United States and Latin America.",
   direction:
-    "I’m preparing for a move into AI deployment: choosing the use case, running the pilot, supporting adoption, and helping the client make a scale-or-stop decision.",
+    "Enterprise AI deployment is the work: choosing the use case, running the pilot, supporting the people whose work changes, and making the scale-or-stop call on evidence—across three enterprise implementations and a $5M AI account.",
   primaryAction: { label: "Read the work", href: "#work" },
   secondaryAction: {
     label: "Download résumé",
@@ -67,7 +67,7 @@ export const PROOF: readonly ProofPoint[] = [
 ];
 
 export const CURRENT_AND_NEXT = {
-  heading: "What I do now. What I’m preparing to do next.",
+  heading: "What I do now. Where I’m taking it next.",
   current: {
     label: "Current practice",
     title: "I manage the scope, budget, people, risk, and the work itself.",
@@ -75,10 +75,10 @@ export const CURRENT_AND_NEXT = {
       "At Globant, I own scope, budget, staffing, timelines, dependencies, risk, client communication, and the Scrum cadence for distributed software teams. My portfolio work has ranged from $700k to $5M, with cross-functional teams of up to 36 people. I use financial and delivery metrics to make tradeoffs while the team still has room to act.",
   },
   next: {
-    label: "Next direction",
-    title: "The AI deployment work I want to lead next.",
+    label: "Where this goes",
+    title: "The AI deployment work I lead, and where I’m taking it.",
     body:
-      "AI can produce a persuasive demo before a company knows how—or whether—to adopt it. The harder work is choosing the right use case, handling data and security constraints, supporting the people whose work will change, and deciding whether the evidence is strong enough to continue. That is the work I want to lead next.",
+      "AI can produce a persuasive demo before a company knows how—or whether—to adopt it. The harder work is choosing the right use case, handling data and security constraints, supporting the people whose work will change, and deciding whether the evidence is strong enough to continue. That is the work I do, and the work I want more of.",
   },
   credential:
     "I’m pursuing the Claude Certified Architect certification and building hands-on depth through delivery tooling, automation, self-hosted infrastructure, and experiments with agent workflows.",
@@ -170,10 +170,10 @@ export type DecisionBriefField = {
 };
 
 export const PILOT_DECISION_BRIEF = {
-  label: "Preparing for AI deployment",
+  label: "Running an AI deployment",
   heading: "Before a pilot starts, I want five things written down.",
   body:
-    "I’m developing this brief from my current TPM work as I prepare for AI deployment roles; it isn’t presented as a formal practice I already run.",
+    "This is the brief I work from: what the delivery team and the client both have to agree on before the first sprint, drawn from the implementations I have run.",
   fields: [
     {
       number: "01",
