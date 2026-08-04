@@ -39,7 +39,7 @@ export function EditorialHero() {
           <div className="mt-10 grid gap-10 border-t border-rule-strong pt-6 sm:mt-8 lg:grid-cols-12 lg:gap-8">
             <HeroRevealItem
               as="p"
-              className="text-2xl font-semibold leading-[1.12] tracking-[-0.04em] sm:text-3xl lg:col-span-6 lg:text-[2.4rem]"
+              className="hero-statement text-2xl font-semibold leading-[1.12] tracking-[-0.04em] sm:text-3xl lg:col-span-6 lg:text-[2.4rem]"
             >
               {HERO.statement}
             </HeroRevealItem>

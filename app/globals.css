@@ -187,6 +187,7 @@
     padding-inline: clamp(1rem, 4vw, 4rem);
   }
 
+
   /*
    * 52px top and bottom on desktop, down from 88 and originally 152.
    *
@@ -284,6 +285,7 @@
     bottom: 0;
     left: 50%;
     z-index: -1;
+    /* Tracks `.page-shell`, including its wide step. */
     width: min(100%, 90rem);
     padding-inline: max(0px, calc(clamp(1rem, 4vw, 4rem) - 1.75rem));
     background-repeat: no-repeat;
@@ -757,6 +759,28 @@
   .tool-cell:hover .tool-mark {
     opacity: 1;
     transform: rotate(-4deg) scale(1.06);
+  }
+}
+
+/*
+ * Wide viewports. The 90rem cap left 552px of dead margin on each side of a
+ * 2560 screen, and the hero's left column emptied out well above its right.
+ *
+ * Deliberately unlayered and placed after `@layer components`: the shell's
+ * base width and the statement's `lg:` size both come later in the cascade
+ * than a rule inside the layer would, so an in-layer override loses to them.
+ *
+ * Reading measures are capped in `ch` and display sizes in `clamp`, so the
+ * extra width goes to the grid columns rather than to line lengths.
+ */
+@media (min-width: 112.5rem) {
+  .page-shell,
+  .hero-grid::before {
+    width: min(100%, 108rem);
+  }
+
+  .hero-statement {
+    font-size: 2.9rem;
   }
 }
 
