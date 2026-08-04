@@ -39,6 +39,7 @@ export function CountUpValue({ value }: { value: string }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let frame = 0;
+    let settle = 0;
     let observer: IntersectionObserver | undefined;
 
     const run = () => {
@@ -46,9 +47,7 @@ export function CountUpValue({ value }: { value: string }) {
 
       const step = (now: number) => {
         const progress = Math.min((now - start) / DURATION, 1);
-        setDisplay(
-          (easeOut(progress) * target).toFixed(decimals),
-        );
+        setDisplay((easeOut(progress) * target).toFixed(decimals));
         if (progress < 1) {
           frame = requestAnimationFrame(step);
         } else {
@@ -57,6 +56,18 @@ export function CountUpValue({ value }: { value: string }) {
       };
 
       frame = requestAnimationFrame(step);
+
+      /*
+       * A timer, not a frame, guarantees the ending. Backgrounding the tab
+       * pauses `requestAnimationFrame`, which would strand the number at
+       * whatever it had reached — and a metric frozen at "$0M" is worse than
+       * one that never moved.
+       */
+      settle = window.setTimeout(() => {
+        cancelAnimationFrame(frame);
+        frame = 0;
+        setDisplay(null);
+      }, DURATION + 250);
     };
 
     try {
@@ -76,6 +87,7 @@ export function CountUpValue({ value }: { value: string }) {
     return () => {
       observer?.disconnect();
       if (frame) cancelAnimationFrame(frame);
+      if (settle) window.clearTimeout(settle);
     };
   }, [decimals, match, target]);
 
@@ -88,7 +100,14 @@ export function CountUpValue({ value }: { value: string }) {
       {prefix}
       <span
         ref={ref}
-        style={{ display: "inline-block", minWidth: `${digits.length}ch` }}
+        style={{
+          display: "inline-block",
+          minWidth: `${digits.length}ch`,
+          // Reserved space sits to the left, so a single digit counting up
+          // toward a two-digit total stays flush against whatever follows it
+          // instead of drifting away from its own unit.
+          textAlign: "right",
+        }}
       >
         {display ?? digits}
       </span>

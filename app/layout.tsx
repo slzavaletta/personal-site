@@ -132,6 +132,16 @@ export default function RootLayout({
       lang="en"
       className={`${archivo.variable} ${sourceSans.variable} ${ibmPlexMono.variable}`}
     >
+      <head>
+        {/*
+          The section index ships hidden so it cannot flash over the hero, and
+          its own script clears that. With scripting off nothing ever will, so
+          this hands it back — the links work, they just cannot follow along.
+        */}
+        <noscript>
+          <style>{`.section-index[data-pending]{opacity:1;pointer-events:auto}`}</style>
+        </noscript>
+      </head>
       <body>
         <a
           href="#main"

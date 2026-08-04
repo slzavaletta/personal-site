@@ -14,18 +14,27 @@ import { SECTION_INDEX } from "@/app/lib/content";
  */
 export function SectionIndex() {
   const [activeHref, setActiveHref] = useState<string | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [overHero, setOverHero] = useState(true);
+  /*
+   * Ships hidden so the index never flashes over the name on load, and clears
+   * once the observers are running. Without JavaScript it stays set, which a
+   * `<noscript>` rule in the head undoes — the links still work there, they
+   * just cannot track position.
+   */
+  const [pending, setPending] = useState(true);
 
   useEffect(() => {
     if (typeof IntersectionObserver === "undefined") return;
 
     const observers: IntersectionObserver[] = [];
 
+    setPending(false);
+
     try {
       const hero = document.querySelector("#top");
       if (hero) {
         const heroObserver = new IntersectionObserver(
-          ([entry]) => setVisible(!entry.isIntersecting),
+          ([entry]) => setOverHero(entry.isIntersecting),
           { rootMargin: "-120px 0px 0px 0px" },
         );
         heroObserver.observe(hero);
@@ -60,7 +69,8 @@ export function SectionIndex() {
     <nav
       aria-label="Sections"
       className="section-index"
-      data-visible={visible || undefined}
+      data-pending={pending || undefined}
+      data-over-hero={overHero || undefined}
     >
       <ol>
         {SECTION_INDEX.map((section) => {

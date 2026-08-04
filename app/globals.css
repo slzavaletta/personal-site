@@ -863,15 +863,21 @@
     left: max(0.75rem, calc((100vw - 90rem) / 2 - 9rem));
     z-index: 30;
     display: block;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(-50%);
     transition: opacity 300ms var(--ease-editorial-curve);
-    pointer-events: none;
   }
 
-  .section-index[data-visible] {
-    opacity: 1;
-    pointer-events: auto;
+  /*
+   * Hidden before the observer has reported, and again whenever the hero owns
+   * the screen. `data-pending` ships in the server HTML so the index never
+   * flashes over the name on load, and a `<noscript>` rule in the document
+   * head clears it when nothing is ever going to.
+   */
+  .section-index[data-pending],
+  .section-index[data-over-hero] {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .section-index ol {
