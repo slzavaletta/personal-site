@@ -36,9 +36,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 const SITE_URL = "https://slzavaletta.com";
 const NAME = "Santiago López Zavaletta";
-const ROLE = "Technical Project Manager";
+const ROLE = "Technical Delivery Leader | Enterprise AI Deployment";
 const DESCRIPTION =
-  "Technical Project Manager and Scrum Master running AI and software delivery across the United States and Latin America, with P&L ownership and a growing focus on AI deployment.";
+  "Technical delivery leader working in enterprise AI deployment: choosing the use case, running the pilot, supporting adoption, and taking the scale-or-stop decision. Ten years of delivery across the United States and Latin America, with staffing and P&L ownership.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -52,8 +52,8 @@ export const metadata: Metadata = {
   creator: NAME,
   category: "portfolio",
   keywords: [
-    "Technical Project Manager",
-    "Scrum Master",
+    "Technical Delivery Leader",
+    "Enterprise AI deployment",
     "AI delivery",
     "AI deployment",
     "Software delivery",

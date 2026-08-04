@@ -20,7 +20,7 @@ export const SITE_LINKS = {
 } as const;
 
 export const HERO = {
-  role: "Technical Project Manager and Scrum Master at Globant.",
+  role: "Technical delivery leader at Globant — enterprise AI deployment.",
   firstName: "Santiago",
   lastName: "López Zavaletta",
   statement:
@@ -350,7 +350,7 @@ export const EXPERIENCE = [
   {
     company: "Globant",
     period: "2021–present",
-    title: "Technical Project Manager and Scrum Master",
+    title: "Technical Project Manager",
     body:
       "AI delivery, Digital Twin, hospitality, and M&A work across the United States and Latin America. I manage scope, P&L, staffing, risk, delivery cadence, and client communication.",
   },
