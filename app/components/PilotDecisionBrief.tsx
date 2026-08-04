@@ -22,7 +22,7 @@ export function PilotDecisionBrief() {
           <p className="utility-label text-signal-on-dark">
             {PILOT_DECISION_BRIEF.label}
           </p>
-          <h2 className="mt-7 max-w-[14ch] text-4xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl lg:text-7xl">
+          <h2 className="mt-5 max-w-[16ch] text-3xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-5xl lg:text-6xl">
             {PILOT_DECISION_BRIEF.heading}
           </h2>
         </Reveal>
@@ -32,7 +32,7 @@ export function PilotDecisionBrief() {
           only once the main column is wide enough to set a field on one line.
           Below that the notes fall under the brief as a pair.
         */}
-        <div className="mt-10 grid gap-12 sm:mt-8 xl:grid-cols-12 xl:gap-8">
+        <div className="mt-8 grid gap-10 sm:mt-9 xl:grid-cols-12 xl:gap-8">
           <DecisionTrace
             className="xl:col-span-8"
             fields={PILOT_DECISION_BRIEF.fields}

@@ -17,7 +17,7 @@ export function ContactSection() {
             05 / Contact
           </p>
           <div className="lg:col-span-9">
-            <h2 className="max-w-[13ch] text-4xl font-semibold leading-[0.94] tracking-[-0.065em] sm:text-6xl lg:text-[5.5rem]">
+            <h2 className="max-w-[13ch] text-4xl font-semibold leading-[0.94] tracking-[-0.065em] sm:text-6xl lg:text-[6rem]">
               {CONTACT.heading}
             </h2>
             <p className="reading-copy mt-8">{CONTACT.body}</p>
