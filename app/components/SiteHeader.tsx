@@ -59,7 +59,7 @@ export function SiteHeader() {
   return (
     <header
       data-past-hero={pastHero || undefined}
-      className="site-header sticky top-0 z-40 border-b border-rule-strong bg-paper"
+      className="site-header sticky top-0 z-40 border-b border-rule-strong bg-paper data-[past-hero]:bg-paper/80 data-[past-hero]:backdrop-blur-md data-[past-hero]:backdrop-saturate-150"
     >
       <div className="page-shell flex min-h-20 items-center justify-between gap-6">
         <a

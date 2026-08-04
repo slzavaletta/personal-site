@@ -252,11 +252,16 @@
 
   /*
    * The rule under the header is permanent — it belongs to the page's rule
-   * system, not to the scroll state. Lifting off the hero adds only a hairline
-   * shadow, which is what says "this is floating over content now".
+   * system, not to the scroll state. Lifting off the hero is what adds the
+   * translucency, the backdrop blur and a hairline shadow: together they say
+   * "this is floating over content now". The blur is load-bearing, not
+   * decorative — without it the content sliding underneath would compete with
+   * the navigation.
    */
   .site-header {
-    transition: box-shadow var(--duration-hover) var(--ease-editorial-curve);
+    transition:
+      background-color var(--duration-hover) var(--ease-editorial-curve),
+      box-shadow var(--duration-hover) var(--ease-editorial-curve);
   }
 
   .site-header[data-past-hero] {
