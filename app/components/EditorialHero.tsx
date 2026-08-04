@@ -47,7 +47,7 @@ export function EditorialHero() {
             <div className="flex flex-col gap-8 lg:col-span-5 lg:col-start-8">
               <HeroRevealItem
                 as="p"
-                className="text-lg leading-relaxed text-graphite"
+                className="text-xl leading-relaxed text-graphite"
               >
                 {HERO.supporting}
               </HeroRevealItem>

@@ -45,7 +45,7 @@ export function ExperienceAndCredentials() {
                   <p className="utility-label text-signal-ink">
                     {String(index + 1).padStart(2, "0")}
                   </p>
-                  <p className="mt-3 font-mono text-xs text-graphite">
+                  <p className="mt-3 font-mono text-[0.8125rem] text-graphite">
                     {item.period}
                   </p>
                 </div>

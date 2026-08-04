@@ -74,7 +74,7 @@ export function SiteFooter() {
         <p className="utility-label text-paper lg:col-span-4">
           Santiago López Zavaletta
         </p>
-        <p className="font-mono text-[0.6875rem] leading-relaxed text-paper/58 sm:text-right lg:col-span-4 lg:text-center">
+        <p className="font-mono text-[0.8125rem] leading-relaxed text-paper/58 sm:text-right lg:col-span-4 lg:text-center">
           Technical Project Manager / Buenos Aires
         </p>
         <div className="flex items-center gap-5 sm:col-span-2 sm:justify-end lg:col-span-4">
@@ -82,7 +82,7 @@ export function SiteFooter() {
             href={SITE_LINKS.linkedin}
             target="_blank"
             rel="noreferrer"
-            className="hairline-link inline-flex min-h-11 min-w-11 items-center gap-1.5 font-mono text-[0.6875rem] text-paper/72"
+            className="hairline-link inline-flex min-h-11 min-w-11 items-center gap-1.5 font-mono text-[0.8125rem] text-paper/72"
           >
             LinkedIn
             <span className="sr-only"> (opens in new tab)</span>
@@ -90,7 +90,7 @@ export function SiteFooter() {
           </a>
           <a
             href="#top"
-            className="hairline-link inline-flex min-h-11 min-w-11 items-center gap-1.5 font-mono text-[0.6875rem] text-paper/72"
+            className="hairline-link inline-flex min-h-11 min-w-11 items-center gap-1.5 font-mono text-[0.8125rem] text-paper/72"
           >
             Back to top
             <ArrowUp className="size-3.5" aria-hidden="true" />

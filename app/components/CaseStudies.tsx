@@ -37,7 +37,7 @@ export function CaseStudies() {
                   <p className="utility-label mt-4 text-ink">
                     {caseStudy.label}
                   </p>
-                  <p className="mt-2 font-mono text-[0.6875rem] leading-relaxed text-graphite">
+                  <p className="mt-2 font-mono text-[0.8125rem] leading-relaxed text-graphite">
                     {caseStudy.period}
                   </p>
                 </header>

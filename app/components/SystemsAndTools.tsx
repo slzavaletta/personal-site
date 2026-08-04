@@ -105,7 +105,7 @@ export function SystemsAndTools() {
                 {TOOL_SECTION.heading}
               </h2>
             </div>
-            <p className="text-lg leading-relaxed text-paper/68 lg:col-span-4">
+            <p className="text-xl leading-relaxed text-paper/68 lg:col-span-4">
               {TOOL_SECTION.body}
             </p>
           </Reveal>

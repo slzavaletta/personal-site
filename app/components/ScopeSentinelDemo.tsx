@@ -106,7 +106,7 @@ export function ScopeSentinelDemo() {
         <dl className="mt-9 flex flex-col gap-7">
           <div>
             <dt className="utility-label text-graphite">Deliverables</dt>
-            <dd className="mt-3 flex flex-col gap-2 font-mono text-xs leading-relaxed text-ink">
+            <dd className="mt-3 flex flex-col gap-2 font-mono text-[0.8125rem] leading-relaxed text-ink">
               {SOW.deliverables.map((item) => (
                 <span key={item}>{item}</span>
               ))}
@@ -114,7 +114,7 @@ export function ScopeSentinelDemo() {
           </div>
           <div>
             <dt className="utility-label text-graphite">Exclusions</dt>
-            <dd className="mt-3 flex flex-col gap-2 font-mono text-xs leading-relaxed text-ink">
+            <dd className="mt-3 flex flex-col gap-2 font-mono text-[0.8125rem] leading-relaxed text-ink">
               {SOW.exclusions.map((item) => (
                 <span key={item}>{item}</span>
               ))}
@@ -122,7 +122,7 @@ export function ScopeSentinelDemo() {
           </div>
           <div>
             <dt className="utility-label text-graphite">Assumption</dt>
-            <dd className="mt-3 font-mono text-xs leading-relaxed text-ink">
+            <dd className="mt-3 font-mono text-[0.8125rem] leading-relaxed text-ink">
               {SOW.assumption}
             </dd>
           </div>
@@ -152,7 +152,7 @@ export function ScopeSentinelDemo() {
               value={String(index)}
               aria-label={`Analyze request ${index + 1}: ${sample.request}`}
             >
-              <span className="mr-3 font-mono text-[0.6875rem] text-signal-ink group-aria-pressed/toggle:text-signal-on-dark">
+              <span className="mr-3 font-mono text-[0.8125rem] text-signal-ink group-aria-pressed/toggle:text-signal-on-dark">
                 {String(index + 1).padStart(2, "0")}
               </span>
               {sample.request}
@@ -208,7 +208,7 @@ export function ScopeSentinelDemo() {
           </div>
         </div>
 
-        <p className="mt-9 border-t border-rule pt-5 text-xs leading-relaxed text-graphite">
+        <p className="mt-9 border-t border-rule pt-5 text-[0.8125rem] leading-relaxed text-graphite">
           Fictional sample data. The real skill works inside Claude against an
           actual SOW and request; citations and draft actions remain subject to
           human review.

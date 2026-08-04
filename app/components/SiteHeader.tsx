@@ -49,7 +49,7 @@ export function SiteHeader() {
           </span>
           <span
             aria-hidden="true"
-            className="hidden whitespace-nowrap font-mono text-[0.6875rem] font-medium tracking-[0.08em] uppercase sm:block md:hidden lg:block"
+            className="hidden whitespace-nowrap font-mono text-[0.875rem] font-medium tracking-[0.08em] uppercase sm:block md:hidden lg:block"
           >
             Buenos Aires / AR
           </span>
@@ -63,14 +63,14 @@ export function SiteHeader() {
             <a
               key={link.href}
               href={link.href}
-              className="hairline-link inline-flex min-h-11 min-w-11 items-center justify-center font-mono text-[0.6875rem] font-medium tracking-[0.08em] uppercase"
+              className="hairline-link inline-flex min-h-11 min-w-11 items-center justify-center font-mono text-[0.875rem] font-medium tracking-[0.08em] uppercase"
             >
               {link.label}
             </a>
           ))}
           <a
             href={SITE_LINKS.email}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-3 font-mono text-[0.6875rem] font-medium tracking-[0.08em] text-foreground uppercase transition-colors duration-150 ease-editorial hover:bg-primary hover:text-primary-foreground focus-visible:bg-primary focus-visible:text-primary-foreground"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-3 font-mono text-[0.875rem] font-medium tracking-[0.08em] text-foreground uppercase transition-colors duration-150 ease-editorial hover:bg-primary hover:text-primary-foreground focus-visible:bg-primary focus-visible:text-primary-foreground"
           >
             Email Santiago
             <Mail aria-hidden="true" className="size-3.5" />
@@ -128,7 +128,7 @@ export function SiteHeader() {
                       <span>{link.label}</span>
                       <span
                         aria-hidden="true"
-                        className="font-mono text-[0.6875rem] font-medium text-signal-ink"
+                        className="font-mono text-[0.875rem] font-medium text-signal-ink"
                       >
                         {String(index + 1).padStart(2, "0")}
                       </span>

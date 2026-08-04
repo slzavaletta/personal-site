@@ -191,7 +191,7 @@
 
   .utility-label {
     font-family: var(--font-utility), ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.11em;
     line-height: 1.3;
@@ -210,7 +210,7 @@
   .reading-copy {
     max-width: 64ch;
     color: var(--graphite);
-    font-size: clamp(1.0625rem, 1.3vw, 1.25rem);
+    font-size: 1.25rem;
     line-height: 1.65;
   }
 
@@ -359,7 +359,7 @@
   .proof-index__label {
     max-width: 30ch;
     color: var(--graphite);
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     line-height: 1.55;
   }
 
@@ -416,7 +416,7 @@
     color: var(--signal-ink);
     content: counter(editorial-item, decimal-leading-zero);
     font-family: var(--font-utility), ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     letter-spacing: 0.08em;
   }
 
@@ -503,17 +503,17 @@
    * Hung in the margin, optically centred on the title's cap height. Measured
    * against Archivo at line-height 1.1: the cap-height midpoint sits 0.51em
    * below the title's box top. Subtract half the number's own line box
-   * (0.6875rem at line-height 1.9) to get its box top.
+   * (0.8125rem at line-height 1.9) to get its box top.
    */
   .decision-brief__number {
     position: absolute;
     top: calc(
-      var(--brief-row-pad) + 0.51 * clamp(1.375rem, 2.1vw, 1.9rem) - 0.653rem
+      var(--brief-row-pad) + 0.51 * clamp(1.375rem, 2.1vw, 1.9rem) - 0.772rem
     );
     left: var(--brief-gutter);
     color: var(--signal-on-dark);
     font-family: var(--font-utility), ui-monospace, monospace;
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
     letter-spacing: 0.08em;
     line-height: 1.9;
@@ -535,7 +535,7 @@
     /* Reserves two lines so the row rhythm holds wherever the copy is short. */
     min-height: 3.2em;
     color: oklch(0.97482 0.00284 128.49 / 72%);
-    font-size: 1.0625rem;
+    font-size: 1rem;
     grid-area: prompt;
     line-height: 1.6;
   }

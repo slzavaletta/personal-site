@@ -54,7 +54,7 @@ export function CurrentAndNext() {
             <h3 className="mt-5 max-w-[13ch] text-3xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
               {CURRENT_AND_NEXT.next.title}
             </h3>
-            <p className="mt-7 text-lg leading-relaxed text-paper">
+            <p className="mt-7 text-xl leading-relaxed text-paper">
               {CURRENT_AND_NEXT.next.body}
             </p>
           </Reveal>
