@@ -114,7 +114,14 @@ export function SystemsAndTools() {
           <div className="tool-groups">
             {TOOL_GROUPS.map((group) => (
               <article key={group.id} className="tool-group">
-                <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+                {/*
+                  The badge sits under the label rather than beside it. Side by
+                  side they only fit above roughly 1390px, and cross-aligning
+                  two different type sizes there needs an optical nudge that is
+                  wrong the moment the badge wraps. Stacked, both hang on the
+                  same left edge at every width.
+                */}
+                <div className="flex flex-col items-start gap-2">
                   <h3 className="utility-label text-paper">{group.label}</h3>
                   {"exploratory" in group && group.exploratory ? (
                     <Badge variant="inverse">Active learning</Badge>
