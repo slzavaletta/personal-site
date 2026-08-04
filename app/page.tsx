@@ -6,6 +6,7 @@ import {
 import { CurrentAndNext } from "@/app/components/CurrentAndNext";
 import { EditorialHero } from "@/app/components/EditorialHero";
 import { ExperienceAndCredentials } from "@/app/components/ExperienceAndCredentials";
+import { HashTarget } from "@/app/components/HashTarget";
 import { PilotDecisionBrief } from "@/app/components/PilotDecisionBrief";
 import { ProofBand } from "@/app/components/ProofBand";
 import { SectionIndex } from "@/app/components/SectionIndex";
@@ -17,6 +18,7 @@ export default function Home() {
     <>
       <SiteHeader />
       <SectionIndex />
+      <HashTarget />
       <main id="main" tabIndex={-1}>
         <EditorialHero />
         <ProofBand />

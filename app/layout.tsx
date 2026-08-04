@@ -34,7 +34,11 @@ const ibmPlexMono = IBM_Plex_Mono({
   preload: false,
 });
 
-const SITE_URL = "https://slzavaletta.com";
+/*
+ * The host that actually serves. The apex 308s to www, so a canonical or an
+ * og:url on the apex points search engines and link unfurlers at a redirect.
+ */
+const SITE_URL = "https://www.slzavaletta.com";
 const NAME = "Santiago López Zavaletta";
 const ROLE = "Technical Delivery Leader | Enterprise AI Deployment";
 const DESCRIPTION =
@@ -109,10 +113,17 @@ const personJsonLd = {
     "@type": "Organization",
     name: "Globant",
   },
+  /*
+   * Ordered by what the page argues he does, and what he wants to be found
+   * for. "Scrum" comes out: it stays accurate in the credentials block and the
+   * Approach body, but here it is a top-level self-description and it is not
+   * the one that should lead.
+   */
   knowsAbout: [
-    "Technical delivery",
-    "Scrum",
-    "AI delivery",
+    "Enterprise AI deployment",
+    "AI pilot delivery",
+    "Technology adoption",
+    "Technical delivery leadership",
     "Program management",
     "P&L ownership",
     "Distributed team leadership",
