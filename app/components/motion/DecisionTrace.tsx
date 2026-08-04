@@ -11,6 +11,7 @@ import {
 import { useEffect, useRef } from "react";
 
 import { MOTION_DURATION, MOTION_EASE } from "./tokens";
+import { useRevealFallback } from "./useRevealFallback";
 
 export type DecisionTraceField = {
   number: string;
@@ -98,6 +99,8 @@ export function DecisionTrace({
       void controls.start("visible");
     }
   }, [controls, inView, shouldReduce]);
+
+  useRevealFallback(containerRef, controls, !shouldReduce);
 
   return (
     <div

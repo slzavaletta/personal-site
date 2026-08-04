@@ -7,7 +7,7 @@ import {
   useReducedMotion,
   type Variants,
 } from "motion/react";
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 
 import {
   MOTION_DISTANCE,
@@ -15,6 +15,7 @@ import {
   MOTION_EASE,
   MOTION_STAGGER,
 } from "./tokens";
+import { useRevealFallback } from "./useRevealFallback";
 
 type RevealElement =
   | "div"
@@ -43,7 +44,8 @@ export function Reveal({
 }) {
   const reduce = useReducedMotion();
   const controls = useAnimationControls();
-  const MotionTag = m[as];
+  const ref = useRef<HTMLDivElement>(null);
+  const MotionTag = m[as] as typeof m.div;
   const shouldReduce = reduce === true;
 
   const variants: Variants = shouldReduce
@@ -68,8 +70,11 @@ export function Reveal({
     controls.set(shouldReduce ? "visible" : "hidden");
   }, [controls, shouldReduce]);
 
+  useRevealFallback(ref, controls, !shouldReduce);
+
   return (
     <MotionTag
+      ref={ref}
       className={className}
       variants={variants}
       initial={false}
@@ -128,15 +133,19 @@ export function Stagger({
 }) {
   const reduce = useReducedMotion();
   const controls = useAnimationControls();
-  const MotionTag = m[as];
+  const ref = useRef<HTMLDivElement>(null);
+  const MotionTag = m[as] as typeof m.div;
   const shouldReduce = reduce === true;
 
   useIsomorphicLayoutEffect(() => {
     controls.set(shouldReduce ? "visible" : "hidden");
   }, [controls, shouldReduce]);
 
+  useRevealFallback(ref, controls, !shouldReduce);
+
   return (
     <MotionTag
+      ref={ref}
       className={className}
       variants={shouldReduce ? reducedGroupVariants : groupVariants}
       initial={false}
