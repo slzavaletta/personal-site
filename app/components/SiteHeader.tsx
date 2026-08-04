@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Mail, Menu } from "lucide-react";
 
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -17,8 +17,31 @@ import { NAV_LINKS, SITE_LINKS } from "@/app/lib/content";
 
 export function SiteHeader() {
   const [mobileNavigationOpen, setMobileNavigationOpen] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const mobileTriggerRef = useRef<HTMLButtonElement>(null);
   const mobileNavigationTargetRef = useRef<HTMLElement | null>(null);
+
+  /*
+   * The page runs to ten screens, so the header stays available. It only takes
+   * on a rule and a hairline shadow once it is actually floating over content;
+   * against the hero it sits flush.
+   *
+   * An observer rather than a scroll listener: it keeps the work off the main
+   * thread and matches how the rest of the page detects entry. If it never
+   * fires the header simply stays flush, which is the harmless state.
+   */
+  useEffect(() => {
+    const hero = document.querySelector("#top");
+    if (!hero) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setPastHero(!entry.isIntersecting),
+      { rootMargin: "-96px 0px 0px 0px" },
+    );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
 
   const prepareMobileNavigationFocus = (href: string) => {
     const section = document.querySelector<HTMLElement>(href);
@@ -34,7 +57,10 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="relative border-b border-rule-strong bg-paper">
+    <header
+      data-past-hero={pastHero || undefined}
+      className="site-header sticky top-0 z-40 border-b border-transparent bg-paper data-[past-hero]:border-rule-strong"
+    >
       <div className="page-shell flex min-h-20 items-center justify-between gap-6">
         <a
           href="#top"

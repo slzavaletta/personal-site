@@ -52,12 +52,12 @@ export function Reveal({
         visible: { opacity: 1, y: 0, transition: { duration: 0 } },
       }
     : {
-        hidden: { opacity: 0, y: MOTION_DISTANCE.subtle },
+        hidden: { opacity: 0, y: MOTION_DISTANCE.editorial },
         visible: {
           opacity: 1,
           y: 0,
           transition: {
-            duration: MOTION_DURATION.standard,
+            duration: MOTION_DURATION.editorial,
             ease: MOTION_EASE,
             delay: Math.max(0, delay),
           },
@@ -90,12 +90,12 @@ const groupVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: MOTION_DISTANCE.subtle },
+  hidden: { opacity: 0, y: MOTION_DISTANCE.editorial },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: MOTION_DURATION.standard,
+      duration: MOTION_DURATION.editorial,
       ease: MOTION_EASE,
     },
   },

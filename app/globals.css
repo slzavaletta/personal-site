@@ -65,6 +65,8 @@
 
   /* Motion scale */
   --duration-quick: 150ms;
+  /* Hover and focus feedback, kept inside the 150-200ms band. */
+  --duration-hover: 200ms;
   --duration-standard: 250ms;
   --duration-reveal: 500ms;
   --ease-editorial-curve: cubic-bezier(0.22, 1, 0.36, 1);
@@ -240,12 +242,24 @@
     content: "";
     transform: scaleX(0.22);
     transform-origin: left;
-    transition: transform var(--duration-standard) var(--ease-editorial-curve);
+    transition: transform var(--duration-hover) var(--ease-editorial-curve);
   }
 
   .text-link:hover::after,
   .text-link:focus-visible::after {
     transform: scaleX(1);
+  }
+
+  .site-header {
+    transition:
+      border-color var(--duration-hover) var(--ease-editorial-curve),
+      box-shadow var(--duration-hover) var(--ease-editorial-curve);
+  }
+
+  /* The rule itself is a Tailwind data-variant: a utility sets the resting
+     `border-transparent`, and utilities outrank this layer. */
+  .site-header[data-past-hero] {
+    box-shadow: 0 1px 12px -6px oklch(0.18673 0.00763 145.26 / 32%);
   }
 
   .hero-grid {
@@ -585,8 +599,8 @@
 
   .system-card {
     transition:
-      border-color var(--duration-standard) var(--ease-editorial-curve),
-      transform var(--duration-standard) var(--ease-editorial-curve);
+      border-color var(--duration-hover) var(--ease-editorial-curve),
+      transform var(--duration-hover) var(--ease-editorial-curve);
   }
 
   .system-card:focus-within {
