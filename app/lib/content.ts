@@ -3,31 +3,42 @@ export type NavLink = {
   href: `#${string}`;
 };
 
-export const NAV_LINKS = [
-  { label: "Work", href: "#work" },
-  { label: "Approach", href: "#approach" },
-  { label: "Tools", href: "#tools" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
-] as const satisfies readonly NavLink[];
-
 /**
- * The numbered spine the page already prints in its own section kickers. The
- * index reuses it rather than inventing a second numbering that could drift
- * out of scroll order. Approach, Evidence and the pilot brief are unnumbered
- * interstitials and are deliberately absent.
+ * The numbered spine the page already prints in its own section kickers, in
+ * document order. It is the single source of navigation truth: the left index
+ * renders it in full and the top navigation derives from it, so the two can no
+ * longer disagree about what a section is or what order they come in.
+ *
+ * Approach, Evidence and the pilot brief are unnumbered interstitials and are
+ * deliberately absent from both.
  */
 export const SECTION_INDEX = [
-  { number: "01", label: "Selected work", href: "#work" },
-  { number: "02", label: "Built around the work", href: "#systems" },
-  { number: "03", label: "Working set", href: "#tools" },
-  { number: "04", label: "Experience", href: "#experience" },
-  { number: "05", label: "Contact", href: "#contact" },
+  { number: "01", label: "Selected work", navLabel: "Work", href: "#work" },
+  {
+    number: "02",
+    label: "Built around the work",
+    navLabel: "Systems",
+    href: "#systems",
+  },
+  { number: "03", label: "Working set", navLabel: "Tools", href: "#tools" },
+  {
+    number: "04",
+    label: "Experience",
+    navLabel: "Experience",
+    href: "#experience",
+  },
+  { number: "05", label: "Contact", navLabel: "Contact", href: "#contact" },
 ] as const satisfies readonly {
   number: string;
   label: string;
+  navLabel: string;
   href: `#${string}`;
 }[];
+
+export const NAV_LINKS = SECTION_INDEX.map(({ navLabel, href }) => ({
+  label: navLabel,
+  href,
+})) satisfies readonly NavLink[];
 
 export const SITE_LINKS = {
   email: "mailto:santiago@slzavaletta.com",
