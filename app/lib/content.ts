@@ -262,7 +262,6 @@ export type ToolGroup = {
   id: string;
   label: string;
   note: string;
-  exploratory?: boolean;
   tools: readonly Tool[];
 };
 
@@ -320,9 +319,13 @@ export const TOOL_GROUPS = [
   {
     id: "explore",
     label: "Explore AI systems",
+    /*
+     * The "active learning" framing is required by the design spec so the page
+     * does not overstate depth here. It now lives only in this note, which is
+     * where it was already being said.
+     */
     note:
       "Active learning: I use these to understand orchestration, observability, evaluation, and retrieval more deeply.",
-    exploratory: true,
     tools: [
       { name: "Mastra", logoSrc: logo("mastra") },
       { name: "LangGraph", logoSrc: logo("langgraph") },
