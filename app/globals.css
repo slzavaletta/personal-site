@@ -250,14 +250,15 @@
     transform: scaleX(1);
   }
 
+  /*
+   * The rule under the header is permanent — it belongs to the page's rule
+   * system, not to the scroll state. Lifting off the hero adds only a hairline
+   * shadow, which is what says "this is floating over content now".
+   */
   .site-header {
-    transition:
-      border-color var(--duration-hover) var(--ease-editorial-curve),
-      box-shadow var(--duration-hover) var(--ease-editorial-curve);
+    transition: box-shadow var(--duration-hover) var(--ease-editorial-curve);
   }
 
-  /* The rule itself is a Tailwind data-variant: a utility sets the resting
-     `border-transparent`, and utilities outrank this layer. */
   .site-header[data-past-hero] {
     box-shadow: 0 1px 12px -6px oklch(0.18673 0.00763 145.26 / 32%);
   }
