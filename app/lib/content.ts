@@ -60,6 +60,10 @@ export const PROOF: readonly ProofPoint[] = [
     value: "6 POCs",
     label: "delivered while building a Digital Twin capability",
   },
+  {
+    value: "3 go-lives",
+    label: "enterprise AI implementations, on time and fully adopted",
+  },
 ];
 
 export const CURRENT_AND_NEXT = {
@@ -340,25 +344,43 @@ export type ExperienceItem = {
   period: string;
   title: string;
   body: string;
+  /**
+   * Marks a role that ran alongside Globant rather than after it. Three of
+   * these overlap in time, which is accurate and matches the CV — a reader
+   * scanning dates will notice it before reading the descriptions, so it is
+   * labelled rather than obscured.
+   */
+  concurrent?: boolean;
 };
 
 export const EXPERIENCE_SECTION = {
   heading: "How I got here.",
+  note: "Two engagements ran concurrently with my role at Globant, and are marked below.",
 } as const;
 
 export const EXPERIENCE = [
   {
     company: "Globant",
     period: "2021–present",
-    title: "Technical Delivery Leader",
+    title: "Technical Project Manager",
     body:
-      "AI delivery, Digital Twin, hospitality, and M&A work across the United States and Latin America. I manage scope, P&L, staffing, risk, delivery cadence, and client communication.",
+      "End-to-end delivery, forecasting, and P&L for US and LATAM digital transformation portfolios from $700k to $5M, with cross-functional teams of up to 36. Launched Globant’s Digital Twin Studio and standardized AI-assisted delivery reporting across the account.",
   },
   {
-    company: "XOOR",
-    period: "2022",
-    title: "Freelance Project Manager",
-    body: "Web and mobile delivery.",
+    company: "ZN Love",
+    period: "2026–present",
+    title: "Fractional Project Manager",
+    concurrent: true,
+    body:
+      "Client relationships and delivery health across a three-project portfolio spanning entertainment, workforce technology, and creative production. Building the PMO from the ground up: presales discovery, SOW, governance, and change control.",
+  },
+  {
+    company: "Blue Crab Consulting",
+    period: "2025–2026",
+    title: "Engagement Manager",
+    concurrent: true,
+    body:
+      "Led functional and technical consultants across three enterprise Eightfold AI implementations — a global beverage leader, a leading LATAM retailer, and a top US research university — delivering on-time go-lives and full adoption, and scaling one deployment from its Mexico launch across additional LATAM markets.",
   },
   {
     company: "ExxonMobil",
@@ -379,6 +401,7 @@ export const EXPERIENCE = [
 export type Certification = {
   name: string;
   issuer?: string;
+  year?: string;
   status: "Earned" | "In progress";
 };
 
@@ -386,27 +409,32 @@ export const CERTIFICATIONS = [
   {
     name: "Certified ScrumMaster",
     issuer: "Scrum Alliance",
+    year: "2024",
     status: "Earned",
   },
   {
     name: "Certified SAFe 6 Agilist",
     issuer: "Scaled Agile",
+    year: "2024",
     status: "Earned",
   },
   {
-    name: "Claude Certified Architect",
+    name: "Claude Certified Architect — Foundations",
     status: "In progress",
   },
 ] as const satisfies readonly Certification[];
 
 export const INDUSTRIES = [
   "AI",
+  "Talent technology",
   "Digital Twin",
+  "Retail",
+  "Higher education",
+  "Consumer goods",
   "Hospitality",
   "M&A",
   "Life Sciences",
   "Oil & Gas",
-  "Consulting",
 ] as const;
 
 export const CONTACT = {

@@ -21,6 +21,9 @@ export function ExperienceAndCredentials() {
             <h2 className="editorial-heading mt-5">
               {EXPERIENCE_SECTION.heading}
             </h2>
+            <p className="mt-4 max-w-[52ch] text-sm leading-relaxed text-graphite">
+              {EXPERIENCE_SECTION.note}
+            </p>
           </div>
           <div className="lg:col-span-4">
             <a
@@ -48,6 +51,11 @@ export function ExperienceAndCredentials() {
                   <p className="mt-3 font-mono text-[0.8125rem] text-graphite">
                     {item.period}
                   </p>
+                  {"concurrent" in item && item.concurrent ? (
+                    <p className="mt-2 font-mono text-[0.8125rem] text-signal-ink">
+                      Concurrent with Globant
+                    </p>
+                  ) : null}
                 </div>
                 <div className="sm:col-span-4">
                   <h3 className="text-2xl font-semibold tracking-[-0.035em]">
@@ -73,32 +81,41 @@ export function ExperienceAndCredentials() {
                 Credentials
               </p>
               <div className="mt-6 border-t border-rule-strong">
-                {CERTIFICATIONS.map((certification) => (
-                  <div
-                    key={certification.name}
-                    className="border-b border-rule py-5"
-                  >
-                    <div className="flex items-start justify-between gap-5">
-                      <h3 className="font-semibold leading-snug">
-                        {certification.name}
-                      </h3>
-                      <Badge
-                        variant={
-                          certification.status === "In progress"
-                            ? "signal"
-                            : "secondary"
-                        }
-                      >
-                        {certification.status}
-                      </Badge>
+                {CERTIFICATIONS.map((certification) => {
+                  // The status already has a badge; this line is issuer and
+                  // year only, and is dropped entirely when neither exists.
+                  const meta = [
+                    "issuer" in certification ? certification.issuer : null,
+                    "year" in certification ? certification.year : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ");
+
+                  return (
+                    <div
+                      key={certification.name}
+                      className="border-b border-rule py-5"
+                    >
+                      <div className="flex items-start justify-between gap-5">
+                        <h3 className="font-semibold leading-snug">
+                          {certification.name}
+                        </h3>
+                        <Badge
+                          variant={
+                            certification.status === "In progress"
+                              ? "signal"
+                              : "secondary"
+                          }
+                        >
+                          {certification.status}
+                        </Badge>
+                      </div>
+                      {meta ? (
+                        <p className="mt-2 text-sm text-graphite">{meta}</p>
+                      ) : null}
                     </div>
-                    {"issuer" in certification ? (
-                      <p className="mt-2 text-sm text-graphite">
-                        {certification.issuer}
-                      </p>
-                    ) : null}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
