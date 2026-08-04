@@ -70,10 +70,10 @@ export function SiteHeader() {
           ))}
           <a
             href={SITE_LINKS.email}
-            className={buttonVariants({ variant: "outline" })}
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-3 font-mono text-[0.6875rem] font-medium tracking-[0.08em] text-foreground uppercase transition-colors duration-150 ease-editorial hover:bg-primary hover:text-primary-foreground focus-visible:bg-primary focus-visible:text-primary-foreground"
           >
             Email Santiago
-            <Mail data-icon="inline-end" aria-hidden="true" />
+            <Mail aria-hidden="true" className="size-3.5" />
           </a>
         </nav>
 

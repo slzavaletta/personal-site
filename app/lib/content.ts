@@ -39,9 +39,10 @@ export const HERO = {
 export type ProofPoint = {
   value: string;
   label: string;
+  trend?: { from: string; to: string };
 };
 
-export const PROOF = [
+export const PROOF: readonly ProofPoint[] = [
   {
     value: "10+ years",
     label: "across infrastructure and technical delivery",
@@ -51,14 +52,15 @@ export const PROOF = [
     label: "current AI delivery account",
   },
   {
-    value: "40% → 45%",
+    value: "45%",
     label: "account margin after staffing and delivery changes",
+    trend: { from: "40%", to: "45%" },
   },
   {
     value: "6 POCs",
     label: "delivered while building a Digital Twin capability",
   },
-] as const satisfies readonly ProofPoint[];
+];
 
 export const CURRENT_AND_NEXT = {
   heading: "What I do now. What I’m preparing to do next.",
@@ -280,7 +282,7 @@ export const TOOL_GROUPS = [
       "I use these for scope, backlogs, delivery decisions, and shared context.",
     tools: [
       { name: "Jira", logoSrc: logo("jira") },
-      { name: "Azure DevOps", logoSrc: logo("azuredevops") },
+      { name: "Power BI", logoSrc: logo("powerbi") },
       { name: "Linear", logoSrc: logo("linear") },
       { name: "Figma", logoSrc: logo("figma") },
     ],
@@ -326,15 +328,6 @@ export const TOOL_GROUPS = [
       { name: "LangGraph", logoSrc: logo("langgraph") },
       { name: "Langfuse", logoSrc: logo("langfuse") },
       { name: "pgvector", logoSrc: logo("postgresql") },
-    ],
-  },
-  {
-    id: "signal",
-    label: "Read the signal",
-    note:
-      "Reporting that helps teams and clients see what changed and decide what to do next.",
-    tools: [
-      { name: "Power BI", logoSrc: logo("powerbi") },
     ],
   },
 ] as const satisfies readonly ToolGroup[];
