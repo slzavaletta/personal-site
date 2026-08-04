@@ -278,7 +278,8 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 0;
+    /* Out in the shell's padding: at the content edge it crowded the row. */
+    left: -0.875rem;
     width: 3px;
     background: var(--signal);
     content: "";

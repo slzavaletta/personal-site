@@ -41,14 +41,29 @@ export function SectionIndex() {
         observers.push(heroObserver);
       }
 
-      // The section whose top most recently crossed the upper third wins.
+      /*
+       * Track which sections are crossing the upper third and always mark the
+       * furthest down. Marking whichever entry happened to report last is
+       * order-dependent: when two sections straddle the band the answer
+       * flickers, and a section that is still crossing never gives the mark
+       * back to the one below it.
+       */
+      const crossing = new Set<string>();
+
       const spy = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveHref(`#${entry.target.id}`);
-            }
+            const href = `#${entry.target.id}`;
+            if (entry.isIntersecting) crossing.add(href);
+            else crossing.delete(href);
           });
+
+          const inOrder = SECTION_INDEX.filter(({ href }) =>
+            crossing.has(href),
+          );
+          if (inOrder.length) {
+            setActiveHref(inOrder[inOrder.length - 1].href);
+          }
         },
         { rootMargin: "-30% 0px -60% 0px" },
       );
@@ -58,6 +73,21 @@ export function SectionIndex() {
         if (section) spy.observe(section);
       });
       observers.push(spy);
+
+      /*
+       * The last section can never reach that band — the page runs out of
+       * scroll before its top gets there — so the footer coming into view
+       * hands the mark to it.
+       */
+      const footer = document.querySelector("footer");
+      if (footer) {
+        const endObserver = new IntersectionObserver(([entry]) => {
+          if (!entry.isIntersecting) return;
+          setActiveHref(SECTION_INDEX[SECTION_INDEX.length - 1].href);
+        });
+        endObserver.observe(footer);
+        observers.push(endObserver);
+      }
     } catch {
       /* No index rather than a broken one; the top navigation still works. */
     }

@@ -30,8 +30,14 @@ export function CountUpValue({ value }: { value: string }) {
   const target = match ? Number(match[2].replace(",", ".")) : null;
   const decimals = match?.[2].includes(".") ? 1 : 0;
 
+  /*
+   * Only primitives in the dependency array. `value.match()` returns a fresh
+   * array on every render, so listing it here tore the effect down and rebuilt
+   * it on each tick of its own state — the observer re-fired, the count
+   * restarted, and the number sat at zero forever.
+   */
   useEffect(() => {
-    if (target === null || !match) return;
+    if (target === null) return;
 
     const element = ref.current;
     if (!element) return;
@@ -89,7 +95,7 @@ export function CountUpValue({ value }: { value: string }) {
       if (frame) cancelAnimationFrame(frame);
       if (settle) window.clearTimeout(settle);
     };
-  }, [decimals, match, target]);
+  }, [decimals, target]);
 
   if (!match || target === null) return <>{value}</>;
 
