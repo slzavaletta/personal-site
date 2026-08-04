@@ -5,16 +5,25 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { MotionProvider } from "@/app/components/motion/MotionProvider";
 import "./globals.css";
 
+/*
+ * Archivo and Source Sans carry the hero, so they stay on the critical path.
+ * IBM Plex Mono only sets small labels; `preload: false` keeps it off the
+ * first-paint contention while `swap` still renders it the moment it lands.
+ * next/font generates the metric-matched Arial fallbacks automatically, so a
+ * late swap does not reflow.
+ */
 const archivo = Archivo({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
+  preload: true,
 });
 
 const sourceSans = Source_Sans_3({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
+  preload: true,
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -22,6 +31,7 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
   variable: "--font-utility",
   display: "swap",
+  preload: false,
 });
 
 const SITE_URL = "https://slzavaletta.com";
