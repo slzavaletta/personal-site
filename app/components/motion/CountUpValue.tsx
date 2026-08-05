@@ -52,7 +52,15 @@ export function CountUpValue({ value }: { value: string }) {
       const start = performance.now();
 
       const step = (now: number) => {
-        const progress = Math.min((now - start) / DURATION, 1);
+        /*
+         * Clamped at both ends. A frame callback carries the timestamp of the
+         * start of its frame, which can predate the `performance.now()` taken
+         * here in the task that scheduled it — elapsed time comes out negative,
+         * the ease returns a negative multiplier, and the metrics open on
+         * "-0+ years" and "$-0M" before climbing.
+         */
+        const elapsed = Math.max(now - start, 0);
+        const progress = Math.min(elapsed / DURATION, 1);
         setDisplay((easeOut(progress) * target).toFixed(decimals));
         if (progress < 1) {
           frame = requestAnimationFrame(step);

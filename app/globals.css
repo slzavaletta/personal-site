@@ -967,9 +967,14 @@
 }
 
 @media (max-width: 47.99rem) {
+  /*
+   * The two rules frame the hero's columns. Single-column, there are no
+   * columns to frame: collapsing them into one centred rule put a hairline
+   * straight down the middle of the name, the statement and the Evidence
+   * pairs. Below 768px the horizontal rules carry the structure on their own.
+   */
   .hero-grid::before {
-    background-image: linear-gradient(var(--rule), var(--rule));
-    background-position: center top;
+    display: none;
   }
 
   .display-name {
