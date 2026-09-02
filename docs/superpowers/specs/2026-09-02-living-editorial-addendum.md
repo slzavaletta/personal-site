@@ -26,8 +26,8 @@ Rationale and decisions live in
 
 Header (mark, live Buenos Aires clock, Work · Approach · Experience · Contact,
 theme toggle, Email) → Hero (kinetic name, role line, statement, arc,
-direction) → Ledger (Now, Next, Building, Learning, Last commit, Availability,
-Page updated) → Evidence (five static figures) → Selected work (three dossiers
+direction) → Ledger (Role, Next, Building, Learning, Last push,
+Availability) → Evidence (five static figures) → Selected work (three dossiers
 at equal weight) → Approach (the brief as an instrument, on the inverse band)
 → Systems and tools (two systems with source links; tools as a typographic
 set) → Experience (timeline with the upcoming role first, credentials,

@@ -1,7 +1,6 @@
 import { NOW, ROLE_TRANSITION } from "@/app/lib/content";
 import { getLatestActivity } from "@/app/lib/github";
-import { CONTENT_UPDATED_ON } from "@/app/lib/site";
-import { formatLongDate, formatShortDate } from "@/app/lib/time";
+import { formatShortDate } from "@/app/lib/time";
 
 type Row = {
   key: string;
@@ -58,21 +57,15 @@ export async function Ledger() {
     });
   }
 
-  rows.push(
-    {
-      key: "Availability",
-      value: (
-        <>
-          <span aria-hidden="true" className="ledger__pulse" />
-          {NOW.availability}
-        </>
-      ),
-    },
-    {
-      key: "Page updated",
-      value: formatLongDate(CONTENT_UPDATED_ON),
-    },
-  );
+  rows.push({
+    key: "Availability",
+    value: (
+      <>
+        <span aria-hidden="true" className="ledger__pulse" />
+        {NOW.availability}
+      </>
+    ),
+  });
 
   return (
     <section

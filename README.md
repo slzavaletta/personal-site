@@ -24,8 +24,8 @@ operate.
   settles from condensed to rest on load, then the name narrows as it scrolls
   under the header and opens toward the pointer. Static under reduced motion.
 - **A ledger of what is true now.** Role, next role, what is being built and
-  learned, the last public commit (fetched on the server, revalidated hourly),
-  availability, and the date the page changed.
+  learned, the last public push (fetched on the server, revalidated hourly),
+  and availability.
 - **Evidence sits next to the claim.** Five figures and three dossiers, every
   number attached to the sentence it supports. Employer figures are ranges.
 - **The brief as an instrument.** Five fields as a radio group with roving
@@ -68,7 +68,7 @@ npm run test:a11y  # Playwright + axe against `next start`
 ```
 
 Optional: a `GITHUB_TOKEN` environment variable raises the GitHub API rate
-limit for the ledger's "Last commit" row. Without it the public limit is ample.
+limit for the ledger's "Last push" row. Without it the public limit is ample.
 
 ## Where things live
 

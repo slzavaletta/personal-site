@@ -19,13 +19,3 @@ export function formatShortDate(iso: string): string {
     timeZone: LOCATION.timeZone,
   }).format(new Date(iso));
 }
-
-/** "2 September 2026" */
-export function formatLongDate(iso: string): string {
-  return new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  }).format(new Date(iso));
-}
