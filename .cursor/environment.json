@@ -1,6 +1,6 @@
 {
   "name": "personal-site",
-  "install": "npm ci --no-audit --no-fund",
+  "install": "npm ci --no-audit --no-fund && (npx playwright install --with-deps chromium || npx playwright install chromium || true)",
   "terminals": [
     {
       "name": "dev",
