@@ -16,13 +16,11 @@ const badgeVariants = cva(
           "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20",
         outline:
           "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
-        ghost:
-          "hover:bg-muted hover:text-muted-foreground",
+        ghost: "hover:bg-muted hover:text-muted-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         inverse:
           "border-[oklch(0.97482_0.00284_128.49/24%)] bg-transparent text-[var(--paper)]",
-        signal:
-          "border-primary bg-primary text-primary-foreground",
+        signal: "border-primary bg-primary text-primary-foreground",
       },
     },
     defaultVariants: {
@@ -43,7 +41,7 @@ function Badge({
       {
         className: cn(badgeVariants({ variant }), className),
       },
-      props
+      props,
     ),
     render,
     state: {

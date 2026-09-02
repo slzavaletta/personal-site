@@ -81,9 +81,7 @@ export function ExperienceAndCredentials() {
             className="lg:col-span-4 lg:pl-8"
           >
             <div>
-              <p className="utility-label text-graphite">
-                Credentials
-              </p>
+              <p className="utility-label text-graphite">Credentials</p>
               <div className="mt-6 border-t border-rule-strong">
                 {CERTIFICATIONS.map((certification) => {
                   // The status already has a badge; this line is issuer and
@@ -101,7 +99,7 @@ export function ExperienceAndCredentials() {
                       className="border-b border-rule py-5"
                     >
                       <div className="flex items-start justify-between gap-5">
-                        <h3 className="font-semibold leading-snug">
+                        <h3 className="leading-snug font-semibold">
                           {certification.name}
                         </h3>
                         <Badge

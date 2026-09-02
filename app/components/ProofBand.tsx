@@ -1,10 +1,7 @@
 import { ArrowRight } from "lucide-react";
 
 import { PROOF } from "@/app/lib/content";
-import {
-  Stagger,
-  StaggerItem,
-} from "@/app/components/motion/Reveal";
+import { Stagger, StaggerItem } from "@/app/components/motion/Reveal";
 import { CountUpValue } from "@/app/components/motion/CountUpValue";
 
 /**
@@ -26,7 +23,7 @@ export function ProofBand() {
         <span aria-hidden="true" className="h-px flex-1 bg-rule-strong" />
       </div>
 
-      <Stagger as="ul" className="proof-index" amount={0.2}>
+      <Stagger as="ul" className="proof-index">
         {PROOF.map((item) => (
           <StaggerItem as="li" key={item.value} className="proof-index__item">
             {item.trend ? (
@@ -37,10 +34,7 @@ export function ProofBand() {
                 <span aria-hidden="true" className="proof-index__from">
                   <CountUpValue value={item.trend.from} />
                 </span>
-                <ArrowRight
-                  aria-hidden="true"
-                  className="proof-index__arrow"
-                />
+                <ArrowRight aria-hidden="true" className="proof-index__arrow" />
                 <span aria-hidden="true">
                   <CountUpValue value={item.trend.to} />
                 </span>

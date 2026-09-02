@@ -1,8 +1,5 @@
 import { CaseStudies } from "@/app/components/CaseStudies";
-import {
-  ContactSection,
-  SiteFooter,
-} from "@/app/components/ContactFooter";
+import { ContactSection, SiteFooter } from "@/app/components/ContactFooter";
 import { CurrentAndNext } from "@/app/components/CurrentAndNext";
 import { EditorialHero } from "@/app/components/EditorialHero";
 import { ExperienceAndCredentials } from "@/app/components/ExperienceAndCredentials";

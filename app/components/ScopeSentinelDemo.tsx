@@ -4,10 +4,7 @@ import { useState } from "react";
 import { Quote } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const SOW = {
   project: "Customer Portal / Phase 1",
@@ -93,9 +90,7 @@ export function ScopeSentinelDemo() {
       <div className="bg-field p-6 sm:p-8 lg:col-span-4 lg:border-r lg:border-rule-strong">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="utility-label text-signal-ink">
-              Sample baseline
-            </p>
+            <p className="utility-label text-signal-ink">Sample baseline</p>
             <h4 className="mt-4 text-2xl font-semibold tracking-[-0.035em]">
               {SOW.project}
             </h4>
@@ -169,9 +164,7 @@ export function ScopeSentinelDemo() {
             <Badge variant={VERDICT_VARIANT[active.verdict]}>
               {active.verdict}
             </Badge>
-            <span className="utility-label text-graphite">
-              Classification
-            </span>
+            <span className="utility-label text-graphite">Classification</span>
           </div>
 
           <div className="mt-8 grid gap-8 sm:grid-cols-2">

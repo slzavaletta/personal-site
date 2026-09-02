@@ -42,7 +42,7 @@ function FlagshipCase({ caseStudy }: { caseStudy: CaseStudy }) {
         <CaseHeader caseStudy={caseStudy} />
 
         <div className="lg:col-span-6">
-          <h3 className="max-w-[19ch] text-3xl font-semibold leading-[1.02] tracking-[-0.05em] sm:text-[2.6rem]">
+          <h3 className="max-w-[19ch] text-3xl leading-[1.02] font-semibold tracking-[-0.05em] sm:text-[2.6rem]">
             {caseStudy.title}
           </h3>
           <p className="reading-copy mt-5">{caseStudy.summary}</p>
@@ -50,7 +50,7 @@ function FlagshipCase({ caseStudy }: { caseStudy: CaseStudy }) {
 
         <div className="case-signal self-start p-6 lg:col-span-4">
           <p className="utility-label text-signal-ink">Result signal</p>
-          <p className="mt-5 text-2xl font-semibold leading-tight tracking-[-0.035em]">
+          <p className="mt-5 text-2xl leading-tight font-semibold tracking-[-0.035em]">
             {caseStudy.marginalia.signal}
           </p>
         </div>
@@ -80,7 +80,7 @@ function DenseCase({ caseStudy }: { caseStudy: CaseStudy }) {
         <CaseHeader caseStudy={caseStudy} />
 
         <div className="lg:col-span-6">
-          <h3 className="max-w-[26ch] text-2xl font-semibold leading-[1.08] tracking-[-0.04em] sm:text-3xl">
+          <h3 className="max-w-[26ch] text-2xl leading-[1.08] font-semibold tracking-[-0.04em] sm:text-3xl">
             {caseStudy.title}
           </h3>
           <p className="mt-4 max-w-[64ch] text-base leading-relaxed text-graphite">
@@ -105,7 +105,7 @@ function DenseCase({ caseStudy }: { caseStudy: CaseStudy }) {
           <span className="utility-label block text-signal-ink">
             Result signal
           </span>
-          <span className="mt-3 block text-xl font-semibold leading-snug tracking-[-0.025em]">
+          <span className="mt-3 block text-xl leading-snug font-semibold tracking-[-0.025em]">
             {caseStudy.marginalia.signal}
           </span>
         </p>

@@ -28,13 +28,7 @@ import { useInViewOnce } from "./useInViewOnce";
 import { useRevealFallback } from "./useRevealFallback";
 
 type RevealElement =
-  | "div"
-  | "section"
-  | "li"
-  | "article"
-  | "header"
-  | "footer"
-  | "aside";
+  "div" | "section" | "li" | "article" | "header" | "footer" | "aside";
 
 /**
  * A restrained, one-time reveal for the few sections that need reading-order
@@ -161,12 +155,10 @@ export function Stagger({
   children,
   className,
   as = "div",
-  amount = 0.2,
 }: {
   children: ReactNode;
   className?: string;
   as?: "div" | "ul" | "ol";
-  amount?: number;
 }) {
   const reduce = useReducedMotion();
   const controls = useAnimationControls();

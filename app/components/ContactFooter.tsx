@@ -1,9 +1,4 @@
-import {
-  ArrowUp,
-  ArrowUpRight,
-  Code2,
-  Mail,
-} from "lucide-react";
+import { ArrowUp, ArrowUpRight, Code2, Mail } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { CONTACT, SITE_LINKS } from "@/app/lib/content";
@@ -17,7 +12,7 @@ export function ContactSection() {
             05 / Contact
           </p>
           <div className="lg:col-span-9">
-            <h2 className="max-w-[13ch] text-4xl font-semibold leading-[0.94] tracking-[-0.065em] sm:text-6xl lg:text-[6rem]">
+            <h2 className="max-w-[13ch] text-4xl leading-[0.94] font-semibold tracking-[-0.065em] sm:text-6xl lg:text-[6rem]">
               {CONTACT.heading}
             </h2>
             <p className="reading-copy mt-8">{CONTACT.body}</p>
@@ -36,7 +31,7 @@ export function ContactSection() {
               <a
                 href={SITE_LINKS.linkedin}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className={buttonVariants({
                   variant: "outline",
                   size: "lg",
@@ -49,7 +44,7 @@ export function ContactSection() {
               <a
                 href={SITE_LINKS.github}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className={buttonVariants({
                   variant: "ghost",
                   size: "lg",
@@ -81,7 +76,7 @@ export function SiteFooter() {
           <a
             href={SITE_LINKS.linkedin}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="hairline-link inline-flex min-h-11 min-w-11 items-center gap-1.5 font-mono text-[0.8125rem] text-paper/72"
           >
             LinkedIn
