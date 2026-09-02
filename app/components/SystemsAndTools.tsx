@@ -1,10 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 
-import {
-  SYSTEMS,
-  TOOL_GROUPS,
-  TOOL_SECTION,
-} from "@/app/lib/content";
+import { SYSTEMS, TOOL_GROUPS, TOOL_SECTION } from "@/app/lib/content";
 import { Reveal } from "@/app/components/motion/Reveal";
 import { ScopeSentinelDemo } from "@/app/components/ScopeSentinelDemo";
 
@@ -30,7 +26,7 @@ export function SystemsAndTools() {
             {SYSTEMS.projects.map((project) => (
               <article
                 key={project.id}
-                className="system-card border-b border-rule p-6 sm:p-7 lg:col-span-5 lg:border-b-0 lg:border-r lg:border-rule"
+                className="system-card border-b border-rule p-6 sm:p-7 lg:col-span-5 lg:border-r lg:border-b-0 lg:border-rule"
               >
                 <p className="utility-label text-graphite">Delivery system</p>
                 <h3 className="mt-8 text-3xl font-semibold tracking-[-0.045em] sm:text-4xl">
@@ -45,7 +41,7 @@ export function SystemsAndTools() {
                       key={action.href + action.label}
                       href={action.href}
                       target={action.external ? "_blank" : undefined}
-                      rel={action.external ? "noreferrer" : undefined}
+                      rel={action.external ? "noopener noreferrer" : undefined}
                       className="text-link"
                     >
                       {action.label}
@@ -61,9 +57,7 @@ export function SystemsAndTools() {
               </article>
             ))}
 
-            <div
-              className="flex flex-col justify-between bg-field p-6 sm:p-7 lg:col-span-2"
-            >
+            <div className="flex flex-col justify-between bg-field p-6 sm:p-7 lg:col-span-2">
               <p className="utility-label text-signal-ink">
                 {SYSTEMS.infrastructure.label}
               </p>
@@ -79,7 +73,7 @@ export function SystemsAndTools() {
                 <p className="utility-label text-signal-ink">
                   Scope Sentinel / Walkthrough
                 </p>
-                <h3 className="mt-5 max-w-[16ch] text-3xl font-semibold leading-[0.98] tracking-[-0.05em] sm:text-5xl">
+                <h3 className="mt-5 max-w-[16ch] text-3xl leading-[0.98] font-semibold tracking-[-0.05em] sm:text-5xl">
                   Follow a client request from SOW clause to next step.
                 </h3>
               </div>
@@ -101,7 +95,7 @@ export function SystemsAndTools() {
               <p className="utility-label text-signal-on-dark">
                 03 / Working set
               </p>
-              <h2 className="mt-5 max-w-[13ch] text-4xl font-semibold leading-[0.95] tracking-[-0.055em] sm:text-5xl lg:text-6xl">
+              <h2 className="mt-5 max-w-[13ch] text-4xl leading-[0.95] font-semibold tracking-[-0.055em] sm:text-5xl lg:text-6xl">
                 {TOOL_SECTION.heading}
               </h2>
             </div>
@@ -120,6 +114,8 @@ export function SystemsAndTools() {
                 <ul className="mt-5">
                   {group.tools.map((tool) => (
                     <li key={tool.name} className="tool-cell">
+                      {/* Local 20px SVG marks: next/image would only add a wrapper. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={tool.logoSrc}
                         alt=""
