@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono, Source_Sans_3 } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { MotionProvider } from "@/app/components/motion/MotionProvider";
+import { SITE_EMAIL, SITE_NAME, SITE_URL } from "@/app/lib/site";
 import "./globals.css";
 
 /*
@@ -34,15 +33,14 @@ const ibmPlexMono = IBM_Plex_Mono({
   preload: false,
 });
 
+const NAME = SITE_NAME;
 /*
- * The host that actually serves. The apex 308s to www, so a canonical or an
- * og:url on the apex points search engines and link unfurlers at a redirect.
+ * The title a reader can verify on LinkedIn and in the résumé. "AI deployment"
+ * is the direction of the work and belongs in the description, not here.
  */
-const SITE_URL = "https://www.slzavaletta.com";
-const NAME = "Santiago López Zavaletta";
-const ROLE = "Technical Delivery Leader | Enterprise AI Deployment";
+const ROLE = "Technical Project Manager";
 const DESCRIPTION =
-  "Technical delivery leader working in enterprise AI deployment: choosing the use case, running the pilot, supporting adoption, and taking the scale-or-stop decision. Ten years of delivery across the United States and Latin America, with staffing and P&L ownership.";
+  "Technical Project Manager running enterprise AI and software delivery: choosing the use case, running the pilot, supporting adoption, and taking the scale-or-stop decision. Ten years of delivery across the United States and Latin America, with staffing and P&L ownership.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -56,7 +54,7 @@ export const metadata: Metadata = {
   creator: NAME,
   category: "portfolio",
   keywords: [
-    "Technical Delivery Leader",
+    "Technical Project Manager",
     "Enterprise AI deployment",
     "AI delivery",
     "AI deployment",
@@ -108,7 +106,7 @@ const personJsonLd = {
   jobTitle: ROLE,
   description: DESCRIPTION,
   url: SITE_URL,
-  email: "mailto:santiago@slzavaletta.com",
+  email: `mailto:${SITE_EMAIL}`,
   worksFor: {
     "@type": "Organization",
     name: "Globant",
@@ -156,13 +154,11 @@ export default function RootLayout({
       <body>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:min-h-11 focus:bg-ink focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-paper focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-signal"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:min-h-11 focus:bg-ink focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-paper focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-signal"
         >
           Skip to content
         </a>
         <MotionProvider>{children}</MotionProvider>
-        <Analytics />
-        <SpeedInsights />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
