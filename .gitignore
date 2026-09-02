@@ -36,3 +36,5 @@ next-env.d.ts
 
 # machine-scoped agent settings (absolute paths); launch.json is shared
 .claude/settings.local.json
+test-results
+playwright-report
