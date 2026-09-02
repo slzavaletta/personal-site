@@ -20,7 +20,7 @@ export async function Ledger() {
 
   const rows: Row[] = [
     {
-      key: "Now",
+      key: "Role",
       value: `${ROLE_TRANSITION.current.title}, ${ROLE_TRANSITION.current.company}.`,
       meta: `Since ${ROLE_TRANSITION.current.since}`,
     },
