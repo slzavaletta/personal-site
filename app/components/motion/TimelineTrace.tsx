@@ -65,7 +65,12 @@ const rowVariants: Variants = {
 
 const reducedRowVariants: Variants = {
   hidden: { opacity: 1, y: 0, "--diamond-scale": 1 },
-  visible: { opacity: 1, y: 0, "--diamond-scale": 1, transition: { duration: 0 } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    "--diamond-scale": 1,
+    transition: { duration: 0 },
+  },
 };
 
 /**

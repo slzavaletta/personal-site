@@ -2,17 +2,14 @@ import { ArrowDown, Download } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { HERO } from "@/app/lib/content";
-import {
-  HeroReveal,
-  HeroRevealItem,
-} from "@/app/components/motion/HeroReveal";
+import { HeroReveal, HeroRevealItem } from "@/app/components/motion/HeroReveal";
 
 export function EditorialHero() {
   const lastNameParts = HERO.lastName.split(" ");
 
   return (
     <section id="top" className="hero-grid scroll-mt-0">
-      <div className="page-shell pb-10 pt-8 sm:pb-12 sm:pt-12 lg:pb-14">
+      <div className="page-shell pt-8 pb-10 sm:pt-12 sm:pb-12 lg:pb-14">
         <HeroReveal>
           <HeroRevealItem
             as="p"
@@ -39,7 +36,7 @@ export function EditorialHero() {
           <div className="mt-10 grid gap-10 border-t border-rule-strong pt-6 sm:mt-8 lg:grid-cols-12 lg:gap-8">
             <HeroRevealItem
               as="p"
-              className="hero-statement text-2xl font-semibold leading-[1.12] tracking-[-0.04em] sm:text-3xl lg:col-span-6 lg:text-[2.4rem]"
+              className="hero-statement text-2xl leading-[1.12] font-semibold tracking-[-0.04em] sm:text-3xl lg:col-span-6 lg:text-[2.4rem]"
             >
               {HERO.statement}
             </HeroRevealItem>

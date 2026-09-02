@@ -14,9 +14,7 @@ export function CurrentAndNext() {
       <div className="page-shell">
         <Reveal>
           <p className="utility-label text-signal-ink">Current / Next</p>
-          <h2 className="editorial-heading mt-5">
-            {CURRENT_AND_NEXT.heading}
-          </h2>
+          <h2 className="editorial-heading mt-5">{CURRENT_AND_NEXT.heading}</h2>
         </Reveal>
 
         <div className="mt-9 grid items-stretch border-y border-rule-strong lg:grid-cols-12">
@@ -27,12 +25,10 @@ export function CurrentAndNext() {
             <p className="utility-label text-graphite">
               {CURRENT_AND_NEXT.current.label}
             </p>
-            <h3 className="mt-5 max-w-[18ch] text-3xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
+            <h3 className="mt-5 max-w-[18ch] text-3xl leading-[1.02] font-semibold tracking-[-0.045em] sm:text-5xl">
               {CURRENT_AND_NEXT.current.title}
             </h3>
-            <p className="reading-copy mt-7">
-              {CURRENT_AND_NEXT.current.body}
-            </p>
+            <p className="reading-copy mt-7">{CURRENT_AND_NEXT.current.body}</p>
 
             <ol className="numbered-list mt-10">
               {OPERATING_AREAS.map((area) => (
@@ -51,7 +47,7 @@ export function CurrentAndNext() {
             <p className="utility-label text-paper">
               {CURRENT_AND_NEXT.next.label}
             </p>
-            <h3 className="mt-5 max-w-[13ch] text-3xl font-semibold leading-[1.02] tracking-[-0.045em] sm:text-5xl">
+            <h3 className="mt-5 max-w-[13ch] text-3xl leading-[1.02] font-semibold tracking-[-0.045em] sm:text-5xl">
               {CURRENT_AND_NEXT.next.title}
             </h3>
             <p className="mt-7 text-xl leading-relaxed text-paper">

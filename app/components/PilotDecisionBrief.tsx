@@ -9,8 +9,7 @@ const ANNOTATIONS = [
   },
   {
     label: "Why this page",
-    body:
-      "This gives the client and delivery team a shared answer to two questions: what are we trying to prove, and what will we do with the result?",
+    body: "This gives the client and delivery team a shared answer to two questions: what are we trying to prove, and what will we do with the result?",
   },
 ] as const;
 
@@ -22,7 +21,7 @@ export function PilotDecisionBrief() {
           <p className="utility-label text-signal-on-dark">
             {PILOT_DECISION_BRIEF.label}
           </p>
-          <h2 className="mt-5 max-w-[16ch] text-3xl font-semibold leading-[0.98] tracking-[-0.055em] sm:text-5xl lg:text-6xl">
+          <h2 className="mt-5 max-w-[16ch] text-3xl leading-[0.98] font-semibold tracking-[-0.055em] sm:text-5xl lg:text-6xl">
             {PILOT_DECISION_BRIEF.heading}
           </h2>
         </Reveal>

@@ -2,7 +2,7 @@
 
 import {
   m,
-  useAnimationControls,
+  useAnimationControls,
   useIsomorphicLayoutEffect,
   useReducedMotion,
   type Variants,

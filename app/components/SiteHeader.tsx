@@ -76,7 +76,7 @@ export function SiteHeader() {
           </span>
           <span
             aria-hidden="true"
-            className="hidden whitespace-nowrap font-mono text-[0.875rem] font-medium tracking-[0.08em] uppercase sm:block md:hidden lg:block"
+            className="hidden font-mono text-[0.875rem] font-medium tracking-[0.08em] whitespace-nowrap uppercase sm:block md:hidden lg:block"
           >
             Buenos Aires / AR
           </span>
