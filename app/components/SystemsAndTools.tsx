@@ -42,15 +42,26 @@ export function SystemsAndTools() {
 
         <div className="tool-groups">
           {TOOL_GROUPS.map((group) => (
-            <div key={group.id}>
+            <div key={group.id} className="tool-group">
               <h3 className="utility-label text-ink">{group.label}</h3>
-              <p className="mt-3 min-h-[3.2em] text-sm leading-relaxed text-graphite">
+              <p className="mt-3 text-sm leading-relaxed text-graphite">
                 {group.note}
               </p>
               <ul className="tool-group__list">
                 {group.tools.map((tool) => (
-                  <li key={tool} className="text-sm">
-                    {tool}
+                  <li key={tool.name} className="text-sm">
+                    {/* Local 20px SVG marks: next/image would only add a wrapper. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={tool.logoSrc}
+                      alt=""
+                      width={20}
+                      height={20}
+                      loading="lazy"
+                      decoding="async"
+                      className="tool-mark"
+                    />
+                    <span>{tool.name}</span>
                   </li>
                 ))}
               </ul>

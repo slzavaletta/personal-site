@@ -907,46 +907,84 @@
     margin-top: 1.25rem;
     border-top: 1px solid var(--rule-strong);
     list-style: none;
+    align-self: start;
   }
 
   .tool-group__list li {
     display: flex;
     min-height: 2.75rem;
     align-items: center;
+    gap: 0.75rem;
     border-bottom: 1px solid var(--rule);
     font-weight: 600;
     transition: color var(--duration-quick) var(--ease-editorial-curve);
   }
 
-  .tool-group__list li::before {
-    width: 0;
-    height: 1px;
-    margin-right: 0;
-    background: var(--signal);
-    content: "";
+  /*
+   * Brand marks reduced to ink so the list reads as one typographic set; the
+   * dark scheme inverts them to paper. Colour returns only on hover, through
+   * the label — the mark itself stays monochrome.
+   */
+  .tool-mark {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: 0 0 auto;
+    filter: grayscale(1) brightness(0);
+    opacity: 0.82;
     transition:
-      width var(--duration-quick) var(--ease-editorial-curve),
-      margin var(--duration-quick) var(--ease-editorial-curve);
+      opacity var(--duration-quick) var(--ease-editorial-curve),
+      transform var(--duration-standard) var(--ease-editorial-curve);
+  }
+
+  [data-theme="dark"] .tool-mark {
+    filter: grayscale(1) brightness(0) invert(1);
   }
 
   .tool-group__list li:hover {
     color: var(--signal-ink);
   }
 
-  .tool-group__list li:hover::before {
-    width: 0.75rem;
-    margin-right: 0.6rem;
+  .tool-group__list li:hover .tool-mark {
+    opacity: 1;
+    transform: translateX(2px);
   }
 
+  /*
+   * Subgrid keeps label, note and the first tool on shared rows across every
+   * column, so a note that wraps to three lines cannot push its own list
+   * below the others.
+   */
   @media (min-width: 40rem) {
     .tool-groups {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: auto auto auto;
+      row-gap: 0;
+    }
+
+    /* Two rows of groups: padding restores the gap the zeroed row-gap took. */
+    .tool-group:nth-child(n + 3) {
+      padding-top: clamp(2.5rem, 4vw, 3.5rem);
     }
   }
 
   @media (min-width: 64rem) {
     .tool-groups {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .tool-group:nth-child(n + 3) {
+      padding-top: 0;
+    }
+  }
+
+  @supports (grid-template-rows: subgrid) {
+    @media (min-width: 40rem) {
+      .tool-group {
+        display: grid;
+        grid-row: span 3;
+        grid-template-rows: subgrid;
+        align-content: start;
+      }
     }
   }
 
@@ -1191,7 +1229,8 @@
     font-variation-settings: "wdth" 100;
   }
 
-  .theme-toggle:hover svg {
+  .theme-toggle:hover svg,
+  .tool-group__list li:hover .tool-mark {
     transform: none;
   }
 }
