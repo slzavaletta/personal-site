@@ -41,9 +41,13 @@ Everything else is still. Stillness is what makes the three read as chosen.
 
 ### The arc
 
-Infrastructure (ExxonMobil) → life-sciences delivery (gA) → AI and digital
-delivery at scale (Globant; Eightfold AI implementations) → AI in clinical
-development (Syneos Health).
+Life-sciences delivery (gA) → enterprise infrastructure (ExxonMobil) → AI and
+digital delivery at scale (Globant; Eightfold AI implementations) → AI in
+clinical development (Syneos Health).
+
+The current hero says "My career started in infrastructure". It started in
+life-sciences delivery; infrastructure came second. The copy is corrected in
+phase 2.
 
 ### The line
 
@@ -68,15 +72,15 @@ scale-or-stop decision — without claiming a title he does not hold.
 
 ```ts
 export const ROLE_TRANSITION = {
-  public: false,             // flip when the resignation has been communicated
+  public: true,              // the resignation was communicated on 2026-09-02
   startsOn: "2026-10",       // month shown in the ledger and the timeline
   next: { company: "Syneos Health", title: "Senior Technical Program Manager" },
 };
 ```
 
 Hero role line, ledger "Next" row, experience timeline, JSON-LD `worksFor`,
-metadata title and the OG image all derive from it. Default is hidden so the
-site can ship before the resignation without leaking it.
+metadata title and the OG image all derive from it. The switch stays so the
+same content model can later turn "next" into "current" with one edit.
 
 ## 4. Page structure
 
@@ -242,22 +246,30 @@ WCAG 2.2 AA, verified with axe and by hand:
 5. **Quality gate.** a11y audit fixes, Lighthouse budgets, cross-browser,
    screenshots at 320 / 390 / 768 / 1440 / 2560, walkthrough recording.
 
-## 12. Decisions needed from the owner
+## 12. Decisions (owner, 2026-09-02)
 
-1. Publish the Syneos move now, or ship behind `ROLE_TRANSITION.public =
-   false` until the resignation is communicated? (Recommended: behind the flag.)
-2. Adopt "AI deployment in regulated industries" as the positioning line?
-3. Approve or adjust the softened figures in section 8.1.
-4. Dark scheme: automatic only, automatic plus toggle, or none?
-5. Live sources: local time, public GitHub, `now.ts`, availability. Anything
-   to add or remove?
-6. Replace the Scope Sentinel walkthrough with the brief instrument; keep
-   Sentinel and SOW Intake as links. Agreed?
-7. Contact intent after Syneos: "open to conversations about AI deployment
-   work" or a quieter "say hello"?
-8. CSP without nonce (keeps CDN caching) or with nonce (dynamic rendering)?
-9. Add `.cursor/environment.json` and a prebuilt snapshot so agents start with
-   dependencies installed?
+1. **Publish the Syneos move now.** The resignation has been communicated;
+   `ROLE_TRANSITION.public` ships as `true`.
+2. **Positioning line adopted:** AI deployment in regulated industries.
+3. **Softened figures approved** as listed in section 8.1.
+4. **Dark scheme: automatic plus toggle.**
+5. **Live sources approved:** local time, public GitHub, `now.ts`,
+   availability.
+6. **Brief instrument replaces the walkthrough.** Scope Sentinel and SOW
+   Intake stay as links.
+7. **Contact copy:** "open to conversations about AI deployment work".
+8. **CSP without nonce**, keeping CDN caching. Revisit if the page ever gains
+   third-party scripts.
+9. **Add `.cursor/environment.json`** and validate it with an environment
+   build.
+
+## 12a. Delivery shape
+
+Phase 1 ships as its own PR against `main`: it is independent, has no visual
+change and can be merged immediately. Phases 2–5 rework the same files
+(`content.ts`, `globals.css`, `page.tsx`, the components) and are delivered as
+one PR stacked on phase 1, with one commit per phase so the review can follow
+the plan's order.
 
 ## 13. Non-goals
 
