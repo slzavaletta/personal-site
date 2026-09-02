@@ -1,7 +1,7 @@
 import { NOW, ROLE_TRANSITION } from "@/app/lib/content";
 import { getLatestActivity } from "@/app/lib/github";
 import { CONTENT_UPDATED_ON } from "@/app/lib/site";
-import { formatLongDate, formatRelative } from "@/app/lib/time";
+import { formatLongDate, formatShortDate } from "@/app/lib/time";
 
 type Row = {
   key: string;
@@ -16,11 +16,10 @@ type Row = {
  */
 export async function Ledger() {
   const activity = await getLatestActivity();
-  const now = new Date();
 
   const rows: Row[] = [
     {
-      key: "Now",
+      key: "Role",
       value: `${ROLE_TRANSITION.current.title}, ${ROLE_TRANSITION.current.company}.`,
       meta: `Since ${ROLE_TRANSITION.current.since}`,
     },
@@ -39,9 +38,13 @@ export async function Ledger() {
     { key: "Learning", value: NOW.learning },
   );
 
+  /*
+   * An absolute date, not "3 days ago": the page is cached for up to an hour,
+   * and a relative time frozen at render reads as wrong the moment it is not.
+   */
   if (activity) {
     rows.push({
-      key: "Last commit",
+      key: "Last push",
       value: (
         <>
           <a href={activity.url} target="_blank" rel="noopener noreferrer">
@@ -51,7 +54,7 @@ export async function Ledger() {
           {activity.message ? ` — ${activity.message}` : null}
         </>
       ),
-      meta: formatRelative(activity.at, now),
+      meta: formatShortDate(activity.at),
     });
   }
 

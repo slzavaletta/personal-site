@@ -3,6 +3,12 @@ import "server-only";
 const GITHUB_USER = "slzavaletta";
 const REVALIDATE_SECONDS = 60 * 60;
 
+/*
+ * The portfolio's own repository is excluded: a ledger row that reports the
+ * page's last deploy is the site talking about itself, not evidence of work.
+ */
+const EXCLUDED_REPOS = new Set([`${GITHUB_USER}/personal-site`]);
+
 export type LatestActivity = {
   repo: string;
   url: string;
@@ -55,17 +61,21 @@ async function fetchJson<T>(url: string): Promise<T | null> {
 }
 
 /**
- * The most recent public push, with its commit message when the events feed
- * has one. Falls back to the most recently pushed repository, and to `null`
- * when GitHub is unreachable — the ledger simply omits the row.
+ * The most recent public push to one of the owner's own repositories, with
+ * its commit message when the events feed has one. Falls back to the most
+ * recently pushed repository, and to `null` when GitHub is unreachable — the
+ * ledger simply omits the row.
  */
 export async function getLatestActivity(): Promise<LatestActivity | null> {
   const events = await fetchJson<PublicEvent[]>(
-    `https://api.github.com/users/${GITHUB_USER}/events/public?per_page=30`,
+    `https://api.github.com/users/${GITHUB_USER}/events/public?per_page=50`,
   );
 
   const push = events?.find(
-    (event) => event.type === "PushEvent" && event.payload?.commits?.length,
+    (event) =>
+      event.type === "PushEvent" &&
+      event.payload?.commits?.length &&
+      !EXCLUDED_REPOS.has(event.repo.name),
   );
 
   if (push) {
@@ -80,9 +90,11 @@ export async function getLatestActivity(): Promise<LatestActivity | null> {
   }
 
   const repos = await fetchJson<Repo[]>(
-    `https://api.github.com/users/${GITHUB_USER}/repos?sort=pushed&per_page=5&type=owner`,
+    `https://api.github.com/users/${GITHUB_USER}/repos?sort=pushed&per_page=10&type=owner`,
   );
-  const repo = repos?.find((candidate) => !candidate.fork) ?? repos?.[0];
+  const repo = repos?.find(
+    (candidate) => !candidate.fork && !EXCLUDED_REPOS.has(candidate.full_name),
+  );
   if (!repo) return null;
 
   return {

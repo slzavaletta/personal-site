@@ -311,37 +311,69 @@ export const SYSTEMS = {
     "I also run the infrastructure behind my own experiments: Docker, Caddy, Tailscale, n8n, project tracking, and personal agents on a self-hosted VPS.",
 } as const;
 
+export type Tool = {
+  name: string;
+  /** Local monochrome mark in `public/logos`. */
+  logoSrc: string;
+};
+
 export type ToolGroup = {
   id: string;
   label: string;
   note: string;
-  tools: readonly string[];
+  tools: readonly Tool[];
 };
+
+const logo = (file: string) => `/logos/${file}.svg`;
 
 export const TOOL_GROUPS = [
   {
     id: "run",
     label: "Run the work",
     note: "Scope, backlogs, delivery decisions, and shared context.",
-    tools: ["Jira", "Power BI", "Linear", "Figma"],
+    tools: [
+      { name: "Jira", logoSrc: logo("jira") },
+      { name: "Power BI", logoSrc: logo("powerbi") },
+      { name: "Linear", logoSrc: logo("linear") },
+      { name: "Figma", logoSrc: logo("figma") },
+    ],
   },
   {
     id: "build",
     label: "Build and automate",
     note: "Draft, test, and remove repeatable delivery work.",
-    tools: ["Claude", "ChatGPT / Codex", "Gemini", "n8n"],
+    tools: [
+      { name: "Claude", logoSrc: logo("claude") },
+      { name: "ChatGPT / Codex", logoSrc: logo("openai") },
+      { name: "Gemini", logoSrc: logo("gemini") },
+      { name: "n8n", logoSrc: logo("n8n") },
+    ],
   },
   {
     id: "operate",
     label: "Ship and operate",
     note: "Scripts, source control, containers, and the infrastructure behind the experiments.",
-    tools: ["Python", "Bash / PowerShell", "GitHub", "Docker"],
+    tools: [
+      { name: "Python", logoSrc: logo("python") },
+      { name: "Bash / PowerShell", logoSrc: logo("gnubash") },
+      { name: "GitHub", logoSrc: logo("github") },
+      { name: "Docker", logoSrc: logo("docker") },
+    ],
   },
   {
     id: "explore",
     label: "Exploring",
-    note: "Active learning, not production expertise: orchestration, observability, evaluation, and retrieval.",
-    tools: ["Mastra", "LangGraph", "Langfuse", "pgvector"],
+    /*
+     * The "active learning" framing is required by the brief so the page does
+     * not overstate depth here.
+     */
+    note: "Active learning, not production expertise: orchestration, evaluation, retrieval.",
+    tools: [
+      { name: "Mastra", logoSrc: logo("mastra") },
+      { name: "LangGraph", logoSrc: logo("langgraph") },
+      { name: "Langfuse", logoSrc: logo("langfuse") },
+      { name: "pgvector", logoSrc: logo("postgresql") },
+    ],
   },
 ] as const satisfies readonly ToolGroup[];
 
