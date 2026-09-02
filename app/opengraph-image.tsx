@@ -1,7 +1,8 @@
 import { ImageResponse } from "next/og";
 
-export const alt =
-  "Santiago López Zavaletta — Technical Delivery Leader, Enterprise AI Deployment.";
+import { CURRENT_TITLE, ROLE_TRANSITION } from "@/app/lib/content";
+
+export const alt = `Santiago López Zavaletta — ${CURRENT_TITLE}. Enterprise AI and software delivery.`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -145,7 +146,7 @@ export default function OpengraphImage() {
             }}
           >
             <span style={{ color: colors.signal, marginRight: 10 }}>Now</span>
-            Technical project management
+            {`${CURRENT_TITLE} · ${ROLE_TRANSITION.current.company}`}
           </div>
           <div
             style={{
@@ -158,7 +159,9 @@ export default function OpengraphImage() {
             }}
           >
             <span style={{ color: colors.signal, marginRight: 10 }}>Next</span>
-            AI deployment
+            {ROLE_TRANSITION.public
+              ? `${ROLE_TRANSITION.next.domain} · ${ROLE_TRANSITION.next.company}`
+              : "AI deployment"}
           </div>
           <div
             style={{

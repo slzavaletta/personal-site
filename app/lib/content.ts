@@ -1,88 +1,103 @@
-export type NavLink = {
-  label: string;
-  href: `#${string}`;
-};
-
 /**
- * The numbered spine the page already prints in its own section kickers, in
- * document order. It is the single source of navigation truth: the left index
- * renders it in full and the top navigation derives from it, so the two can no
- * longer disagree about what a section is or what order they come in.
+ * Copy and facts for the whole page. Everything a reader can verify lives
+ * here, typed, so a claim can be traced to one place.
  *
- * Approach, Evidence and the pilot brief are unnumbered interstitials and are
- * deliberately absent from both.
+ * Rules that shaped the copy:
+ *  - the current title is the one on the résumé; "AI deployment" is the
+ *    direction of the work, never the job title;
+ *  - figures that belong to an employer's P&L are given as ranges;
+ *  - what is current, what is exploratory and what is next are labelled.
  */
-export const SECTION_INDEX = [
-  { number: "01", label: "Selected work", navLabel: "Work", href: "#work" },
-  {
-    number: "02",
-    label: "Built around the work",
-    navLabel: "Systems",
-    href: "#systems",
+
+import { SITE_EMAIL } from "@/app/lib/site";
+
+/*
+ * The role transition. The resignation was communicated on 2026-09-02, so the
+ * move is public. When the new role begins, swap `current` and `next` here;
+ * the hero, the ledger, the timeline, the metadata and the OG image follow.
+ */
+export const ROLE_TRANSITION = {
+  public: true,
+  startsOn: "2026-10",
+  startsOnLabel: "October 2026",
+  current: {
+    company: "Globant",
+    title: "Technical Project Manager",
+    since: "2021",
   },
-  { number: "03", label: "Working set", navLabel: "Tools", href: "#tools" },
-  {
-    number: "04",
-    label: "Experience",
-    navLabel: "Experience",
-    href: "#experience",
+  next: {
+    company: "Syneos Health",
+    title: "Senior Technical Program Manager",
+    domain: "AI in clinical development",
   },
-  { number: "05", label: "Contact", navLabel: "Contact", href: "#contact" },
-] as const satisfies readonly {
-  number: string;
+} as const;
+
+export const CURRENT_TITLE = ROLE_TRANSITION.current.title;
+
+export type Section = {
+  id: string;
   label: string;
   navLabel: string;
-  href: `#${string}`;
-}[];
+};
 
-export const NAV_LINKS = SECTION_INDEX.map(({ navLabel, href }) => ({
-  label: navLabel,
-  href,
-})) satisfies readonly NavLink[];
+/** Document order. The header navigation derives from it. */
+export const SECTIONS = [
+  { id: "work", label: "Selected work", navLabel: "Work" },
+  { id: "approach", label: "Approach", navLabel: "Approach" },
+  { id: "systems", label: "Systems and tools", navLabel: "Systems" },
+  { id: "experience", label: "Experience", navLabel: "Experience" },
+  { id: "contact", label: "Contact", navLabel: "Contact" },
+] as const satisfies readonly Section[];
+
+export const NAV_LINKS = SECTIONS.filter((s) => s.id !== "systems").map(
+  ({ navLabel, id }) => ({ label: navLabel, href: `#${id}` as const }),
+);
 
 export const SITE_LINKS = {
-  email: "mailto:santiago@slzavaletta.com",
+  email: `mailto:${SITE_EMAIL}`,
   resume: "/SantiagoLopezZavaletta_CV.pdf",
   linkedin: "https://www.linkedin.com/in/slzavaletta",
   github: "https://github.com/slzavaletta",
   skillsRepository: "https://github.com/slzavaletta/skills",
 } as const;
 
+export const LOCATION = {
+  city: "Buenos Aires",
+  country: "Argentina",
+  timeZone: "America/Argentina/Buenos_Aires",
+} as const;
+
+const roleLine = ROLE_TRANSITION.public
+  ? `${ROLE_TRANSITION.current.title} at ${ROLE_TRANSITION.current.company}. Joining ${ROLE_TRANSITION.next.company} as ${ROLE_TRANSITION.next.title} in ${ROLE_TRANSITION.startsOnLabel}.`
+  : `${ROLE_TRANSITION.current.title} at ${ROLE_TRANSITION.current.company}.`;
+
 export const HERO = {
-  role: "Technical delivery leader at Globant — enterprise AI deployment.",
+  role: roleLine,
   firstName: "Santiago",
   lastName: "López Zavaletta",
   statement:
-    "I run enterprise AI and software delivery—from staffing and P&L to risk, adoption, and the client decisions that follow.",
+    "I run enterprise AI and software delivery—staffing, P&L, risk, adoption, and the client decisions that follow.",
   supporting:
-    "My career started in infrastructure. Today I work between clients, executives, and technical teams across the United States and Latin America.",
+    "My career started in life-sciences delivery, moved through enterprise infrastructure, and grew into AI and digital delivery at scale for clients across the United States and Latin America.",
   direction:
-    "Enterprise AI deployment is the work: choosing the use case, running the pilot, supporting the people whose work changes, and making the scale-or-stop call on evidence—across three enterprise implementations and a multi-million-dollar AI account.",
+    "The work I want more of is AI deployment where the constraints are real: regulated industries, enterprise data, and people whose work changes. Next stop, AI in clinical development.",
   primaryAction: { label: "Read the work", href: "#work" },
-  secondaryAction: {
-    label: "Download résumé",
-    href: SITE_LINKS.resume,
-  },
+  secondaryAction: { label: "Download résumé", href: SITE_LINKS.resume },
 } as const;
 
 export type ProofPoint = {
   value: string;
   label: string;
-  trend?: { from: string; to: string };
 };
 
 export const PROOF: readonly ProofPoint[] = [
   {
     value: "10+ years",
-    label: "across infrastructure and technical delivery",
+    label: "across life sciences, infrastructure, and technical delivery",
   },
   {
     value: "Multi-million",
     label: "AI delivery account, with staffing and P&L ownership",
-  },
-  {
-    value: "4 deals",
-    label: "M&A due diligence and integration across Latin America and Europe",
   },
   {
     value: "6 POCs",
@@ -92,22 +107,23 @@ export const PROOF: readonly ProofPoint[] = [
     value: "3 go-lives",
     label: "enterprise AI implementations, on time and fully adopted",
   },
+  {
+    value: "4 deals",
+    label: "M&A due diligence and integration across Latin America and Europe",
+  },
 ];
 
-export const CURRENT_AND_NEXT = {
-  heading: "What I do now. Where I’m taking it next.",
-  current: {
-    label: "Current practice",
-    title: "I manage the scope, budget, people, risk, and the work itself.",
-    body: "At Globant, I own scope, budget, staffing, timelines, dependencies, risk, client communication, and the Scrum cadence for distributed software teams. My portfolio work has ranged from under $1M to multi-million-dollar accounts, with cross-functional teams of up to 36 people. I use financial and delivery metrics to make tradeoffs while the team still has room to act.",
-  },
-  next: {
-    label: "Where this goes",
-    title: "The AI deployment work I lead, and where I’m taking it.",
-    body: "AI can produce a persuasive demo before a company knows how—or whether—to adopt it. The harder work is choosing the right use case, handling data and security constraints, supporting the people whose work will change, and deciding whether the evidence is strong enough to continue. That is the work I do, and the work I want more of.",
-  },
-  credential:
-    "I’m pursuing the Claude Certified Architect certification and building hands-on depth through delivery tooling, automation, self-hosted infrastructure, and experiments with agent workflows.",
+/**
+ * The ledger: what is true right now. Edited by commit; the GitHub row is
+ * fetched at request time and revalidated hourly.
+ */
+export const NOW = {
+  label: "Now",
+  building:
+    "Scope Sentinel and SOW Intake — Claude skills that read a request against the SOW and cite the clause.",
+  learning:
+    "Claude Certified Architect (Foundations); orchestration, evaluation, and retrieval for agent workflows.",
+  availability: "Open to conversations about AI deployment work.",
 } as const;
 
 export type CaseMarginalia = {
@@ -141,7 +157,7 @@ export const CASE_STUDIES = [
     title:
       "Improving margin and reducing overhead on a multi-million-dollar AI account.",
     summary:
-      "A multidisciplinary AI account had margin pressure and too much recurring delivery work happening by hand. I own staffing, capacity, and P&L for a multidisciplinary delivery team of around twenty, run Scrum and governance, and automate recurring work with Claude and Jira. Account margin moved up several points.",
+      "A multidisciplinary AI account had margin pressure and too much recurring delivery work happening by hand. I own staffing, capacity, and P&L for a delivery team of around twenty, run Scrum and governance, and automate recurring work with Claude and Jira. Account margin moved up several points.",
     marginalia: {
       context:
         "AI delivery across data science, engineering, front-end, and DevSecOps.",
@@ -185,170 +201,147 @@ export const CASE_STUDIES = [
   },
 ] as const satisfies readonly CaseStudy[];
 
-export type DecisionBriefField = {
+export type BriefField = {
+  id: string;
   number: string;
   title: string;
   prompt: string;
+  /** What tends to go wrong when this field is left blank. */
+  whenMissing: string;
+  /** One example from the work, anonymised. */
+  fromTheWork: string;
 };
 
-export const PILOT_DECISION_BRIEF = {
-  label: "Running an AI deployment",
+/**
+ * The pilot decision brief, set as an instrument the reader can operate. The
+ * five fields are the document; the failure modes and examples are what a
+ * conversation about them sounds like.
+ */
+export const BRIEF = {
+  label: "Approach",
   heading: "Before a pilot starts, I want five things written down.",
-  body: "This is the brief I work from: what the delivery team and the client both have to agree on before the first sprint, drawn from the implementations I have run.",
+  body: "This is the brief I work from: what the delivery team and the client both have to agree on before the first sprint. Pick a field to see what tends to happen when it is missing, and where the habit came from.",
+  panelLabels: {
+    prompt: "The question",
+    whenMissing: "When it is missing",
+    fromTheWork: "From the work",
+  },
   fields: [
     {
+      id: "problem",
       number: "01",
       title: "The business problem",
       prompt: "What is costly, slow, risky, or otherwise worth changing?",
+      whenMissing:
+        "The pilot optimises for what the demo does well, and afterwards nobody can say what it fixed.",
+      fromTheWork:
+        "On the AI account, recurring reporting was the cost that could be named and measured. That is where the automation started, not with the most impressive model.",
     },
     {
+      id: "users",
       number: "02",
       title: "The users",
       prompt:
         "Whose workflow needs to change, and what support will they need?",
+      whenMissing:
+        "Adoption gets measured after the fact, once the people who were supposed to change have already found a workaround.",
+      fromTheWork:
+        "Three enterprise AI implementations went live on time and were adopted because the recruiters using the system were part of the delivery plan, not its audience.",
     },
     {
+      id: "constraints",
       number: "03",
       title: "The constraints",
       prompt:
         "What do data access, security, integrations, time, and competing tools allow?",
+      whenMissing:
+        "The first integration meeting becomes the moment the timeline is rewritten.",
+      fromTheWork:
+        "The Digital Twin work depended on partner data and a fixed price. Both were written down before the first sprint, and the first POC landed in about five weeks.",
     },
     {
+      id: "signal",
       number: "04",
       title: "The success signal",
       prompt: "What evidence would be credible enough to act on?",
+      whenMissing:
+        "Every stakeholder brings a different chart to the review, and the pilot ends in a second pilot.",
+      fromTheWork:
+        "Margin and delivery metrics were the shared numbers on the AI account. Tradeoffs were argued from them while the team still had room to act.",
     },
     {
+      id: "decision",
       number: "05",
       title: "The decision",
       prompt:
         "What will the evidence allow the customer to stop, fix, expand, or buy?",
+      whenMissing:
+        "A pilot that cannot be stopped is not a pilot. It is an unbudgeted rollout.",
+      fromTheWork:
+        "Scope Sentinel is built the same way: when the evidence is missing it says so, instead of drafting a plausible answer for someone to approve.",
     },
-  ] satisfies readonly DecisionBriefField[],
+  ] satisfies readonly BriefField[],
 } as const;
-
-export type SystemAction = {
-  label: string;
-  href: string;
-  external?: boolean;
-};
 
 export type DeliverySystem = {
   id: string;
   name: string;
   body: string;
-  actions: readonly SystemAction[];
+  href: string;
 };
 
 export const SYSTEMS = {
-  heading: "Delivery systems I build.",
+  heading: "Systems I build, tools I use.",
+  body: "These keep scope and evidence visible, so the next delivery decision does not depend on memory.",
   projects: [
     {
       id: "scope-sentinel",
       name: "Scope Sentinel",
-      body: "Client requests rarely arrive with a clean label. Scope Sentinel reads the request against the SOW, cites the exact clause, estimates the effort, and drafts the next step. When the evidence is missing, it says so.",
-      actions: [
-        { label: "Try the walkthrough", href: "#scope-sentinel" },
-        {
-          label: "View the source on GitHub",
-          href: SITE_LINKS.skillsRepository,
-          external: true,
-        },
-      ],
+      body: "Reads a client request against the SOW, cites the exact clause, sizes the effort, and drafts the next step. When the evidence is missing, it says so.",
+      href: SITE_LINKS.skillsRepository,
     },
     {
       id: "sow-intake",
       name: "SOW Intake",
-      body: "SOW Intake turns a contract into a cited delivery baseline that people and agents can use. Missing evidence is marked as missing instead of being filled with a plausible answer.",
-      actions: [
-        {
-          label: "View the source on GitHub",
-          href: SITE_LINKS.skillsRepository,
-          external: true,
-        },
-      ],
+      body: "Turns a contract into a cited delivery baseline that people and agents can use. Missing evidence is marked as missing, not filled with a plausible answer.",
+      href: SITE_LINKS.skillsRepository,
     },
   ] satisfies readonly DeliverySystem[],
-  infrastructure: {
-    label: "Behind the experiments",
-    body: "I also run the infrastructure behind my own experiments: Docker, Caddy, Tailscale, n8n, project tracking, and personal agents on a self-hosted VPS.",
-  },
+  infrastructure:
+    "I also run the infrastructure behind my own experiments: Docker, Caddy, Tailscale, n8n, project tracking, and personal agents on a self-hosted VPS.",
 } as const;
-
-export type Tool = {
-  name: string;
-  logoSrc: string;
-};
 
 export type ToolGroup = {
   id: string;
   label: string;
   note: string;
-  tools: readonly Tool[];
+  tools: readonly string[];
 };
-
-const logo = (file: string) => `/logos/${file}.svg`;
-
-export const TOOL_SECTION = {
-  heading: "Tools, grouped by how I use them.",
-  body: "Tools matter when they shorten a feedback loop, make a decision easier to trace, or remove work a team should not be doing by hand.",
-} as const;
 
 export const TOOL_GROUPS = [
   {
     id: "run",
     label: "Run the work",
-    note: "I use these for scope, backlogs, delivery decisions, and shared context.",
-    tools: [
-      { name: "Jira", logoSrc: logo("jira") },
-      { name: "Power BI", logoSrc: logo("powerbi") },
-      { name: "Linear", logoSrc: logo("linear") },
-      { name: "Figma", logoSrc: logo("figma") },
-    ],
+    note: "Scope, backlogs, delivery decisions, and shared context.",
+    tools: ["Jira", "Power BI", "Linear", "Figma"],
   },
   {
     id: "build",
     label: "Build and automate",
-    note: "The tools I use to draft, test, and remove repeatable delivery work.",
-    tools: [
-      { name: "Claude", logoSrc: logo("claude") },
-      {
-        name: "ChatGPT / Codex",
-        logoSrc: logo("openai"),
-      },
-      { name: "Gemini", logoSrc: logo("gemini") },
-      { name: "n8n", logoSrc: logo("n8n") },
-    ],
+    note: "Draft, test, and remove repeatable delivery work.",
+    tools: ["Claude", "ChatGPT / Codex", "Gemini", "n8n"],
   },
   {
     id: "operate",
     label: "Ship and operate",
-    note: "A practical stack for scripts, source control, containers, and the infrastructure behind my experiments.",
-    tools: [
-      { name: "Python", logoSrc: logo("python") },
-      {
-        name: "Bash / PowerShell",
-        logoSrc: logo("gnubash"),
-      },
-      { name: "GitHub", logoSrc: logo("github") },
-      { name: "Docker", logoSrc: logo("docker") },
-    ],
+    note: "Scripts, source control, containers, and the infrastructure behind the experiments.",
+    tools: ["Python", "Bash / PowerShell", "GitHub", "Docker"],
   },
   {
     id: "explore",
-    label: "Explore AI systems",
-    /*
-     * The "active learning" framing is required by the design spec so the page
-     * does not overstate depth here. It now lives only in this note, which is
-     * where it was already being said.
-     */
-    note: "Active learning: I use these to understand orchestration, observability, evaluation, and retrieval more deeply.",
-    tools: [
-      { name: "Mastra", logoSrc: logo("mastra") },
-      { name: "LangGraph", logoSrc: logo("langgraph") },
-      { name: "Langfuse", logoSrc: logo("langfuse") },
-      { name: "pgvector", logoSrc: logo("postgresql") },
-    ],
+    label: "Exploring",
+    note: "Active learning, not production expertise: orchestration, observability, evaluation, and retrieval.",
+    tools: ["Mastra", "LangGraph", "Langfuse", "pgvector"],
   },
 ] as const satisfies readonly ToolGroup[];
 
@@ -357,12 +350,9 @@ export type ExperienceItem = {
   period: string;
   title: string;
   body: string;
-  /**
-   * Marks a role that ran alongside Globant rather than after it. Three of
-   * these overlap in time, which is accurate and matches the CV — a reader
-   * scanning dates will notice it before reading the descriptions, so it is
-   * labelled rather than obscured.
-   */
+  /** A role that starts after the page was written. */
+  upcoming?: boolean;
+  /** A role that ran alongside Globant rather than after it. */
   concurrent?: boolean;
 };
 
@@ -373,10 +363,17 @@ export const EXPERIENCE_SECTION = {
 
 export const EXPERIENCE = [
   {
+    company: ROLE_TRANSITION.next.company,
+    period: `From ${ROLE_TRANSITION.startsOnLabel}`,
+    title: ROLE_TRANSITION.next.title,
+    upcoming: true,
+    body: "Technical program management in a fully integrated biopharmaceutical solutions organisation, where AI is being embedded into clinical development under regulatory governance.",
+  },
+  {
     company: "Globant",
-    period: "2021–present",
+    period: "2021–2026",
     title: "Technical Project Manager",
-    body: "End-to-end delivery, forecasting, and P&L for US and LATAM digital transformation portfolios from under $1M to multi-million-dollar accounts, with cross-functional teams of up to 36. Launched Globant’s Digital Twin Studio and standardized AI-assisted delivery reporting across the account.",
+    body: "End-to-end delivery, forecasting, and P&L for US and LATAM digital transformation portfolios from under $1M to multi-million-dollar accounts, with cross-functional teams of up to 36. Launched Globant's Digital Twin Studio and standardized AI-assisted delivery reporting across the account.",
   },
   {
     company: "ZN Love",
@@ -433,7 +430,7 @@ export const CERTIFICATIONS = [
 ] as const satisfies readonly Certification[];
 
 export const INDUSTRIES = [
-  "AI",
+  "Life sciences",
   "Talent technology",
   "Digital Twin",
   "Retail",
@@ -441,11 +438,10 @@ export const INDUSTRIES = [
   "Consumer goods",
   "Hospitality",
   "M&A",
-  "Life Sciences",
   "Oil & Gas",
 ] as const;
 
 export const CONTACT = {
-  heading: "I’m looking for my next role in AI deployment.",
-  body: "If you need a technical delivery leader who can own the delivery around an AI pilot—scope, people, risk, budget, and client decisions—I’d like to talk.",
+  heading: "Open to conversations about AI deployment work.",
+  body: "If you are running AI pilots where the constraints are real—regulated industries, enterprise data, people whose work changes—and need someone to own the delivery around them, I would like to talk.",
 } as const;

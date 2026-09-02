@@ -1,29 +1,36 @@
+import { Approach } from "@/app/components/Approach";
 import { CaseStudies } from "@/app/components/CaseStudies";
 import { ContactSection, SiteFooter } from "@/app/components/ContactFooter";
-import { CurrentAndNext } from "@/app/components/CurrentAndNext";
 import { EditorialHero } from "@/app/components/EditorialHero";
-import { ExperienceAndCredentials } from "@/app/components/ExperienceAndCredentials";
+import { Experience } from "@/app/components/Experience";
 import { HashTarget } from "@/app/components/HashTarget";
-import { PilotDecisionBrief } from "@/app/components/PilotDecisionBrief";
-import { ProofBand } from "@/app/components/ProofBand";
-import { SectionIndex } from "@/app/components/SectionIndex";
+import { Ledger } from "@/app/components/Ledger";
+import { Proof } from "@/app/components/Proof";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { SystemsAndTools } from "@/app/components/SystemsAndTools";
+import { formatLocalClock } from "@/app/lib/time";
+
+/*
+ * The page is regenerated at most once an hour so the ledger's GitHub row
+ * stays current without a deploy. Everything else is static content.
+ */
+export const revalidate = 3600;
 
 export default function Home() {
+  const initialClock = formatLocalClock(new Date());
+
   return (
     <>
-      <SiteHeader />
-      <SectionIndex />
+      <SiteHeader initialClock={initialClock} />
       <HashTarget />
       <main id="main" tabIndex={-1}>
         <EditorialHero />
-        <ProofBand />
-        <CurrentAndNext />
+        <Ledger />
+        <Proof />
         <CaseStudies />
-        <PilotDecisionBrief />
+        <Approach />
         <SystemsAndTools />
-        <ExperienceAndCredentials />
+        <Experience />
         <ContactSection />
       </main>
       <SiteFooter />
