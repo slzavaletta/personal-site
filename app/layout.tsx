@@ -1,18 +1,22 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono, Source_Sans_3 } from "next/font/google";
-import { MotionProvider } from "@/app/components/motion/MotionProvider";
+
+import { THEME_BOOT_SCRIPT } from "@/app/components/theme/theme";
+import { CURRENT_TITLE, ROLE_TRANSITION, SITE_LINKS } from "@/app/lib/content";
 import { SITE_EMAIL, SITE_NAME, SITE_URL } from "@/app/lib/site";
 import "./globals.css";
 
 /*
- * Archivo and Source Sans carry the hero, so they stay on the critical path.
- * IBM Plex Mono only sets small labels; `preload: false` keeps it off the
- * first-paint contention while `swap` still renders it the moment it lands.
- * next/font generates the metric-matched Arial fallbacks automatically, so a
- * late swap does not reflow.
+ * Archivo carries the name and every heading, and its width axis is what the
+ * hero animates, so the variable font loads with `wdth` and stays on the
+ * critical path. Source Sans sets the reading copy. IBM Plex Mono only sets
+ * dates and figures; `preload: false` keeps it off first-paint contention.
+ * next/font generates metric-matched fallbacks, so a late swap does not
+ * reflow.
  */
 const archivo = Archivo({
   subsets: ["latin"],
+  axes: ["wdth"],
   variable: "--font-display",
   display: "swap",
   preload: true,
@@ -34,13 +38,10 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 const NAME = SITE_NAME;
-/*
- * The title a reader can verify on LinkedIn and in the résumé. "AI deployment"
- * is the direction of the work and belongs in the description, not here.
- */
-const ROLE = "Technical Project Manager";
-const DESCRIPTION =
-  "Technical Project Manager running enterprise AI and software delivery: choosing the use case, running the pilot, supporting adoption, and taking the scale-or-stop decision. Ten years of delivery across the United States and Latin America, with staffing and P&L ownership.";
+const ROLE = CURRENT_TITLE;
+const DESCRIPTION = ROLE_TRANSITION.public
+  ? `Technical Project Manager running enterprise AI and software delivery — staffing, P&L, risk, adoption and the client decisions that follow. Joining ${ROLE_TRANSITION.next.company} as ${ROLE_TRANSITION.next.title} in ${ROLE_TRANSITION.startsOnLabel}. Ten years of delivery across the United States and Latin America.`
+  : "Technical Project Manager running enterprise AI and software delivery — staffing, P&L, risk, adoption and the client decisions that follow. Ten years of delivery across the United States and Latin America.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -55,14 +56,14 @@ export const metadata: Metadata = {
   category: "portfolio",
   keywords: [
     "Technical Project Manager",
+    "Technical Program Manager",
     "Enterprise AI deployment",
     "AI delivery",
-    "AI deployment",
-    "Software delivery",
+    "AI in clinical development",
+    "Regulated industries",
     "Program management",
     "P&L ownership",
     "Distributed teams",
-    "Globant",
   ],
   alternates: {
     canonical: "/",
@@ -93,8 +94,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#F6F7F5",
-  colorScheme: "light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F6F7F5" },
+    { media: "(prefers-color-scheme: dark)", color: "#131513" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
@@ -109,28 +112,19 @@ const personJsonLd = {
   email: `mailto:${SITE_EMAIL}`,
   worksFor: {
     "@type": "Organization",
-    name: "Globant",
+    name: ROLE_TRANSITION.current.company,
   },
-  /*
-   * Ordered by what the page argues he does, and what he wants to be found
-   * for. "Scrum" comes out: it stays accurate in the credentials block and the
-   * Approach body, but here it is a top-level self-description and it is not
-   * the one that should lead.
-   */
   knowsAbout: [
     "Enterprise AI deployment",
     "AI pilot delivery",
     "Technology adoption",
-    "Technical delivery leadership",
-    "Program management",
+    "Technical program management",
     "P&L ownership",
     "Distributed team leadership",
     "Workflow automation",
+    "Life sciences",
   ],
-  sameAs: [
-    "https://www.linkedin.com/in/slzavaletta",
-    "https://github.com/slzavaletta",
-  ],
+  sameAs: [SITE_LINKS.linkedin, SITE_LINKS.github],
 };
 
 export default function RootLayout({
@@ -140,16 +134,10 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${archivo.variable} ${sourceSans.variable} ${ibmPlexMono.variable}`}
+      suppressHydrationWarning
     >
       <head>
-        {/*
-          The section index ships hidden so it cannot flash over the hero, and
-          its own script clears that. With scripting off nothing ever will, so
-          this hands it back — the links work, they just cannot follow along.
-        */}
-        <noscript>
-          <style>{`.section-index[data-pending]{opacity:1;pointer-events:auto}`}</style>
-        </noscript>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
       </head>
       <body>
         <a
@@ -158,7 +146,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <MotionProvider>{children}</MotionProvider>
+        {children}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
