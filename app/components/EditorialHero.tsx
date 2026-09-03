@@ -3,13 +3,13 @@ import { HERO } from "@/app/lib/content";
 export function EditorialHero() {
   return (
     <section id="top" className="scroll-mt-0">
-      <div className="page-shell pt-10 pb-8 sm:pt-14 sm:pb-10">
+      <div className="page-shell pt-10 sm:pt-14">
         <p className="max-w-[62ch] text-sm leading-relaxed text-mute">
           {HERO.role}
         </p>
 
-        <h1 className="hero-name mt-5">
-          {HERO.firstName} {HERO.lastName}
+        <h1 className="hero-name mt-6">
+          {HERO.firstName} {HERO.lastName}.
         </h1>
 
         <p className="hero-statement mt-8">{HERO.statement}</p>
@@ -32,6 +32,16 @@ export function EditorialHero() {
             </a>
           </div>
         </div>
+      </div>
+
+      {/*
+       * The sky band is decorative: the clock in the header already carries
+       * the time as text. The disc's position comes from `data-hour`, written
+       * on the server, so it renders correctly without JavaScript.
+       */}
+      <div className="sky" aria-hidden="true">
+        <span className="sky__horizon" />
+        <span className="sun" />
       </div>
     </section>
   );

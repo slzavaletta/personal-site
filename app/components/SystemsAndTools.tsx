@@ -14,7 +14,7 @@ export function SystemsAndTools() {
         <div className="mt-8 border-b border-rule-strong">
           {SYSTEMS.projects.map((project) => (
             <article key={project.id} className="system-row">
-              <h3 className="text-xl font-semibold tracking-[-0.015em]">
+              <h3 className="font-heading text-[1.4rem] font-semibold tracking-[-0.015em]">
                 {project.name}
               </h3>
               <p className="max-w-[62ch] text-base leading-relaxed text-mute">

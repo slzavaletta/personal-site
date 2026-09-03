@@ -34,7 +34,7 @@ export function CaseStudies() {
         <div className="section-head">
           <h2 className="editorial-heading">{WORK_INTRO.heading}</h2>
           <p className="reading-copy">{WORK_INTRO.body}</p>
-          <p className="text-[1.0625rem] leading-relaxed">{PROOF_LINE}</p>
+          <p className="proof-line">{PROOF_LINE}</p>
         </div>
 
         <div className="mt-8 sm:mt-10">

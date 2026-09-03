@@ -29,9 +29,13 @@ export default function Home() {
         <Approach />
         <SystemsAndTools />
         <Experience />
-        <ContactSection />
+        <div className="night">
+          <ContactSection />
+        </div>
       </main>
-      <SiteFooter />
+      <div className="night">
+        <SiteFooter />
+      </div>
     </>
   );
 }

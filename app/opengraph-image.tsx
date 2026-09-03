@@ -39,12 +39,35 @@ export default async function OpengraphImage() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        position: "relative",
         backgroundColor: colors.paper,
         color: colors.ink,
         padding: "56px 64px 52px",
         fontFamily: '"Atkinson Hyperlegible", Arial, sans-serif',
       }}
     >
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 168,
+          height: 2,
+          backgroundColor: `${colors.ink}33`,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: 78,
+          left: 660,
+          width: 180,
+          height: 180,
+          borderRadius: 999,
+          backgroundColor: colors.ink,
+        }}
+      />
+
       <div
         style={{
           display: "flex",
