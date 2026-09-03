@@ -445,6 +445,7 @@
 
   html {
     min-width: 20rem;
+    overflow-x: clip;
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
     background: var(--paper);
@@ -677,6 +678,8 @@
    * sky. In the dark scheme the same disc reads as the moon.
    */
   .sky {
+    --sun-r: clamp(4rem, 13vw, 10rem);
+
     position: relative;
     height: clamp(9.5rem, 24vw, 19rem);
     margin-top: clamp(1.5rem, 4vw, 3rem);
@@ -706,8 +709,8 @@
   .sun {
     position: absolute;
     bottom: 36%;
-    left: var(--sun-x, 50%);
-    width: clamp(8rem, 26vw, 20rem);
+    left: clamp(var(--sun-r), var(--sun-x, 50%), calc(100% - var(--sun-r)));
+    width: calc(var(--sun-r) * 2);
     aspect-ratio: 1;
     border-radius: 999px;
     background: var(--ink);
