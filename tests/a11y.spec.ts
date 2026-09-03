@@ -17,11 +17,16 @@ async function audit(page: Page) {
 async function contrastRatio(page: Page) {
   return page.evaluate(() => {
     const cs = getComputedStyle(document.body);
-    const parse = (value: string) => {
-      const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-      return match
-        ? [Number(match[1]), Number(match[2]), Number(match[3])]
-        : [0, 0, 0];
+    const toRgb = (value: string) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1;
+      canvas.height = 1;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      if (!ctx) return [0, 0, 0];
+      ctx.fillStyle = value;
+      ctx.fillRect(0, 0, 1, 1);
+      const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+      return [r, g, b];
     };
     const linear = (channel: number) => {
       const s = channel / 255;
@@ -29,8 +34,8 @@ async function contrastRatio(page: Page) {
     };
     const luminance = ([r, g, b]: number[]) =>
       0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b);
-    const ink = luminance(parse(cs.color));
-    const paper = luminance(parse(cs.backgroundColor));
+    const ink = luminance(toRgb(cs.color));
+    const paper = luminance(toRgb(cs.backgroundColor));
     const [hi, lo] = ink > paper ? [ink, paper] : [paper, ink];
     return (hi + 0.05) / (lo + 0.05);
   });
@@ -139,11 +144,15 @@ test.describe("living layer", () => {
 
     for (const theme of ["light", "dark"] as const) {
       await page.evaluate((value) => {
+        document.documentElement.style.setProperty("--duration-light", "0s");
+        document.documentElement.style.setProperty("--duration-standard", "0s");
+        document.body.style.transition = "none";
         document.documentElement.setAttribute("data-theme", value);
       }, theme);
       for (const hour of ["7", "12", "17", "21"]) {
         await page.evaluate((value) => {
           document.documentElement.setAttribute("data-hour", value);
+          void document.body.offsetHeight;
         }, hour);
         const ratio = await contrastRatio(page);
         expect(
