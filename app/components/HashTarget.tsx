@@ -26,16 +26,16 @@ import { useEffect } from "react";
  */
 export function HashTarget() {
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash.length < 2) return;
+    /*
+     * The fragment is untrusted input. It is looked up as an id, never run
+     * through the selector engine, and only when it is shaped like one of the
+     * ids this page authors — so a crafted URL cannot hand the browser a
+     * pathological selector to evaluate.
+     */
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!/^[A-Za-z][\w-]{0,63}$/.test(id)) return;
 
-    let target: Element | null = null;
-    try {
-      target = document.querySelector(hash);
-    } catch {
-      // A hash that is not a valid selector is not ours to handle.
-      return;
-    }
+    const target = document.getElementById(id);
     if (!target) return;
 
     /*
@@ -69,6 +69,24 @@ export function HashTarget() {
       cancelled = true;
     };
 
+    /*
+     * Only keys that move the viewport count as the reader leaving. Tab and
+     * the arrow keys inside a control are navigation, not a scroll, and a
+     * keyboard user who tabs once should still land on the anchor.
+     */
+    const SCROLL_KEYS = new Set([
+      "ArrowDown",
+      "ArrowUp",
+      "PageDown",
+      "PageUp",
+      "Home",
+      "End",
+      " ",
+    ]);
+    const releaseOnScrollKey = (event: KeyboardEvent) => {
+      if (SCROLL_KEYS.has(event.key)) release();
+    };
+
     // Layout is already computed by the time an effect runs, so this is the
     // pass that normally does the work; the rest are backstops.
     land();
@@ -82,7 +100,7 @@ export function HashTarget() {
     const releaseOptions = { passive: true, once: true } as const;
     window.addEventListener("wheel", release, releaseOptions);
     window.addEventListener("touchmove", release, releaseOptions);
-    window.addEventListener("keydown", release, { once: true });
+    window.addEventListener("keydown", releaseOnScrollKey);
 
     return () => {
       cancelled = true;
@@ -90,7 +108,7 @@ export function HashTarget() {
       window.removeEventListener("load", land);
       window.removeEventListener("wheel", release);
       window.removeEventListener("touchmove", release);
-      window.removeEventListener("keydown", release);
+      window.removeEventListener("keydown", releaseOnScrollKey);
     };
   }, []);
 
