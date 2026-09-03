@@ -10,8 +10,9 @@ export const SITE_NAME = "Santiago López Zavaletta";
 export const SITE_EMAIL = "santiago@slzavaletta.com";
 
 /**
- * Date of the last content change, in UTC. Drives the sitemap so search
- * engines see a real modification date rather than the build timestamp.
- * Update it when `content.ts` changes in a way a reader would notice.
+ * Date of the last content change, in UTC. Drives the sitemap's lastModified
+ * so search engines see a real modification date rather than the build
+ * timestamp. Update it when `content.ts` changes in a way a reader would
+ * notice.
  */
 export const CONTENT_UPDATED_ON = "2026-09-02";
