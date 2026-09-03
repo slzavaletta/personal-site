@@ -1,15 +1,5 @@
 <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="4" fill="#F6F7F5"/>
-  <rect x="5" y="5" width="54" height="54" fill="none" stroke="#111411" stroke-width="2"/>
-  <path d="M5 47H59V59H5Z" fill="#C23B2A"/>
-  <text
-    x="31.5"
-    y="39"
-    fill="#111411"
-    font-family="Arial, sans-serif"
-    font-size="25"
-    font-weight="800"
-    letter-spacing="-2"
-    text-anchor="middle"
-  >SLZ</text>
+  <rect width="64" height="64" fill="#F3E6C8"/>
+  <circle cx="32" cy="30" r="17" fill="#3A2C22"/>
+  <rect x="4" y="38.5" width="56" height="2" fill="#3A2C22" opacity="0.85"/>
 </svg>

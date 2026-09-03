@@ -14,6 +14,33 @@ async function audit(page: Page) {
   expect(summary, JSON.stringify(summary, null, 2)).toEqual([]);
 }
 
+async function contrastRatio(page: Page) {
+  return page.evaluate(() => {
+    const cs = getComputedStyle(document.body);
+    const toRgb = (value: string) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1;
+      canvas.height = 1;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      if (!ctx) return [0, 0, 0];
+      ctx.fillStyle = value;
+      ctx.fillRect(0, 0, 1, 1);
+      const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+      return [r, g, b];
+    };
+    const linear = (channel: number) => {
+      const s = channel / 255;
+      return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+    };
+    const luminance = ([r, g, b]: number[]) =>
+      0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b);
+    const ink = luminance(toRgb(cs.color));
+    const paper = luminance(toRgb(cs.backgroundColor));
+    const [hi, lo] = ink > paper ? [ink, paper] : [paper, ink];
+    return (hi + 0.05) / (lo + 0.05);
+  });
+}
+
 async function open(page: Page, theme?: "light" | "dark") {
   if (theme) {
     await page.addInitScript((value) => {
@@ -21,8 +48,6 @@ async function open(page: Page, theme?: "light" | "dark") {
     }, theme);
   }
   await page.goto("/");
-  // Let the hero entrance finish so nothing is mid-transition when axe reads it.
-  await page.waitForTimeout(1400);
 }
 
 test.describe("accessibility", () => {
@@ -105,5 +130,36 @@ test.describe("living layer", () => {
 
     await page.reload();
     await expect(html).toHaveAttribute("data-theme", after);
+  });
+
+  test("paper contrast holds at morning, noon, dusk and night", async ({
+    page,
+  }) => {
+    await open(page, "light");
+    const html = page.locator("html");
+    await expect(html).toHaveAttribute(
+      "data-hour",
+      /^(?:[0-9]|1[0-9]|2[0-3])$/,
+    );
+
+    for (const theme of ["light", "dark"] as const) {
+      await page.evaluate((value) => {
+        document.documentElement.style.setProperty("--duration-light", "0s");
+        document.documentElement.style.setProperty("--duration-standard", "0s");
+        document.body.style.transition = "none";
+        document.documentElement.setAttribute("data-theme", value);
+      }, theme);
+      for (const hour of ["7", "12", "17", "21"]) {
+        await page.evaluate((value) => {
+          document.documentElement.setAttribute("data-hour", value);
+          void document.body.offsetHeight;
+        }, hour);
+        const ratio = await contrastRatio(page);
+        expect(
+          ratio,
+          `ink on paper at theme=${theme} hour=${hour}`,
+        ).toBeGreaterThanOrEqual(4.7);
+      }
+    }
   });
 });

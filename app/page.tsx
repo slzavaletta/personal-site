@@ -5,7 +5,6 @@ import { EditorialHero } from "@/app/components/EditorialHero";
 import { Experience } from "@/app/components/Experience";
 import { HashTarget } from "@/app/components/HashTarget";
 import { Ledger } from "@/app/components/Ledger";
-import { Proof } from "@/app/components/Proof";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { SystemsAndTools } from "@/app/components/SystemsAndTools";
 import { formatLocalClock } from "@/app/lib/time";
@@ -26,14 +25,17 @@ export default function Home() {
       <main id="main" tabIndex={-1}>
         <EditorialHero />
         <Ledger />
-        <Proof />
         <CaseStudies />
         <Approach />
         <SystemsAndTools />
         <Experience />
-        <ContactSection />
+        <div className="night">
+          <ContactSection />
+        </div>
       </main>
-      <SiteFooter />
+      <div className="night">
+        <SiteFooter />
+      </div>
     </>
   );
 }

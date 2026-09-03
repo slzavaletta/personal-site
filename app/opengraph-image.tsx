@@ -1,21 +1,36 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 import { CURRENT_TITLE, ROLE_TRANSITION } from "@/app/lib/content";
+import { SITE_NAME } from "@/app/lib/site";
 
 export const alt = `Santiago López Zavaletta — ${CURRENT_TITLE}. Enterprise AI and software delivery.`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const colors = {
-  paper: "#F6F7F5",
-  ink: "#111411",
-  signal: "#C23B2A",
-  field: "#E6EBE8",
-  graphite: "#59625D",
-  inverse: "#151715",
+  paper: "#F3E6C8",
+  ink: "#3A2C22",
+  mute: "#5C4A3A",
 };
 
-export default function OpengraphImage() {
+async function loadFont(filename: string) {
+  return readFile(join(process.cwd(), "app/fonts", filename));
+}
+
+export default async function OpengraphImage() {
+  const [andada, atkinson, atkinsonBold] = await Promise.all([
+    loadFont("AndadaPro-SemiBold.ttf"),
+    loadFont("AtkinsonHyperlegible-Regular.ttf"),
+    loadFont("AtkinsonHyperlegible-Bold.ttf"),
+  ]);
+
+  const nowLine = `${CURRENT_TITLE} · ${ROLE_TRANSITION.current.company}`;
+  const nextLine = ROLE_TRANSITION.public
+    ? `${ROLE_TRANSITION.next.title}, ${ROLE_TRANSITION.next.company}`
+    : "AI deployment";
+
   return new ImageResponse(
     <div
       style={{
@@ -23,183 +38,122 @@ export default function OpengraphImage() {
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        justifyContent: "space-between",
+        position: "relative",
         backgroundColor: colors.paper,
         color: colors.ink,
-        fontFamily: "Arial, sans-serif",
+        padding: "56px 64px 52px",
+        fontFamily: '"Atkinson Hyperlegible", Arial, sans-serif',
       }}
     >
       <div
         style={{
-          height: 82,
-          margin: "0 58px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: `2px solid ${colors.ink}`,
-          fontFamily: "monospace",
-          fontSize: 17,
-          fontWeight: 600,
-          letterSpacing: "0.08em",
-          textTransform: "uppercase",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          bottom: 168,
+          height: 2,
+          backgroundColor: `${colors.ink}33`,
         }}
-      >
-        <span>SLZ / Buenos Aires</span>
-        <span style={{ color: colors.graphite }}>
-          Technical Delivery Leader
-        </span>
-      </div>
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: 78,
+          left: 660,
+          width: 180,
+          height: 180,
+          borderRadius: 999,
+          backgroundColor: colors.ink,
+        }}
+      />
 
       <div
         style={{
-          flex: 1,
-          padding: "34px 58px 32px",
           display: "flex",
-          flexDirection: "column",
           justifyContent: "space-between",
+          fontSize: 22,
+          color: colors.mute,
         }}
       >
+        <span>Buenos Aires</span>
+        <span>slzavaletta.com</span>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column" }}>
         <div
           style={{
             display: "flex",
-            alignItems: "flex-start",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              fontSize: 88,
-              fontWeight: 800,
-              letterSpacing: "-0.055em",
-              lineHeight: 0.87,
-              textTransform: "uppercase",
-            }}
-          >
-            <span>Santiago</span>
-            <span style={{ marginLeft: 102 }}>López</span>
-            <span>Zavaletta</span>
-          </div>
-
-          <div
-            style={{
-              width: 300,
-              display: "flex",
-              flexDirection: "column",
-              borderTop: `5px solid ${colors.signal}`,
-              paddingTop: 15,
-            }}
-          >
-            <span
-              style={{
-                color: colors.signal,
-                fontFamily: "monospace",
-                fontSize: 16,
-                fontWeight: 700,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-              }}
-            >
-              The work
-            </span>
-            <span
-              style={{
-                marginTop: 9,
-                fontSize: 27,
-                fontWeight: 600,
-                lineHeight: 1.12,
-              }}
-            >
-              AI + software delivery
-            </span>
-            <span
-              style={{
-                marginTop: 10,
-                color: colors.graphite,
-                fontSize: 20,
-                lineHeight: 1.25,
-              }}
-            >
-              Staffing, P&amp;L, Scrum, risk, and client decisions.
-            </span>
-          </div>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "stretch",
-            borderTop: `2px solid ${colors.ink}`,
-            fontFamily: "monospace",
-            fontSize: 16,
+            fontFamily: '"Andada Pro", Georgia, serif',
+            fontSize: 64,
             fontWeight: 600,
-            letterSpacing: "0.045em",
-            textTransform: "uppercase",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.15,
           }}
         >
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              paddingTop: 16,
-            }}
-          >
-            <span style={{ color: colors.signal, marginRight: 10 }}>Now</span>
-            {`${CURRENT_TITLE} · ${ROLE_TRANSITION.current.company}`}
-          </div>
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              paddingTop: 16,
-              paddingLeft: 28,
-              borderLeft: `1px solid ${colors.ink}`,
-            }}
-          >
-            <span style={{ color: colors.signal, marginRight: 10 }}>Next</span>
-            {ROLE_TRANSITION.public
-              ? `${ROLE_TRANSITION.next.domain} · ${ROLE_TRANSITION.next.company}`
-              : "AI deployment"}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              paddingTop: 16,
-              paddingLeft: 28,
-              color: colors.graphite,
-            }}
-          >
-            slzavaletta.com
-          </div>
+          {SITE_NAME}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            marginTop: 18,
+            maxWidth: 920,
+            fontFamily: '"Atkinson Hyperlegible", Arial, sans-serif',
+            fontSize: 28,
+            fontWeight: 400,
+            lineHeight: 1.35,
+          }}
+        >
+          I own the delivery around AI work: the team, the budget, the risk, and
+          the decision the client has to make.
         </div>
       </div>
 
       <div
         style={{
-          height: 18,
           display: "flex",
-          backgroundColor: colors.inverse,
+          gap: 48,
+          borderTop: `1px solid ${colors.ink}22`,
+          paddingTop: 22,
+          fontSize: 22,
         }}
       >
-        <div
-          style={{
-            width: 246,
-            display: "flex",
-            backgroundColor: colors.signal,
-          }}
-        />
-        <div
-          style={{
-            width: 142,
-            display: "flex",
-            backgroundColor: colors.field,
-          }}
-        />
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <span style={{ color: colors.mute, fontSize: 16, fontWeight: 700 }}>
+            Now
+          </span>
+          <span>{nowLine}</span>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <span style={{ color: colors.mute, fontSize: 16, fontWeight: 700 }}>
+            Next
+          </span>
+          <span>{nextLine}</span>
+        </div>
       </div>
     </div>,
-    { ...size },
+    {
+      ...size,
+      fonts: [
+        {
+          name: "Andada Pro",
+          data: andada,
+          weight: 600,
+          style: "normal",
+        },
+        {
+          name: "Atkinson Hyperlegible",
+          data: atkinson,
+          weight: 400,
+          style: "normal",
+        },
+        {
+          name: "Atkinson Hyperlegible",
+          data: atkinsonBold,
+          weight: 700,
+          style: "normal",
+        },
+      ],
+    },
   );
 }
