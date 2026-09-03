@@ -3,13 +3,10 @@ import { ArrowDown, Download } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { HERO } from "@/app/lib/content";
-import { KineticName } from "@/app/components/KineticName";
 
 const enter = (index: number) => ({ "--i": index }) as CSSProperties;
 
 export function EditorialHero() {
-  const lines = [HERO.firstName, ...HERO.lastName.split(" ")];
-
   return (
     <section id="top" className="hero-grid scroll-mt-0">
       <div className="page-shell pt-8 pb-10 sm:pt-12 sm:pb-12 lg:pb-14">
@@ -22,11 +19,17 @@ export function EditorialHero() {
           </span>
         </p>
 
-        <KineticName
-          lines={lines}
-          ariaLabel={`${HERO.firstName} ${HERO.lastName}`}
-          className="display-name mt-9 uppercase sm:mt-8 lg:mt-10"
-        />
+        <h1
+          className="display-name hero-enter mt-9 sm:mt-8 lg:mt-10"
+          aria-label={`${HERO.firstName} ${HERO.lastName}`}
+        >
+          <span className="display-name__line">{HERO.firstName}</span>
+          {HERO.lastName.split(" ").map((part) => (
+            <span key={part} className="display-name__line">
+              {part}
+            </span>
+          ))}
+        </h1>
 
         <div className="mt-10 grid gap-10 border-t border-rule-strong pt-6 sm:mt-8 lg:grid-cols-12 lg:gap-8">
           <p
