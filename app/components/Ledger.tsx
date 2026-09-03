@@ -1,10 +1,12 @@
+import type { ReactNode } from "react";
+
 import { NOW, ROLE_TRANSITION } from "@/app/lib/content";
 import { getLatestActivity } from "@/app/lib/github";
 import { formatShortDate } from "@/app/lib/time";
 
 type Row = {
   key: string;
-  value: React.ReactNode;
+  value: ReactNode;
   meta?: string;
 };
 
@@ -59,25 +61,17 @@ export async function Ledger() {
 
   rows.push({
     key: "Availability",
-    value: (
-      <>
-        <span aria-hidden="true" className="ledger__pulse" />
-        {NOW.availability}
-      </>
-    ),
+    value: NOW.availability,
   });
 
   return (
     <section
       aria-labelledby="ledger-heading"
-      className="page-shell pb-12 sm:pb-14"
+      className="page-shell pb-10 sm:pb-12"
     >
-      <div className="flex items-center gap-5 pb-4">
-        <h2 id="ledger-heading" className="utility-label text-signal-ink">
-          {NOW.label}
-        </h2>
-        <span aria-hidden="true" className="h-px flex-1 bg-rule-strong" />
-      </div>
+      <h2 id="ledger-heading" className="utility-label pb-3">
+        {NOW.label}
+      </h2>
 
       <dl className="ledger">
         {rows.map((row) => (

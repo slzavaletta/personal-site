@@ -15,4 +15,4 @@ export const SITE_EMAIL = "santiago@slzavaletta.com";
  * timestamp. Update it when `content.ts` changes in a way a reader would
  * notice.
  */
-export const CONTENT_UPDATED_ON = "2026-09-02";
+export const CONTENT_UPDATED_ON = "2026-09-03";

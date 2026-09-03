@@ -1,40 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono, Source_Sans_3 } from "next/font/google";
+import { Andada_Pro, Atkinson_Hyperlegible } from "next/font/google";
 
 import { THEME_BOOT_SCRIPT } from "@/app/components/theme/theme";
 import { CURRENT_TITLE, ROLE_TRANSITION, SITE_LINKS } from "@/app/lib/content";
 import { SITE_EMAIL, SITE_NAME, SITE_URL } from "@/app/lib/site";
+import { getBuenosAiresHour } from "@/app/lib/time";
 import "./globals.css";
 
 /*
- * Archivo carries the name and every heading, and its width axis is what the
- * hero animates, so the variable font loads with `wdth` and stays on the
- * critical path. Source Sans sets the reading copy. IBM Plex Mono only sets
- * dates and figures; `preload: false` keeps it off first-paint contention.
- * next/font generates metric-matched fallbacks, so a late swap does not
- * reflow.
+ * Andada Pro is an Argentine slab, designed for bilingual print. Atkinson
+ * Hyperlegible is the reading face: characters that cannot be mistaken for
+ * each other. Neither is the kit that shipped with the last design.
  */
-const archivo = Archivo({
+const andada = Andada_Pro({
   subsets: ["latin"],
-  axes: ["wdth"],
+  weight: ["400", "600"],
+  style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
   preload: true,
 });
 
-const sourceSans = Source_Sans_3({
+const atkinson = Atkinson_Hyperlegible({
   subsets: ["latin"],
+  weight: ["400", "700"],
   variable: "--font-body",
   display: "swap",
   preload: true,
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-utility",
-  display: "swap",
-  preload: false,
 });
 
 const NAME = SITE_NAME;
@@ -95,8 +87,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F6F7F5" },
-    { media: "(prefers-color-scheme: dark)", color: "#131513" },
+    { media: "(prefers-color-scheme: light)", color: "#F3E6C8" },
+    { media: "(prefers-color-scheme: dark)", color: "#2A241F" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -133,7 +125,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${archivo.variable} ${sourceSans.variable} ${ibmPlexMono.variable}`}
+      className={`${andada.variable} ${atkinson.variable}`}
+      data-hour={String(getBuenosAiresHour())}
       suppressHydrationWarning
     >
       <head>
@@ -142,7 +135,7 @@ export default function RootLayout({
       <body>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:min-h-11 focus:bg-ink focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-paper focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-signal"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:min-h-11 focus:bg-ink focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-paper focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-ink"
         >
           Skip to content
         </a>

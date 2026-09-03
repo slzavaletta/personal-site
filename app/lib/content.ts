@@ -76,42 +76,18 @@ export const HERO = {
   firstName: "Santiago",
   lastName: "López Zavaletta",
   statement:
-    "I run enterprise AI and software delivery—staffing, P&L, risk, adoption, and the client decisions that follow.",
+    "I spend my days on the part of AI work that is not the model: staffing the team, holding the budget, naming the risks, and getting the client to a decision they can stand behind.",
   supporting:
     "My career started in life-sciences delivery, moved through enterprise infrastructure, and grew into AI and digital delivery at scale for clients across the United States and Latin America.",
   direction:
     "The work I want more of is AI deployment where the constraints are real: regulated industries, enterprise data, and people whose work changes. Next stop, AI in clinical development.",
-  primaryAction: { label: "Read the work", href: "#work" },
+  primaryAction: { label: "The work", href: "#work" },
   secondaryAction: { label: "Download résumé", href: SITE_LINKS.resume },
 } as const;
 
-export type ProofPoint = {
-  value: string;
-  label: string;
-};
-
-export const PROOF: readonly ProofPoint[] = [
-  {
-    value: "10+ years",
-    label: "across life sciences, infrastructure, and technical delivery",
-  },
-  {
-    value: "Multi-million",
-    label: "AI delivery account, with staffing and P&L ownership",
-  },
-  {
-    value: "6 POCs",
-    label: "delivered while building a Digital Twin capability",
-  },
-  {
-    value: "3 go-lives",
-    label: "enterprise AI implementations, on time and fully adopted",
-  },
-  {
-    value: "4 deals",
-    label: "M&A due diligence and integration across Latin America and Europe",
-  },
-];
+/** One spoken line of proof, not a stats grid. */
+export const PROOF_LINE =
+  "Ten years. A multi-million-dollar AI account. Six POCs. Three go-lives. Four deals.";
 
 /**
  * The ledger: what is true right now. Edited by commit; the GitHub row is
@@ -120,84 +96,60 @@ export const PROOF: readonly ProofPoint[] = [
 export const NOW = {
   label: "Now",
   building:
-    "Scope Sentinel and SOW Intake — Claude skills that read a request against the SOW and cite the clause.",
+    "Two tools that read a request against the SOW, cite the clause, and say so when the evidence is missing.",
   learning:
     "Claude Certified Architect (Foundations); orchestration, evaluation, and retrieval for agent workflows.",
   availability: "Open to conversations about AI deployment work.",
 } as const;
 
-export type CaseMarginalia = {
-  context: string;
-  constraint: string;
-  work: string;
-  signal: string;
-};
-
 export type CaseStudy = {
   id: string;
-  number: string;
   label: string;
   period: string;
   title: string;
   summary: string;
-  marginalia: CaseMarginalia;
+  context: string;
+  constraint: string;
 };
 
 export const WORK_INTRO = {
-  heading: "Selected work.",
+  heading: "Selected work",
   body: "Three examples: what was difficult, what I owned, and what changed.",
 } as const;
 
 export const CASE_STUDIES = [
   {
     id: "ai-delivery",
-    number: "01",
     label: "AI delivery",
     period: "Globant · Oct 2025–present",
     title:
-      "Improving margin and reducing overhead on a multi-million-dollar AI account.",
+      "Improving margin and reducing overhead on a multi-million-dollar AI account",
     summary:
       "A multidisciplinary AI account had margin pressure and too much recurring delivery work happening by hand. I own staffing, capacity, and P&L for a delivery team of around twenty, run Scrum and governance, and automate recurring work with Claude and Jira. Account margin moved up several points.",
-    marginalia: {
-      context:
-        "AI delivery across data science, engineering, front-end, and DevSecOps.",
-      constraint: "Margin pressure and recurring operational overhead.",
-      work: "Staffing mix, capacity planning, RAID governance, Scrum, and workflow automation.",
-      signal:
-        "Several points of margin improvement, with less recurring work by hand.",
-    },
+    context:
+      "AI delivery across data science, engineering, front-end, and DevSecOps.",
+    constraint: "Margin pressure and recurring operational overhead.",
   },
   {
     id: "digital-twin-studio",
-    number: "02",
     label: "Digital Twin Studio",
     period: "Globant · Dec 2024–Oct 2025",
-    title: "Building a new Digital Twin capability through six POCs.",
+    title: "Building a new Digital Twin capability through six POCs",
     summary:
       "Globant wanted a Digital Twin capability in a domain that was new to the team. I led a five-person LATAM POD, delivered a six-month fixed-price factory twin, worked with external partners, and supported presales. The first POC took roughly five weeks; the studio went on to deliver six.",
-    marginalia: {
-      context: "A new real-time 3D capability with no existing delivery model.",
-      constraint:
-        "An unfamiliar domain, external partners, and a fixed-price commitment.",
-      work: "Team design, vendor coordination, POC delivery, and a repeatable studio model.",
-      signal:
-        "Six POCs, roughly five weeks to the first, and a fixed-price delivery on time.",
-    },
+    context: "A new real-time 3D capability with no existing delivery model.",
+    constraint:
+      "An unfamiliar domain, external partners, and a fixed-price commitment.",
   },
   {
     id: "mergers-and-acquisitions",
-    number: "03",
     label: "M&A and corporate development",
     period: "Globant · Jun 2022–Mar 2023",
-    title: "Coordinating four M&A programs across four countries.",
+    title: "Coordinating four M&A programs across four countries",
     summary:
       "I coordinated due diligence across three Latin American acquisitions and the post-merger integration of a European firm. The work covered legal, marketing, IT, and change-management risk across four organisations in Latin America and Europe.",
-    marginalia: {
-      context: "Simultaneous due diligence and post-merger work.",
-      constraint: "Different countries, functions, and decision owners.",
-      work: "Cross-functional coordination, risk tracking, stakeholder communication, and integration planning.",
-      signal: "Four deals across Latin America and Europe.",
-    },
+    context: "Simultaneous due diligence and post-merger work.",
+    constraint: "Different countries, functions, and decision owners.",
   },
 ] as const satisfies readonly CaseStudy[];
 
@@ -219,7 +171,7 @@ export type BriefField = {
  */
 export const BRIEF = {
   label: "Approach",
-  heading: "Before a pilot starts, I want five things written down.",
+  heading: "Before a pilot starts, I want five things written down",
   body: "This is the brief I work from: what the delivery team and the client both have to agree on before the first sprint. Pick a field to see what tends to happen when it is missing, and where the habit came from.",
   panelLabels: {
     prompt: "The question",
@@ -291,7 +243,7 @@ export type DeliverySystem = {
 };
 
 export const SYSTEMS = {
-  heading: "Systems I build, tools I use.",
+  heading: "Systems I build, tools I use",
   body: "These keep scope and evidence visible, so the next delivery decision does not depend on memory.",
   projects: [
     {
@@ -389,7 +341,7 @@ export type ExperienceItem = {
 };
 
 export const EXPERIENCE_SECTION = {
-  heading: "How I got here.",
+  heading: "How I got here",
   note: "Two engagements ran concurrently with my role at Globant, and are marked below.",
 } as const;
 
@@ -474,6 +426,6 @@ export const INDUSTRIES = [
 ] as const;
 
 export const CONTACT = {
-  heading: "Open to conversations about AI deployment work.",
+  heading: "Contact",
   body: "If you are running AI pilots where the constraints are real—regulated industries, enterprise data, people whose work changes—and need someone to own the delivery around them, I would like to talk.",
 } as const;

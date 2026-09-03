@@ -10,6 +10,22 @@ export function formatLocalClock(date: Date): string {
   }).format(date);
 }
 
+/**
+ * Hour of day in Buenos Aires, 0–23. Drives `data-hour` on `<html>` so the
+ * paper's colour temperature can follow the city without a second accent.
+ */
+export function getBuenosAiresHour(date: Date = new Date()): number {
+  const hour = new Intl.DateTimeFormat("en-GB", {
+    hour: "numeric",
+    hourCycle: "h23",
+    timeZone: LOCATION.timeZone,
+  })
+    .formatToParts(date)
+    .find((part) => part.type === "hour")?.value;
+
+  return Number(hour) % 24;
+}
+
 /** "13 Aug 2026", in the owner's time zone. */
 export function formatShortDate(iso: string): string {
   return new Intl.DateTimeFormat("en-GB", {

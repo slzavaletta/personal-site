@@ -3,16 +3,14 @@ import { BriefInstrument } from "@/app/components/BriefInstrument";
 
 export function Approach() {
   return (
-    <section id="approach" className="scroll-mt-8 bg-inverse text-inverse-fg">
+    <section id="approach" className="scroll-mt-8">
       <div className="page-shell section-block">
-        <div className="section-head border-inverse-rule">
-          <div>
-            <p className="utility-label text-signal-on-dark">{BRIEF.label}</p>
-            <h2 className="editorial-heading mt-5 max-w-[16ch]">
-              {BRIEF.heading}
-            </h2>
-          </div>
-          <p className="reading-copy text-inverse-muted">{BRIEF.body}</p>
+        <div className="section-head">
+          <p className="utility-label">{BRIEF.label}</p>
+          <h2 className="editorial-heading mt-2 max-w-[20ch]">
+            {BRIEF.heading}
+          </h2>
+          <p className="reading-copy">{BRIEF.body}</p>
         </div>
 
         <BriefInstrument />
