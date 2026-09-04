@@ -48,6 +48,8 @@ async function open(page: Page, theme?: "light" | "dark") {
     }, theme);
   }
   await page.goto("/");
+  // Let the cover entrance finish so nothing is mid-fade when axe reads it.
+  await page.waitForTimeout(1400);
 }
 
 test.describe("accessibility", () => {
