@@ -17,15 +17,20 @@ right now, and the brief is a document the reader can operate.
 
 ## Highlights
 
-- **Daylight direction.** Warm plaster and umber ink, no mascot colour.
-  Headings in Andada Pro (Huerta Tipográfica, Argentina). Body in Atkinson
-  Hyperlegible. Dark is a scheme the reader can pin.
-- **City light.** The paper's colour temperature tracks the hour in Buenos
-  Aires. Dawn is cooler, late afternoon warmer. Reduced motion snaps to the
-  current hour.
+- **Editorial Vivo direction.** Warm plaster and umber ink with one celeste
+  accent, paper grain, and a pool of light that follows the Buenos Aires
+  hour. Headings in Andada Pro (Huerta Tipográfica, Argentina). Body in
+  Atkinson Hyperlegible. Dark is a scheme the reader can pin.
+- **The Sun of May.** An engraved Sol de Mayo — computed rays, faced disc —
+  turns imperceptibly on the cover, closes the night band above the anthem
+  («Oíd, mortales…»), and marks the favicon and the share card.
+- **Motion with intent.** The cover headline enters word by word through
+  masks; sections rise on scroll via CSS `view()` timelines; hovers draw
+  celeste underlines, wash rows, and return brand colour to tool marks. All
+  of it snaps to static under `prefers-reduced-motion`.
 - **A ledger of what is true now.** Role, next role, what is being built and
   learned, the last public push (fetched on the server, revalidated hourly),
-  and availability.
+  and availability with a live pulse.
 - **Proof in prose.** One spoken line, then three articles. The outcome is
   the last sentence, not a labelled "result signal".
 - **The brief as a document.** Five fields as a radio group with roving

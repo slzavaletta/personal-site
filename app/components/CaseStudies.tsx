@@ -3,7 +3,7 @@ import type { CaseStudy } from "@/app/lib/content";
 
 function Case({ caseStudy }: { caseStudy: CaseStudy }) {
   return (
-    <article id={caseStudy.id} className="case scroll-mt-24">
+    <article id={caseStudy.id} className="case reveal scroll-mt-24">
       <p className="case__meta">
         {caseStudy.label}
         <span aria-hidden="true"> · </span>
@@ -31,7 +31,7 @@ export function CaseStudies() {
   return (
     <section id="work" className="section-block scroll-mt-8">
       <div className="page-shell">
-        <div className="section-head">
+        <div className="section-head reveal">
           <h2 className="editorial-heading">{WORK_INTRO.heading}</h2>
           <p className="reading-copy">{WORK_INTRO.body}</p>
           <p className="proof-line">{PROOF_LINE}</p>

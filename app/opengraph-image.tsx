@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
+import { buildSolDeMayoSvg } from "@/app/components/SolDeMayo";
 import { CURRENT_TITLE, HERO, ROLE_TRANSITION } from "@/app/lib/content";
 import { SITE_NAME } from "@/app/lib/site";
 
@@ -48,6 +49,7 @@ export default async function OpengraphImage() {
         style={{
           display: "flex",
           justifyContent: "space-between",
+          alignItems: "center",
           fontSize: 21,
           color: colors.mute,
         }}
@@ -55,7 +57,12 @@ export default async function OpengraphImage() {
         <span>
           {SITE_NAME} · {CURRENT_TITLE}
         </span>
-        <span>slzavaletta.com</span>
+        <img
+          alt=""
+          width={54}
+          height={54}
+          src={`data:image/svg+xml,${encodeURIComponent(buildSolDeMayoSvg(colors.ink))}`}
+        />
       </div>
 
       <div

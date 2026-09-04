@@ -72,17 +72,24 @@ whose light is the light of a city.
    name.
 2. **Type from a place, not from a kit.** Andada Pro (Huerta Tipográfica,
    Argentina) for titles. Atkinson Hyperlegible for everything else. No mono
-   family. No mascot colour.
-3. **The city is the living thing.** Paper temperature tracks Buenos Aires
-   time. Dawn is cooler, late afternoon warmer. Dark is a scheme the reader
-   can pin, not a second brand.
-4. **Proof is attached to the claim.** Evidence sits in the sentence it
+   family.
+3. **The country is the mark.** An engraved Sol de Mayo stamps the cover and
+   the colophon; the anthem closes the page at nightfall. One celeste accent
+   — the flag over plaster — for the live dot, drawn underlines, hover and
+   focus.
+4. **The city is the living thing.** Paper temperature and a pool of light
+   track Buenos Aires time. Dark is a scheme the reader can pin, not a
+   second brand.
+5. **Motion with intent.** The cover enters word by word; sections rise as
+   they enter; hovers respond. Everything snaps to static under reduced
+   motion.
+6. **Proof is attached to the claim.** Evidence sits in the sentence it
    supports, never in a free-floating stats band.
-5. **Show the artifact, not the framework.** The brief is a document the
+7. **Show the artifact, not the framework.** The brief is a document the
    reader can operate, on the same paper as everything else.
-6. **Whitespace groups; rules are rare.** Reserved for the header, contact,
+8. **Whitespace groups; rules are rare.** Reserved for the header, contact,
    and breaks between cases.
-7. **Say what is current, what is exploratory and what is next.** The ledger
+9. **Say what is current, what is exploratory and what is next.** The ledger
    and the labels make the interface unable to overstate depth.
 
 ## Visual System

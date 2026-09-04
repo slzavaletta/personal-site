@@ -61,7 +61,12 @@ export async function Ledger() {
 
   rows.push({
     key: "Availability",
-    value: NOW.availability,
+    value: (
+      <>
+        <span aria-hidden="true" className="live-dot" />
+        {NOW.availability}
+      </>
+    ),
   });
 
   return (

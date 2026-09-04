@@ -6,14 +6,14 @@ export function SystemsAndTools() {
   return (
     <section id="systems" className="section-block scroll-mt-8">
       <div className="page-shell">
-        <div className="section-head">
+        <div className="section-head reveal">
           <h2 className="editorial-heading">{SYSTEMS.heading}</h2>
           <p className="reading-copy">{SYSTEMS.body}</p>
         </div>
 
         <div className="mt-8 border-b border-rule-strong">
           {SYSTEMS.projects.map((project) => (
-            <article key={project.id} className="system-row">
+            <article key={project.id} className="system-row reveal">
               <h3 className="font-heading text-[1.4rem] font-semibold tracking-[-0.015em]">
                 {project.name}
               </h3>
