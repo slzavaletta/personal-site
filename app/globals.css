@@ -1155,15 +1155,16 @@
   }
 
   .tool-card__items {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 0.4rem;
   }
 
   .tool-chip {
     display: inline-flex;
     min-height: 2.75rem;
-    flex: 1 1 calc(50% - 0.4rem);
+    min-width: 0;
+    width: 100%;
     align-items: center;
     gap: 0.4rem;
     padding: 0 0.75rem;
