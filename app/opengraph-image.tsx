@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-import { CURRENT_TITLE, ROLE_TRANSITION } from "@/app/lib/content";
+import { CURRENT_TITLE, HERO, ROLE_TRANSITION } from "@/app/lib/content";
 import { SITE_NAME } from "@/app/lib/site";
 
 export const alt = `Santiago López Zavaletta — ${CURRENT_TITLE}. Enterprise AI and software delivery.`;
@@ -20,15 +20,14 @@ async function loadFont(filename: string) {
 }
 
 export default async function OpengraphImage() {
-  const [andada, atkinson, atkinsonBold] = await Promise.all([
+  const [andada, andadaItalic, atkinsonBold] = await Promise.all([
     loadFont("AndadaPro-SemiBold.ttf"),
-    loadFont("AtkinsonHyperlegible-Regular.ttf"),
+    loadFont("AndadaPro-Italic.ttf"),
     loadFont("AtkinsonHyperlegible-Bold.ttf"),
   ]);
 
-  const nowLine = `${CURRENT_TITLE} · ${ROLE_TRANSITION.current.company}`;
   const nextLine = ROLE_TRANSITION.public
-    ? `${ROLE_TRANSITION.next.title}, ${ROLE_TRANSITION.next.company}`
+    ? `Next: ${ROLE_TRANSITION.next.title}, ${ROLE_TRANSITION.next.company} — from ${ROLE_TRANSITION.startsOnLabel}`
     : "AI deployment";
 
   return new ImageResponse(
@@ -39,97 +38,62 @@ export default async function OpengraphImage() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        position: "relative",
         backgroundColor: colors.paper,
         color: colors.ink,
-        padding: "56px 64px 52px",
+        padding: "60px 72px 54px",
         fontFamily: '"Atkinson Hyperlegible", Arial, sans-serif',
       }}
     >
       <div
         style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 168,
-          height: 2,
-          backgroundColor: `${colors.ink}33`,
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: 21,
+          color: colors.mute,
         }}
-      />
+      >
+        <span>
+          {SITE_NAME} · {CURRENT_TITLE}
+        </span>
+        <span>slzavaletta.com</span>
+      </div>
+
       <div
         style={{
-          position: "absolute",
-          bottom: 78,
-          left: 660,
-          width: 180,
-          height: 180,
-          borderRadius: 999,
-          backgroundColor: colors.ink,
+          display: "flex",
+          flexWrap: "wrap",
+          maxWidth: 980,
+          fontFamily: '"Andada Pro", Georgia, serif',
+          fontSize: 88,
+          fontWeight: 600,
+          letterSpacing: "-0.03em",
+          lineHeight: 1.04,
         }}
-      />
+      >
+        <span>{`${HERO.display}\u00A0`}</span>
+        <span
+          style={{
+            fontFamily: '"Andada Pro Italic"',
+            fontStyle: "italic",
+            fontWeight: 400,
+          }}
+        >
+          {HERO.displayEmphasis}
+        </span>
+      </div>
 
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
-          fontSize: 22,
-          color: colors.mute,
-        }}
-      >
-        <span>Buenos Aires</span>
-        <span>slzavaletta.com</span>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div
-          style={{
-            display: "flex",
-            fontFamily: '"Andada Pro", Georgia, serif',
-            fontSize: 64,
-            fontWeight: 600,
-            letterSpacing: "-0.02em",
-            lineHeight: 1.15,
-          }}
-        >
-          {SITE_NAME}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            marginTop: 18,
-            maxWidth: 920,
-            fontFamily: '"Atkinson Hyperlegible", Arial, sans-serif',
-            fontSize: 28,
-            fontWeight: 400,
-            lineHeight: 1.35,
-          }}
-        >
-          I own the delivery around AI work: the team, the budget, the risk, and
-          the decision the client has to make.
-        </div>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          gap: 48,
+          alignItems: "flex-end",
           borderTop: `1px solid ${colors.ink}22`,
           paddingTop: 22,
-          fontSize: 22,
+          fontSize: 21,
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          <span style={{ color: colors.mute, fontSize: 16, fontWeight: 700 }}>
-            Now
-          </span>
-          <span>{nowLine}</span>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          <span style={{ color: colors.mute, fontSize: 16, fontWeight: 700 }}>
-            Next
-          </span>
-          <span>{nextLine}</span>
-        </div>
+        <span style={{ color: colors.ink }}>{nextLine}</span>
+        <span style={{ color: colors.mute }}>Buenos Aires</span>
       </div>
     </div>,
     {
@@ -142,10 +106,10 @@ export default async function OpengraphImage() {
           style: "normal",
         },
         {
-          name: "Atkinson Hyperlegible",
-          data: atkinson,
+          name: "Andada Pro Italic",
+          data: andadaItalic,
           weight: 400,
-          style: "normal",
+          style: "italic",
         },
         {
           name: "Atkinson Hyperlegible",
