@@ -35,7 +35,7 @@ export default function Home() {
           <SystemsAndTools />
         </div>
         <Experience />
-        <div className="night">
+        <div className="night night--enter">
           <ContactSection />
         </div>
       </main>

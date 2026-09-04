@@ -1118,13 +1118,10 @@
   }
 
   .systems-board__infra {
-    padding: 1rem 1.15rem;
+    padding: 0.15rem 0.25rem 0.35rem;
     color: var(--mute);
     font-size: 0.9375rem;
     line-height: 1.55;
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    border-radius: var(--radius);
   }
 
   .tools-board {
@@ -1166,6 +1163,7 @@
   .tool-chip {
     display: inline-flex;
     min-height: 2.75rem;
+    flex: 1 1 calc(50% - 0.4rem);
     align-items: center;
     gap: 0.4rem;
     padding: 0 0.75rem;
@@ -1335,6 +1333,10 @@
     --paper: oklch(0.16 0.04 255);
     background: oklch(0.16 0.04 255);
     color: var(--ink);
+  }
+
+  .night--enter {
+    border-top: 3px solid var(--gold);
   }
 
   .night ::selection {
