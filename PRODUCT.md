@@ -25,7 +25,7 @@ one thing: is this person worth a conversation?
 Make a qualified visitor want to talk to Santiago about AI deployment work.
 
 Present him truthfully: Technical Project Manager at Globant, joining Syneos
-Health as Senior Technical Program Manager in October 2026. The career arc is
+Health as Senior Technical Project Manager in October 2026. The career arc is
 life-sciences delivery → enterprise infrastructure → AI and digital delivery
 at scale → AI in clinical development. The positioning line: AI deployment
 where the constraints are real — regulated industries, enterprise data, and

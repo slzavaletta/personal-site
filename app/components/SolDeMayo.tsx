@@ -1,94 +1,102 @@
 /*
- * The Sun of May: a faced disc with alternating straight and wavy rays,
- * computed once at module scope. Painted in gold with a navy cut, so it
- * reads as the flag — not as ink engraved on the same paper as the type.
+ * Geometry of the Sol de Mayo as it sits on the Argentine flag
+ * (Wikimedia Commons, public-domain national emblem). Gold disc, copper
+ * face, 16 straight rays and 16 flaming ones. Not a doodle with navy cuts.
  */
 
-const CX = 64;
-const CY = 64;
-const FACE_R = 26;
-const RAY_IN = 30;
-const RAY_OUT = 57;
-const RAY_COUNT = 32;
-
-export const SOL_GOLD = "#D4A017";
+export const SOL_GOLD = "#FCBF49";
+export const SOL_CUT = "#843511";
 export const SOL_NAVY = "#10243A";
 
-function polar(radius: number, angleDeg: number): [number, number] {
-  const angle = (angleDeg * Math.PI) / 180;
-  return [CX + radius * Math.cos(angle), CY + radius * Math.sin(angle)];
+function SunGraphic({
+  prefix,
+  gold = SOL_GOLD,
+  cut = SOL_CUT,
+}: {
+  prefix: string;
+  gold?: string;
+  cut?: string;
+}) {
+  const r2 = `${prefix}-r2`;
+  const r4 = `${prefix}-r4`;
+  const r8 = `${prefix}-r8`;
+  const r16 = `${prefix}-r16`;
+  const face = `${prefix}-face`;
+
+  return (
+    <g fill={gold} stroke={cut} strokeWidth="1.5">
+      <g id={r16}>
+        <g id={r8}>
+          <g id={r4}>
+            <g id={r2}>
+              <path d="M -8,0 L -2,159.5 c 0,0 0,3 2,3 s 2,-3 2,-3 L 8,0" />
+              <path d="M -4,0 L 0,109.5 L 4,0" fill={cut} stroke="none" />
+              <g transform="rotate(11.5)">
+                <path d="M -4.5,53.5 C -9.5,75 1.5,89.5 -4,108.5 S -1,140.5 0,148.5 -5,160 -3,161.5 5,158 5.5,147 -1.5,131.25 5,108 1,77 8,56" />
+                <path
+                  d="M -1,58 C -4,79 6,90.5 0,109 C 8,95 -2,81 3,59"
+                  fill={cut}
+                  stroke="none"
+                />
+              </g>
+            </g>
+            <use href={`#${r2}`} transform="rotate(180)" />
+          </g>
+          <use href={`#${r4}`} transform="rotate(90)" />
+        </g>
+        <use href={`#${r8}`} transform="rotate(45)" />
+      </g>
+      <use href={`#${r16}`} transform="rotate(22.5)" />
+      <circle r="65" strokeWidth="1" />
+      <g id={face} fill={cut} stroke="none">
+        <path d="M 41,-14 C 29.5,-24 15,-25.5 7,-18 A 140,50 10 0,0 8.5,8.5 C 8,8.5 7,9 6.5,9.5 A 80,50 10 0,1 4,-19 C 15,-28 30,-29 41,-14" />
+        <path d="M 23,-17 C 16.5,-17 15,-15.5 12,-13 S 7.5,-11 7,-10.5 S 7,-8.5 8,-9 S 11,-10.5 14,-13 S 20,-15.5 23,-15.5 C 32,-15.5 37,-8 38,-8.5 S 33,-17 23,-17" />
+        <path d="M 34.5,-8.5 C 28,-15.5 16,-16 11,-8 H 13 C 18,-16 30,-12.5 31,-9 v 1" />
+        <circle cx="22" cy="-9" r="4.5" />
+        <path d="M 11,-8 C 16,-3.5 27,-3 34.5,-8.5 L 31,-9 C 26,-3.5 18,-4 13,-8 v -1" />
+        <path d="M 35,-6 C 26.5,0.5 18,0 13,-3 S 8,-7 9,-7 S 11,-6 15,-4 S 25,-2 35,-6" />
+        <path d="M 10.5,9 A 3,3 0 1,1 6.5,12 C 6,13 4,16 0,16 h -1 l 1,1.5 C 1,17.5 4,17.5 6,16 A 4.5,4.5 0 1,0 10.5,9" />
+        <path d="M 16.5,30 C 12,27 10,22.5 5,22.5 C 4,22.5 2,23 0,24 h -1 L 0,25.5 C 2,25.5 5,23 8.5,25 S 14,29 16.5,30" />
+        <path d="M 15,30 C 5,27 3,29 0,29 h -1 l 1,2 C 4,31 6,28 15,30" />
+        <path d="M 16.5,30 C 5.5,29 9,35.5 0,35.5 h -1 L 0,37 C 11,37 6,31 16.5,30" />
+        <path d="M 9,46 a 9,9 0 0,0 -18,0 a 9.25,9.25 0 0,1 18,0" />
+      </g>
+      <use href={`#${face}`} transform="scale(-1,1)" />
+    </g>
+  );
 }
 
-function pt([x, y]: [number, number]): string {
-  return `${x.toFixed(2)} ${y.toFixed(2)}`;
-}
-
-function straightRay(angle: number): string {
-  const base1 = polar(RAY_IN, angle - 2.6);
-  const base2 = polar(RAY_IN, angle + 2.6);
-  const tip = polar(RAY_OUT, angle);
-  return `M ${pt(base1)} L ${pt(tip)} L ${pt(base2)} Z`;
-}
-
-function wavyRay(angle: number): string {
-  const base1 = polar(RAY_IN, angle - 2.6);
-  const base2 = polar(RAY_IN, angle + 2.6);
-  const c1 = polar(40, angle - 7.5);
-  const c2 = polar(51, angle - 5);
-  const tip = polar(RAY_OUT + 2, angle);
-  const c3 = polar(51, angle + 5);
-  const c4 = polar(40, angle + 7.5);
-  return `M ${pt(base1)} C ${pt(c1)}, ${pt(c2)}, ${pt(tip)} C ${pt(c3)}, ${pt(c4)}, ${pt(base2)} Z`;
-}
-
-const RAYS = Array.from({ length: RAY_COUNT }, (_, index) => {
-  const angle = (360 / RAY_COUNT) * index;
-  return index % 2 === 0 ? straightRay(angle) : wavyRay(angle);
-});
-
-const FACE = [
-  "M 51 53 Q 55 50.5 59 53",
-  "M 69 53 Q 73 50.5 77 53",
-  "M 51 59 Q 55 55.5 59 59 Q 55 62.5 51 59 Z",
-  "M 69 59 Q 73 55.5 77 59 Q 73 62.5 69 59 Z",
-  "M 64 62 L 63 70 Q 64 72 66 70.5",
-  "M 56 78 Q 64 83 72 78",
-] as const;
-
-/** Standalone SVG string (OG image, favicon). */
+/** Standalone SVG string (OG image). */
 export function buildSolDeMayoSvg(
-  ray: string = SOL_GOLD,
-  feature: string = SOL_NAVY,
+  gold: string = SOL_GOLD,
+  cut: string = SOL_CUT,
 ): string {
-  const rays = RAYS.map((d) => `<path d="${d}" fill="${ray}"/>`).join("");
-  const face = FACE.map(
-    (d) =>
-      `<path d="${d}" fill="none" stroke="${feature}" stroke-width="2" stroke-linecap="round"/>`,
-  ).join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">${rays}<circle cx="64" cy="64" r="${FACE_R}" fill="${ray}" stroke="${feature}" stroke-width="2"/>${face}<circle cx="55" cy="59" r="1.4" fill="${feature}"/><circle cx="73" cy="59" r="1.4" fill="${feature}"/></svg>`;
+  const prefix = "og";
+  const r2 = `${prefix}-r2`;
+  const r4 = `${prefix}-r4`;
+  const r8 = `${prefix}-r8`;
+  const r16 = `${prefix}-r16`;
+  const face = `${prefix}-face`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-165 -165 330 330"><g fill="${gold}" stroke="${cut}" stroke-width="1.5"><g id="${r16}"><g id="${r8}"><g id="${r4}"><g id="${r2}"><path d="M -8,0 L -2,159.5 c 0,0 0,3 2,3 s 2,-3 2,-3 L 8,0"/><path d="M -4,0 L 0,109.5 L 4,0" fill="${cut}" stroke="none"/><g transform="rotate(11.5)"><path d="M -4.5,53.5 C -9.5,75 1.5,89.5 -4,108.5 S -1,140.5 0,148.5 -5,160 -3,161.5 5,158 5.5,147 -1.5,131.25 5,108 1,77 8,56"/><path d="M -1,58 C -4,79 6,90.5 0,109 C 8,95 -2,81 3,59" fill="${cut}" stroke="none"/></g></g><use href="#${r2}" transform="rotate(180)"/></g><use href="#${r4}" transform="rotate(90)"/></g><use href="#${r8}" transform="rotate(45)"/></g><use href="#${r16}" transform="rotate(22.5)"/><circle r="65" stroke-width="1"/><g id="${face}" fill="${cut}" stroke="none"><path d="M 41,-14 C 29.5,-24 15,-25.5 7,-18 A 140,50 10 0,0 8.5,8.5 C 8,8.5 7,9 6.5,9.5 A 80,50 10 0,1 4,-19 C 15,-28 30,-29 41,-14"/><path d="M 23,-17 C 16.5,-17 15,-15.5 12,-13 S 7.5,-11 7,-10.5 S 7,-8.5 8,-9 S 11,-10.5 14,-13 S 20,-15.5 23,-15.5 C 32,-15.5 37,-8 38,-8.5 S 33,-17 23,-17"/><path d="M 34.5,-8.5 C 28,-15.5 16,-16 11,-8 H 13 C 18,-16 30,-12.5 31,-9 v 1"/><circle cx="22" cy="-9" r="4.5"/><path d="M 11,-8 C 16,-3.5 27,-3 34.5,-8.5 L 31,-9 C 26,-3.5 18,-4 13,-8 v -1"/><path d="M 35,-6 C 26.5,0.5 18,0 13,-3 S 8,-7 9,-7 S 11,-6 15,-4 S 25,-2 35,-6"/><path d="M 10.5,9 A 3,3 0 1,1 6.5,12 C 6,13 4,16 0,16 h -1 l 1,1.5 C 1,17.5 4,17.5 6,16 A 4.5,4.5 0 1,0 10.5,9"/><path d="M 16.5,30 C 12,27 10,22.5 5,22.5 C 4,22.5 2,23 0,24 h -1 L 0,25.5 C 2,25.5 5,23 8.5,25 S 14,29 16.5,30"/><path d="M 15,30 C 5,27 3,29 0,29 h -1 l 1,2 C 4,31 6,28 15,30"/><path d="M 16.5,30 C 5.5,29 9,35.5 0,35.5 h -1 L 0,37 C 11,37 6,31 16.5,30"/><path d="M 9,46 a 9,9 0 0,0 -18,0 a 9.25,9.25 0 0,1 18,0"/></g><use href="#${face}" transform="scale(-1,1)"/></g></svg>`;
 }
 
-export function SolDeMayo({ className }: { className?: string }) {
+export function SolDeMayo({
+  className,
+  id = "sol",
+}: {
+  className?: string;
+  id?: string;
+}) {
+  const prefix = id;
+
   return (
     <svg
       className={["sol", className].filter(Boolean).join(" ")}
-      viewBox="0 0 128 128"
+      viewBox="-165 -165 330 330"
       aria-hidden="true"
       focusable="false"
     >
-      <g className="sol__rays">
-        {RAYS.map((d, index) => (
-          <path key={index} d={d} />
-        ))}
-      </g>
-      <circle className="sol__disc" cx="64" cy="64" r={FACE_R} />
-      <g className="sol__face">
-        {FACE.map((d) => (
-          <path key={d} d={d} />
-        ))}
-      </g>
-      <circle className="sol__pupil" cx="55" cy="59" r="1.4" />
-      <circle className="sol__pupil" cx="73" cy="59" r="1.4" />
+      <SunGraphic prefix={prefix} />
     </svg>
   );
 }

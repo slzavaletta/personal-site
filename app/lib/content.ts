@@ -27,7 +27,7 @@ export const ROLE_TRANSITION = {
   },
   next: {
     company: "Syneos Health",
-    title: "Senior Technical Program Manager",
+    title: "Senior Technical Project Manager",
     domain: "AI in clinical development",
   },
 } as const;

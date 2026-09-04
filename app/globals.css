@@ -740,13 +740,6 @@
   .cover-panel__sol {
     display: block;
     width: clamp(4.25rem, 8vw, 6.25rem);
-    transform-origin: center;
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .cover-panel__sol {
-      animation: sol-spin 90s linear infinite;
-    }
   }
 
   .cover-panel__copy {
@@ -833,44 +826,11 @@
     line-height: 1.28;
   }
 
-  .live-dot {
-    display: inline-block;
-    width: 0.5rem;
-    height: 0.5rem;
-    margin-right: 0.6rem;
-    border-radius: 999px;
-    background: var(--celeste-bright);
-    vertical-align: 0.06em;
-  }
+  /* Sol de Mayo — flag gold and copper, not ink. */
 
-  @media (prefers-reduced-motion: no-preference) {
-    .live-dot {
-      animation: live-pulse 2.4s ease-out infinite;
-    }
-  }
-
-  /* Sol de Mayo — gold metal, navy cut, in every scheme. */
-
-  .sol__rays {
-    fill: var(--gold);
-  }
-
-  .sol__disc {
-    fill: var(--gold);
-    stroke: oklch(0.22 0.05 255);
-    stroke-width: 2px;
-  }
-
-  .sol__face {
-    fill: none;
-    stroke: oklch(0.22 0.05 255);
-    stroke-width: 2px;
-    stroke-linecap: round;
-  }
-
-  .sol__pupil {
-    fill: oklch(0.22 0.05 255);
-    stroke: none;
+  .sol {
+    display: block;
+    overflow: visible;
   }
 
   /* Ledger */
@@ -1424,31 +1384,10 @@
   }
 }
 
-@keyframes live-pulse {
-  0% {
-    box-shadow: 0 0 0 0
-      color-mix(in oklch, var(--celeste-bright) 45%, transparent);
-  }
-
-  70% {
-    box-shadow: 0 0 0 0.6rem transparent;
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 transparent;
-  }
-}
-
 @keyframes panel-in {
   from {
     opacity: 0;
     transform: translateY(8px);
-  }
-}
-
-@keyframes sol-spin {
-  to {
-    transform: rotate(360deg);
   }
 }
 

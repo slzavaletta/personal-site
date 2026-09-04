@@ -42,7 +42,6 @@ export function EditorialHero() {
               className="fade-up max-w-[62ch] text-[0.9375rem] leading-relaxed font-semibold"
               style={delay(60)}
             >
-              <span aria-hidden="true" className="live-dot" />
               {HERO.role}
             </p>
 
@@ -64,7 +63,7 @@ export function EditorialHero() {
           </div>
 
           <aside className="cover-panel fade-up" style={delay(280)}>
-            <SolDeMayo className="cover-panel__sol" />
+            <SolDeMayo id="sol-cover" className="cover-panel__sol" />
             <p className="cover-panel__copy">{HERO.supporting}</p>
             <p className="cover-panel__copy">{HERO.direction}</p>
             <div className="cover-panel__actions">

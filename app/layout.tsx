@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   category: "portfolio",
   keywords: [
     "Technical Project Manager",
-    "Technical Program Manager",
+    "Senior Technical Project Manager",
     "Enterprise AI deployment",
     "AI delivery",
     "AI in clinical development",

@@ -41,7 +41,7 @@ export function ContactSection() {
         </p>
 
         <p className="colophon">
-          <SolDeMayo className="colophon__sol" />
+          <SolDeMayo id="sol-colophon" className="colophon__sol" />
           <span lang="es" className="colophon__line">
             {ANTHEM.line}
           </span>

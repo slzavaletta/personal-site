@@ -21,9 +21,9 @@ right now, and the brief is a document the reader can operate.
   reserved for the Sun of May. Paper still follows the Buenos Aires hour,
   but it stays in the celeste family — not plaster. Headings in Fraunces.
   Body in Source Sans 3. Dark is a scheme the reader can pin.
-- **The Sun of May.** A gold Sol de Mayo — computed rays, faced disc — sits
-  in the navy cover panel, closes the night band as a colophon («Sean
-  eternos los laureles…»), and marks the favicon and the share card.
+- **The Sun of May.** The Sol de Mayo as it sits on the flag — gold disc,
+  copper face, sixteen straight rays and sixteen flaming ones — in the navy
+  cover panel, the colophon, the favicon and the share card.
 - **A page in bands, not one cream column.** Ledger, approach and systems
   sit on filled fields. Systems is a two-column board of project cards and
   wrapping tool chips — no double rule, no empty right. Cases are gold-ruled
@@ -34,7 +34,7 @@ right now, and the brief is a document the reader can operate.
   of it snaps to static under `prefers-reduced-motion`.
 - **A ledger of what is true now.** Role, next role, what is being built and
   learned, the last public push (fetched on the server, revalidated hourly),
-  and availability with a live pulse.
+  and availability.
 - **Proof in prose.** One spoken line, then three articles. The outcome is
   the last sentence, not a labelled "result signal".
 - **The brief as a document.** Five fields as a radio group with roving
