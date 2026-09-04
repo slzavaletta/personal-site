@@ -28,8 +28,8 @@ async function loadFont(filename: string) {
 
 export default async function OpengraphImage() {
   const [fraunces, frauncesItalic] = await Promise.all([
-    loadFont("Fraunces-Variable.ttf"),
-    loadFont("Fraunces-Italic-Variable.ttf"),
+    loadFont("Fraunces-SemiBold.ttf"),
+    loadFont("Fraunces-Italic.ttf"),
   ]);
 
   const nextLine = ROLE_TRANSITION.public
