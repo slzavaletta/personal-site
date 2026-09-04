@@ -70,13 +70,12 @@ whose light is the light of a city.
 1. **A face, or the absence of a billboard.** Identity is a portrait if one
    exists, and quiet sentence-case type if it does not. No stacked all-caps
    name.
-2. **Type from a place, not from a kit.** Andada Pro (Huerta Tipográfica,
-   Argentina) for titles. Atkinson Hyperlegible for everything else. No mono
-   family.
-3. **The country is the mark.** An engraved Sol de Mayo stamps the cover and
-   the colophon; the anthem closes the page at nightfall. One celeste accent
-   — the flag over plaster — for the live dot, drawn underlines, hover and
-   focus.
+2. **Type that is not the last kit.** Fraunces for titles — optical, a
+   little soft. Source Sans 3 for everything else. No mono family.
+3. **The country is the mark.** A gold Sol de Mayo lives in the navy cover
+   panel and in the colophon; a line from the anthem closes the page at
+   nightfall. Celeste for the live dot, drawn underlines, hover and focus.
+   Gold is metal, not text.
 4. **The city is the living thing.** Paper temperature and a pool of light
    track Buenos Aires time. Dark is a scheme the reader can pin, not a
    second brand.
@@ -87,28 +86,30 @@ whose light is the light of a city.
    supports, never in a free-floating stats band.
 7. **Show the artifact, not the framework.** The brief is a document the
    reader can operate, on the same paper as everything else.
-8. **Whitespace groups; rules are rare.** Reserved for the header, contact,
-   and breaks between cases.
+8. **Fill the module.** Bands and cards hold the work. Sparse strips with
+   a double rule and an empty right are a design failure, not restraint.
 9. **Say what is current, what is exploratory and what is next.** The ledger
    and the labels make the interface unable to overstate depth.
 
 ## Visual System
 
-Warm plaster paper and umber ink in OKLCH. Mute is ink you can still read.
-Focus is ink itself, 2px offset. Primary actions are ink fill, paper type.
-Links are ink, underlined. Corners stay sharp. Shadows stay absent except
-for the header once it floats.
+Cool celeste paper and navy ink in OKLCH. Mute is ink you can still read.
+Gold is the Sun of May, never a text colour. Focus is celeste, 2px offset.
+Primary actions are ink fill, paper type. Corners are slightly eased.
+Shadows stay absent except for the header once it floats.
 
-Andada Pro for the name, section titles, case titles, and the brief's five
-field names — sentence case, tracking near zero. Atkinson Hyperlegible for
+Fraunces for the name, section titles, case titles, and the brief's five
+field names — sentence case, tracking slightly tight. Source Sans 3 for
 nav, body, labels, dates and figures (`tabular-nums`). No second mono face.
 
-The header wordmark is the name in Andada at body size; "Santiago" on small
-screens. No boxed SLZ.
+The header wordmark is the name in Fraunces italic at body size; "Santiago"
+on small screens. A three-stripe ribbon (celeste / paper / gold) sits on
+the header. No boxed SLZ.
 
-If a portrait is supplied later it sits in the hero at human scale. Until
-then the hero is type-only: a modest name, the statement in Andada italic at
-a reading size, two short paragraphs, two text links.
+The hero is a two-column cover: the statement in Fraunces on paper, and a
+navy panel holding the gold Sol, the supporting copy, and two fill buttons.
+Systems is a filled board — project cards on the left, wrapping tool chips
+on the right — not a sparse strip with a double rule.
 
 ## Accessibility & Inclusion
 

@@ -6,24 +6,28 @@ that follow — and heading into AI in clinical development. The page is alive
 because the paper follows Buenos Aires time, the ledger is what is true
 right now, and the brief is a document the reader can operate.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-3A2C22?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org)
-[![React](https://img.shields.io/badge/React-19-3A2C22?style=flat-square&logo=react&logoColor=white)](https://react.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-3A2C22?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3A2C22?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Playwright](https://img.shields.io/badge/Playwright-axe-3A2C22?style=flat-square&logo=playwright&logoColor=white)](https://playwright.dev)
-[![Vercel](https://img.shields.io/badge/Vercel-deploy-3A2C22?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
+[![Next.js](https://img.shields.io/badge/Next.js-15-10243A?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19-10243A?style=flat-square&logo=react&logoColor=white)](https://react.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-10243A?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-10243A?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Playwright](https://img.shields.io/badge/Playwright-axe-10243A?style=flat-square&logo=playwright&logoColor=white)](https://playwright.dev)
+[![Vercel](https://img.shields.io/badge/Vercel-deploy-10243A?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
 
 **[slzavaletta.com](https://slzavaletta.com)**
 
 ## Highlights
 
-- **Editorial Vivo direction.** Warm plaster and umber ink with one celeste
-  accent, paper grain, and a pool of light that follows the Buenos Aires
-  hour. Headings in Andada Pro (Huerta Tipográfica, Argentina). Body in
-  Atkinson Hyperlegible. Dark is a scheme the reader can pin.
-- **The Sun of May.** An engraved Sol de Mayo — computed rays, faced disc —
-  turns imperceptibly on the cover, closes the night band above the anthem
-  («Oíd, mortales…»), and marks the favicon and the share card.
+- **Río de la Plata direction.** Cool celeste paper and navy ink, with gold
+  reserved for the Sun of May. Paper still follows the Buenos Aires hour,
+  but it stays in the celeste family — not plaster. Headings in Fraunces.
+  Body in Source Sans 3. Dark is a scheme the reader can pin.
+- **The Sun of May.** A gold Sol de Mayo — computed rays, faced disc — sits
+  in the navy cover panel, closes the night band as a colophon («Sean
+  eternos los laureles…»), and marks the favicon and the share card.
+- **A page in bands, not one cream column.** Ledger, approach and systems
+  sit on filled fields. Systems is a two-column board of project cards and
+  wrapping tool chips — no double rule, no empty right. Cases are gold-ruled
+  cards. Experience opens with a navy table header.
 - **Motion with intent.** The cover headline enters word by word through
   masks; sections rise on scroll via CSS `view()` timelines; hovers draw
   celeste underlines, wash rows, and return brand colour to tool marks. All
@@ -56,7 +60,7 @@ right now, and the brief is a document the reader can operate.
 ## Stack
 
 Next.js 15 (App Router, RSC, ISR) · React 19 · Tailwind v4, CSS-first · Base
-UI / Shadcn · Andada Pro + Atkinson Hyperlegible via `next/font` · Lucide ·
+UI / Shadcn · Fraunces + Source Sans 3 via `next/font` · Lucide ·
 Playwright + axe · TypeScript 5.
 
 ## Run it

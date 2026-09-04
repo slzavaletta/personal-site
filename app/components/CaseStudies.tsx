@@ -37,7 +37,7 @@ export function CaseStudies() {
           <p className="proof-line">{PROOF_LINE}</p>
         </div>
 
-        <div className="mt-8 sm:mt-10">
+        <div className="case-stack">
           {CASE_STUDIES.map((caseStudy) => (
             <Case key={caseStudy.id} caseStudy={caseStudy} />
           ))}

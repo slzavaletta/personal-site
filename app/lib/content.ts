@@ -431,3 +431,12 @@ export const CONTACT = {
   heading: "Contact",
   body: "If you are running AI pilots where the constraints are real—regulated industries, enterprise data, people whose work changes—and need someone to own the delivery around them, I would like to talk.",
 } as const;
+
+/*
+ * A line from the anthem, not the opening. Typeset as a colophon — a
+ * lockup at nightfall, not a sermon block.
+ */
+export const ANTHEM = {
+  line: "Sean eternos los laureles que supimos conseguir.",
+  source: "Himno Nacional Argentino",
+} as const;

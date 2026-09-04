@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Andada_Pro, Atkinson_Hyperlegible } from "next/font/google";
+import { Fraunces, Source_Sans_3 } from "next/font/google";
 
 import { THEME_BOOT_SCRIPT } from "@/app/components/theme/theme";
 import { CURRENT_TITLE, ROLE_TRANSITION, SITE_LINKS } from "@/app/lib/content";
@@ -8,22 +8,22 @@ import { getBuenosAiresHour } from "@/app/lib/time";
 import "./globals.css";
 
 /*
- * Andada Pro is an Argentine slab, designed for bilingual print. Atkinson
- * Hyperlegible is the reading face: characters that cannot be mistaken for
- * each other. Neither is the kit that shipped with the last design.
+ * Fraunces is the display face: optical, a little soft, nothing like the
+ * slab that sat on the plaster page. Source Sans 3 is the reading face —
+ * characters that stay distinct at UI size, without looking like a kit.
  */
-const andada = Andada_Pro({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["400", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
   preload: true,
 });
 
-const atkinson = Atkinson_Hyperlegible({
+const sourceSans = Source_Sans_3({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "600", "700"],
   variable: "--font-body",
   display: "swap",
   preload: true,
@@ -87,8 +87,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F3E6C8" },
-    { media: "(prefers-color-scheme: dark)", color: "#2A241F" },
+    { media: "(prefers-color-scheme: light)", color: "#E8EEF4" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B1A2C" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -125,7 +125,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${andada.variable} ${atkinson.variable}`}
+      className={`${fraunces.variable} ${sourceSans.variable}`}
       data-hour={String(getBuenosAiresHour())}
       suppressHydrationWarning
     >

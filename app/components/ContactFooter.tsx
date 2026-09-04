@@ -1,4 +1,4 @@
-import { CONTACT, LOCATION, SITE_LINKS } from "@/app/lib/content";
+import { ANTHEM, CONTACT, LOCATION, SITE_LINKS } from "@/app/lib/content";
 import { SITE_EMAIL, SITE_NAME } from "@/app/lib/site";
 import { SolDeMayo } from "@/app/components/SolDeMayo";
 
@@ -40,16 +40,15 @@ export function ContactSection() {
           {LOCATION.city}, {LOCATION.country}
         </p>
 
-        <figure className="anthem">
-          <SolDeMayo className="anthem__sol" />
-          <blockquote lang="es">
-            <p>
-              «Oíd, mortales, el grito sagrado: ¡Libertad! ¡Libertad!
-              ¡Libertad!»
-            </p>
-          </blockquote>
-          <figcaption lang="es">Himno Nacional Argentino</figcaption>
-        </figure>
+        <p className="colophon">
+          <SolDeMayo className="colophon__sol" />
+          <span lang="es" className="colophon__line">
+            {ANTHEM.line}
+          </span>
+          <span lang="es" className="colophon__source">
+            {ANTHEM.source}
+          </span>
+        </p>
       </div>
     </section>
   );

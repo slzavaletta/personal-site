@@ -72,7 +72,7 @@ export async function Ledger() {
   return (
     <section
       aria-labelledby="ledger-heading"
-      className="page-shell pb-10 sm:pb-12"
+      className="page-shell py-10 sm:py-12"
     >
       <h2 id="ledger-heading" className="utility-label pb-3">
         {NOW.label}

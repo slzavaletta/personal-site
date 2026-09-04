@@ -11,59 +11,53 @@ export function SystemsAndTools() {
           <p className="reading-copy">{SYSTEMS.body}</p>
         </div>
 
-        <div className="mt-8 border-b border-rule-strong">
-          {SYSTEMS.projects.map((project) => (
-            <article key={project.id} className="system-row reveal">
-              <h3 className="font-heading text-[1.4rem] font-semibold tracking-[-0.015em]">
-                {project.name}
-              </h3>
-              <p className="max-w-[62ch] text-base leading-relaxed text-mute">
-                {project.body}
-              </p>
-              <a
-                href={project.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-link text-sm"
-              >
-                Source on GitHub
-                <span className="sr-only"> (opens in new tab)</span>
-                <ArrowUpRight aria-hidden="true" className="size-4" />
-              </a>
-            </article>
-          ))}
-          <p className="system-row text-sm leading-relaxed text-mute sm:grid-cols-1">
-            {SYSTEMS.infrastructure}
-          </p>
-        </div>
+        <div className="systems-board">
+          <div className="systems-board__projects">
+            {SYSTEMS.projects.map((project) => (
+              <article key={project.id} className="system-card reveal">
+                <h3 className="system-card__title">{project.name}</h3>
+                <p className="system-card__body">{project.body}</p>
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-link text-sm"
+                >
+                  Source on GitHub
+                  <span className="sr-only"> (opens in new tab)</span>
+                  <ArrowUpRight aria-hidden="true" className="size-4" />
+                </a>
+              </article>
+            ))}
+            <p className="systems-board__infra">{SYSTEMS.infrastructure}</p>
+          </div>
 
-        <div className="tool-strip">
-          {TOOL_GROUPS.map((group) => (
-            <div key={group.id} className="tool-strip__row">
-              <h3 className="tool-strip__label">{group.label}</h3>
-              {group.tools.map((tool) => (
-                <span key={tool.name} className="tool-strip__item">
-                  {/* Local 20px SVG marks: next/image would only add a wrapper. */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={tool.logoSrc}
-                    alt=""
-                    width={18}
-                    height={18}
-                    loading="lazy"
-                    decoding="async"
-                    className="tool-mark"
-                  />
-                  {tool.name}
-                </span>
-              ))}
-              {group.id === "explore" ? (
-                <p className="w-full text-sm leading-relaxed text-mute">
-                  {group.note}
-                </p>
-              ) : null}
-            </div>
-          ))}
+          <div className="tools-board">
+            {TOOL_GROUPS.map((group) => (
+              <div key={group.id} className="tool-card reveal">
+                <h3 className="tool-card__label">{group.label}</h3>
+                <div className="tool-card__items">
+                  {group.tools.map((tool) => (
+                    <span key={tool.name} className="tool-chip">
+                      {/* Local 20px SVG marks: next/image would only add a wrapper. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={tool.logoSrc}
+                        alt=""
+                        width={18}
+                        height={18}
+                        loading="lazy"
+                        decoding="async"
+                        className="tool-mark"
+                      />
+                      {tool.name}
+                    </span>
+                  ))}
+                </div>
+                <p className="tool-card__note">{group.note}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

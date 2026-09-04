@@ -55,6 +55,7 @@ export function SiteHeader({ initialClock }: { initialClock: string }) {
       data-past-hero={pastHero || undefined}
       className="site-header sticky top-0 z-40 border-b border-rule-strong bg-paper data-[past-hero]:bg-paper/88 data-[past-hero]:backdrop-blur-md data-[past-hero]:backdrop-saturate-150"
     >
+      <div className="flag-ribbon" aria-hidden="true" />
       <div className="page-shell flex min-h-16 items-center justify-between gap-6 sm:min-h-[4.25rem]">
         <div className="flex min-w-0 items-center gap-5">
           <a

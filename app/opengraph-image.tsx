@@ -2,7 +2,11 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-import { buildSolDeMayoSvg } from "@/app/components/SolDeMayo";
+import {
+  buildSolDeMayoSvg,
+  SOL_GOLD,
+  SOL_NAVY,
+} from "@/app/components/SolDeMayo";
 import { CURRENT_TITLE, HERO, ROLE_TRANSITION } from "@/app/lib/content";
 import { SITE_NAME } from "@/app/lib/site";
 
@@ -11,9 +15,11 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const colors = {
-  paper: "#F3E6C8",
-  ink: "#3A2C22",
-  mute: "#5C4A3A",
+  paper: "#E8EEF4",
+  ink: SOL_NAVY,
+  mute: "#3A4E66",
+  gold: SOL_GOLD,
+  navy: SOL_NAVY,
 };
 
 async function loadFont(filename: string) {
@@ -21,10 +27,9 @@ async function loadFont(filename: string) {
 }
 
 export default async function OpengraphImage() {
-  const [andada, andadaItalic, atkinsonBold] = await Promise.all([
-    loadFont("AndadaPro-SemiBold.ttf"),
-    loadFont("AndadaPro-Italic.ttf"),
-    loadFont("AtkinsonHyperlegible-Bold.ttf"),
+  const [fraunces, frauncesItalic] = await Promise.all([
+    loadFont("Fraunces-Variable.ttf"),
+    loadFont("Fraunces-Italic-Variable.ttf"),
   ]);
 
   const nextLine = ROLE_TRANSITION.public
@@ -37,92 +42,97 @@ export default async function OpengraphImage() {
         width: "100%",
         height: "100%",
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        backgroundColor: colors.paper,
-        color: colors.ink,
-        padding: "60px 72px 54px",
-        fontFamily: '"Atkinson Hyperlegible", Arial, sans-serif',
+        backgroundColor: colors.navy,
+        color: colors.paper,
+        padding: "48px 56px",
+        fontFamily: "Georgia, serif",
       }}
     >
       <div
         style={{
           display: "flex",
+          flexDirection: "column",
           justifyContent: "space-between",
-          alignItems: "center",
-          fontSize: 21,
-          color: colors.mute,
+          flex: 1,
+          backgroundColor: colors.paper,
+          color: colors.ink,
+          padding: "48px 52px 40px",
+          borderRadius: 12,
         }}
       >
-        <span>
-          {SITE_NAME} · {CURRENT_TITLE}
-        </span>
-        <img
-          alt=""
-          width={54}
-          height={54}
-          src={`data:image/svg+xml,${encodeURIComponent(buildSolDeMayoSvg(colors.ink))}`}
-        />
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          maxWidth: 980,
-          fontFamily: '"Andada Pro", Georgia, serif',
-          fontSize: 88,
-          fontWeight: 600,
-          letterSpacing: "-0.03em",
-          lineHeight: 1.04,
-        }}
-      >
-        <span>{`${HERO.display}\u00A0`}</span>
-        <span
+        <div
           style={{
-            fontFamily: '"Andada Pro Italic"',
-            fontStyle: "italic",
-            fontWeight: 400,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            fontSize: 20,
+            color: colors.mute,
           }}
         >
-          {HERO.displayEmphasis}
-        </span>
-      </div>
+          <span>
+            {SITE_NAME} · {CURRENT_TITLE}
+          </span>
+          <img
+            alt=""
+            width={58}
+            height={58}
+            src={`data:image/svg+xml,${encodeURIComponent(buildSolDeMayoSvg())}`}
+          />
+        </div>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-          borderTop: `1px solid ${colors.ink}22`,
-          paddingTop: 22,
-          fontSize: 21,
-        }}
-      >
-        <span style={{ color: colors.ink }}>{nextLine}</span>
-        <span style={{ color: colors.mute }}>Buenos Aires</span>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            maxWidth: 980,
+            fontFamily: "Fraunces",
+            fontSize: 76,
+            fontWeight: 600,
+            letterSpacing: "-0.03em",
+            lineHeight: 1.04,
+          }}
+        >
+          <span>{`${HERO.display}\u00A0`}</span>
+          <span
+            style={{
+              fontFamily: "Fraunces Italic",
+              fontStyle: "italic",
+              fontWeight: 400,
+            }}
+          >
+            {HERO.displayEmphasis}
+          </span>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            borderTop: `3px solid ${colors.gold}`,
+            paddingTop: 22,
+            fontSize: 21,
+          }}
+        >
+          <span style={{ color: colors.ink }}>{nextLine}</span>
+          <span style={{ color: colors.mute }}>Buenos Aires</span>
+        </div>
       </div>
     </div>,
     {
       ...size,
       fonts: [
         {
-          name: "Andada Pro",
-          data: andada,
+          name: "Fraunces",
+          data: fraunces,
           weight: 600,
           style: "normal",
         },
         {
-          name: "Andada Pro Italic",
-          data: andadaItalic,
+          name: "Fraunces Italic",
+          data: frauncesItalic,
           weight: 400,
           style: "italic",
-        },
-        {
-          name: "Atkinson Hyperlegible",
-          data: atkinsonBold,
-          weight: 700,
-          style: "normal",
         },
       ],
     },

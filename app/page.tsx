@@ -24,10 +24,16 @@ export default function Home() {
       <HashTarget />
       <main id="main" tabIndex={-1}>
         <EditorialHero />
-        <Ledger />
+        <div className="band band--field">
+          <Ledger />
+        </div>
         <CaseStudies />
-        <Approach />
-        <SystemsAndTools />
+        <div className="band band--wash">
+          <Approach />
+        </div>
+        <div className="band band--field">
+          <SystemsAndTools />
+        </div>
         <Experience />
         <div className="night">
           <ContactSection />
