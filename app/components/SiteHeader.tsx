@@ -72,13 +72,13 @@ export function SiteHeader({ initialClock }: { initialClock: string }) {
 
         <nav
           aria-label="Primary navigation"
-          className="hidden items-center gap-5 lg:flex"
+          className="hidden items-center gap-7 lg:flex"
         >
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="hairline-link inline-flex min-h-11 items-center text-sm font-bold"
+              className="hairline-link inline-flex min-h-11 items-center text-sm font-bold tracking-[0.01em]"
             >
               {link.label}
             </a>
@@ -167,8 +167,6 @@ export function SiteHeader({ initialClock }: { initialClock: string }) {
           </div>
         </div>
       </div>
-
-      <span aria-hidden="true" className="scroll-progress" />
     </header>
   );
 }

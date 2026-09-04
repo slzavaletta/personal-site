@@ -75,8 +75,10 @@ export const HERO = {
   role: roleLine,
   firstName: "Santiago",
   lastName: "López Zavaletta",
+  display: "The part of AI work that is",
+  displayEmphasis: "not the model.",
   statement:
-    "I spend my days on the part of AI work that is not the model: staffing the team, holding the budget, naming the risks, and getting the client to a decision they can stand behind.",
+    "Staffing the team, holding the budget, naming the risks, and getting the client to a decision they can stand behind.",
   supporting:
     "My career started in life-sciences delivery, moved through enterprise infrastructure, and grew into AI and digital delivery at scale for clients across the United States and Latin America.",
   direction:
