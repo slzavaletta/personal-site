@@ -1,47 +1,94 @@
+import type { CSSProperties } from "react";
+
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { HERO } from "@/app/lib/content";
+import { SolDeMayo } from "@/app/components/SolDeMayo";
+
+const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
+
+function MaskWords({
+  text,
+  offset,
+  italic = false,
+}: {
+  text: string;
+  offset: number;
+  italic?: boolean;
+}) {
+  return text.split(" ").map((word, index) => (
+    <span
+      key={`${word}-${index}`}
+      aria-hidden="true"
+      className="mask-word"
+      style={{ "--i": offset + index } as CSSProperties}
+    >
+      <span>{italic ? <em>{word}</em> : word}</span>
+    </span>
+  ));
+}
 
 export function EditorialHero() {
+  const plainCount = HERO.display.split(" ").length;
+
   return (
-    <section id="top" className="scroll-mt-0">
-      <div className="page-shell pt-10 sm:pt-14">
-        <p className="max-w-[62ch] text-sm leading-relaxed text-mute">
-          {HERO.role}
-        </p>
+    <section id="top" className="cover scroll-mt-0">
+      <div className="cover__glow" aria-hidden="true" />
 
-        <h1 className="hero-name mt-6">
-          {HERO.firstName} {HERO.lastName}.
-        </h1>
-
-        <p className="hero-statement mt-8">{HERO.statement}</p>
-
-        <div className="mt-8 grid max-w-[62ch] gap-5">
-          <p className="text-[1.0625rem] leading-relaxed text-mute">
-            {HERO.supporting}
-          </p>
-          <p className="text-[1.0625rem] leading-relaxed">{HERO.direction}</p>
-          <div className="flex flex-col items-start gap-1 sm:flex-row sm:gap-8">
-            <a href={HERO.primaryAction.href} className="text-link text-base">
-              {HERO.primaryAction.label}
-            </a>
-            <a
-              href={HERO.secondaryAction.href}
-              download
-              className="text-link text-base"
+      <div className="page-shell pt-8 pb-10 sm:pt-10 sm:pb-12">
+        <div className="cover-grid">
+          <div>
+            <p
+              className="fade-up max-w-[62ch] text-[0.9375rem] leading-relaxed font-semibold"
+              style={delay(60)}
             >
-              {HERO.secondaryAction.label}
-            </a>
-          </div>
-        </div>
-      </div>
+              {HERO.role}
+            </p>
 
-      {/*
-       * The sky band is decorative: the clock in the header already carries
-       * the time as text. The disc's position comes from `data-hour`, written
-       * on the server, so it renders correctly without JavaScript.
-       */}
-      <div className="sky" aria-hidden="true">
-        <span className="sky__horizon" />
-        <span className="sun" />
+            <h1
+              className="cover-display mt-6"
+              aria-label={`${HERO.display} ${HERO.displayEmphasis}`}
+            >
+              <MaskWords text={HERO.display} offset={0} />
+              <MaskWords
+                text={HERO.displayEmphasis}
+                offset={plainCount}
+                italic
+              />
+            </h1>
+
+            <p className="hero-statement fade-up mt-8" style={delay(520)}>
+              {HERO.statement}
+            </p>
+          </div>
+
+          <aside className="cover-panel fade-up" style={delay(280)}>
+            <SolDeMayo id="sol-cover" className="cover-panel__sol" />
+            <p className="cover-panel__copy">{HERO.supporting}</p>
+            <p className="cover-panel__copy">{HERO.direction}</p>
+            <div className="cover-panel__actions">
+              <a
+                href={HERO.primaryAction.href}
+                className={cn(
+                  buttonVariants({ variant: "default", size: "lg" }),
+                  "cover-panel__btn cover-panel__btn--fill",
+                )}
+              >
+                {HERO.primaryAction.label}
+              </a>
+              <a
+                href={HERO.secondaryAction.href}
+                download
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "lg" }),
+                  "cover-panel__btn cover-panel__btn--ghost",
+                )}
+              >
+                {HERO.secondaryAction.label}
+              </a>
+            </div>
+          </aside>
+        </div>
       </div>
     </section>
   );

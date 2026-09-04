@@ -2,7 +2,12 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-import { CURRENT_TITLE, ROLE_TRANSITION } from "@/app/lib/content";
+import {
+  buildSolDeMayoSvg,
+  SOL_GOLD,
+  SOL_NAVY,
+} from "@/app/components/SolDeMayo";
+import { CURRENT_TITLE, HERO, ROLE_TRANSITION } from "@/app/lib/content";
 import { SITE_NAME } from "@/app/lib/site";
 
 export const alt = `Santiago López Zavaletta — ${CURRENT_TITLE}. Enterprise AI and software delivery.`;
@@ -10,9 +15,11 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const colors = {
-  paper: "#F3E6C8",
-  ink: "#3A2C22",
-  mute: "#5C4A3A",
+  paper: "#E8EEF4",
+  ink: SOL_NAVY,
+  mute: "#3A4E66",
+  gold: SOL_GOLD,
+  navy: SOL_NAVY,
 };
 
 async function loadFont(filename: string) {
@@ -20,15 +27,13 @@ async function loadFont(filename: string) {
 }
 
 export default async function OpengraphImage() {
-  const [andada, atkinson, atkinsonBold] = await Promise.all([
-    loadFont("AndadaPro-SemiBold.ttf"),
-    loadFont("AtkinsonHyperlegible-Regular.ttf"),
-    loadFont("AtkinsonHyperlegible-Bold.ttf"),
+  const [fraunces, frauncesItalic] = await Promise.all([
+    loadFont("Fraunces-SemiBold.ttf"),
+    loadFont("Fraunces-Italic.ttf"),
   ]);
 
-  const nowLine = `${CURRENT_TITLE} · ${ROLE_TRANSITION.current.company}`;
   const nextLine = ROLE_TRANSITION.public
-    ? `${ROLE_TRANSITION.next.title}, ${ROLE_TRANSITION.next.company}`
+    ? `Next: ${ROLE_TRANSITION.next.title}, ${ROLE_TRANSITION.next.company} — from ${ROLE_TRANSITION.startsOnLabel}`
     : "AI deployment";
 
   return new ImageResponse(
@@ -37,98 +42,80 @@ export default async function OpengraphImage() {
         width: "100%",
         height: "100%",
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        position: "relative",
-        backgroundColor: colors.paper,
-        color: colors.ink,
-        padding: "56px 64px 52px",
-        fontFamily: '"Atkinson Hyperlegible", Arial, sans-serif',
+        backgroundColor: colors.navy,
+        color: colors.paper,
+        padding: "48px 56px",
+        fontFamily: "Georgia, serif",
       }}
     >
       <div
         style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 168,
-          height: 2,
-          backgroundColor: `${colors.ink}33`,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          bottom: 78,
-          left: 660,
-          width: 180,
-          height: 180,
-          borderRadius: 999,
-          backgroundColor: colors.ink,
-        }}
-      />
-
-      <div
-        style={{
           display: "flex",
+          flexDirection: "column",
           justifyContent: "space-between",
-          fontSize: 22,
-          color: colors.mute,
+          flex: 1,
+          backgroundColor: colors.paper,
+          color: colors.ink,
+          padding: "48px 52px 40px",
+          borderRadius: 12,
         }}
       >
-        <span>Buenos Aires</span>
-        <span>slzavaletta.com</span>
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column" }}>
         <div
           style={{
             display: "flex",
-            fontFamily: '"Andada Pro", Georgia, serif',
-            fontSize: 64,
+            justifyContent: "space-between",
+            alignItems: "center",
+            fontSize: 20,
+            color: colors.mute,
+          }}
+        >
+          <span>
+            {SITE_NAME} · {CURRENT_TITLE}
+          </span>
+          <img
+            alt=""
+            width={58}
+            height={58}
+            src={`data:image/svg+xml,${encodeURIComponent(buildSolDeMayoSvg())}`}
+          />
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            maxWidth: 980,
+            fontFamily: "Fraunces",
+            fontSize: 76,
             fontWeight: 600,
-            letterSpacing: "-0.02em",
-            lineHeight: 1.15,
+            letterSpacing: "-0.03em",
+            lineHeight: 1.04,
           }}
         >
-          {SITE_NAME}
+          <span>{`${HERO.display}\u00A0`}</span>
+          <span
+            style={{
+              fontFamily: "Fraunces Italic",
+              fontStyle: "italic",
+              fontWeight: 400,
+            }}
+          >
+            {HERO.displayEmphasis}
+          </span>
         </div>
+
         <div
           style={{
             display: "flex",
-            marginTop: 18,
-            maxWidth: 920,
-            fontFamily: '"Atkinson Hyperlegible", Arial, sans-serif',
-            fontSize: 28,
-            fontWeight: 400,
-            lineHeight: 1.35,
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            borderTop: `3px solid ${colors.gold}`,
+            paddingTop: 22,
+            fontSize: 21,
           }}
         >
-          I own the delivery around AI work: the team, the budget, the risk, and
-          the decision the client has to make.
-        </div>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          gap: 48,
-          borderTop: `1px solid ${colors.ink}22`,
-          paddingTop: 22,
-          fontSize: 22,
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          <span style={{ color: colors.mute, fontSize: 16, fontWeight: 700 }}>
-            Now
-          </span>
-          <span>{nowLine}</span>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          <span style={{ color: colors.mute, fontSize: 16, fontWeight: 700 }}>
-            Next
-          </span>
-          <span>{nextLine}</span>
+          <span style={{ color: colors.ink }}>{nextLine}</span>
+          <span style={{ color: colors.mute }}>Buenos Aires</span>
         </div>
       </div>
     </div>,
@@ -136,22 +123,16 @@ export default async function OpengraphImage() {
       ...size,
       fonts: [
         {
-          name: "Andada Pro",
-          data: andada,
+          name: "Fraunces",
+          data: fraunces,
           weight: 600,
           style: "normal",
         },
         {
-          name: "Atkinson Hyperlegible",
-          data: atkinson,
+          name: "Fraunces Italic",
+          data: frauncesItalic,
           weight: 400,
-          style: "normal",
-        },
-        {
-          name: "Atkinson Hyperlegible",
-          data: atkinsonBold,
-          weight: 700,
-          style: "normal",
+          style: "italic",
         },
       ],
     },

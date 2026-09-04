@@ -48,6 +48,8 @@ async function open(page: Page, theme?: "light" | "dark") {
     }, theme);
   }
   await page.goto("/");
+  // Let the cover entrance finish so nothing is mid-fade when axe reads it.
+  await page.waitForTimeout(1400);
 }
 
 test.describe("accessibility", () => {
@@ -115,6 +117,9 @@ test.describe("living layer", () => {
     await expect(ledger.first()).toContainText("Syneos Health");
     await expect(ledger.first()).toContainText("Availability");
     await expect(page.locator("time").first()).toHaveText(/^\d{2}:\d{2}$/);
+    await expect(
+      page.getByText("Sean eternos los laureles que supimos conseguir."),
+    ).toBeVisible();
   });
 
   test("theme toggle switches and persists", async ({ page }) => {

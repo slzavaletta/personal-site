@@ -16,7 +16,7 @@ export function Experience() {
   return (
     <section id="experience" className="section-block scroll-mt-8">
       <div className="page-shell">
-        <div className="section-head">
+        <div className="section-head reveal">
           <h2 className="editorial-heading">{EXPERIENCE_SECTION.heading}</h2>
           <p className="reading-copy">{EXPERIENCE_SECTION.note}</p>
           <a href={SITE_LINKS.resume} download className="text-link text-base">
@@ -24,7 +24,7 @@ export function Experience() {
           </a>
         </div>
 
-        <table className="experience-table">
+        <table className="experience-table reveal">
           <caption className="sr-only">Roles and periods</caption>
           <thead>
             <tr>

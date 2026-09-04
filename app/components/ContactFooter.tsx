@@ -1,5 +1,6 @@
-import { CONTACT, LOCATION, SITE_LINKS } from "@/app/lib/content";
+import { ANTHEM, CONTACT, LOCATION, SITE_LINKS } from "@/app/lib/content";
 import { SITE_EMAIL, SITE_NAME } from "@/app/lib/site";
+import { SolDeMayo } from "@/app/components/SolDeMayo";
 
 export function ContactSection() {
   return (
@@ -37,6 +38,16 @@ export function ContactSection() {
 
         <p className="figure mt-10 text-sm text-mute">
           {LOCATION.city}, {LOCATION.country}
+        </p>
+
+        <p className="colophon">
+          <SolDeMayo id="sol-colophon" className="colophon__sol" />
+          <span lang="es" className="colophon__line">
+            {ANTHEM.line}
+          </span>
+          <span lang="es" className="colophon__source">
+            {ANTHEM.source}
+          </span>
         </p>
       </div>
     </section>

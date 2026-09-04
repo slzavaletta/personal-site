@@ -55,6 +55,7 @@ export function SiteHeader({ initialClock }: { initialClock: string }) {
       data-past-hero={pastHero || undefined}
       className="site-header sticky top-0 z-40 border-b border-rule-strong bg-paper data-[past-hero]:bg-paper/88 data-[past-hero]:backdrop-blur-md data-[past-hero]:backdrop-saturate-150"
     >
+      <div className="flag-ribbon" aria-hidden="true" />
       <div className="page-shell flex min-h-16 items-center justify-between gap-6 sm:min-h-[4.25rem]">
         <div className="flex min-w-0 items-center gap-5">
           <a
@@ -72,13 +73,13 @@ export function SiteHeader({ initialClock }: { initialClock: string }) {
 
         <nav
           aria-label="Primary navigation"
-          className="hidden items-center gap-5 lg:flex"
+          className="hidden items-center gap-7 lg:flex"
         >
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="hairline-link inline-flex min-h-11 items-center text-sm font-bold"
+              className="hairline-link inline-flex min-h-11 items-center text-sm font-bold tracking-[0.01em]"
             >
               {link.label}
             </a>
@@ -167,8 +168,6 @@ export function SiteHeader({ initialClock }: { initialClock: string }) {
           </div>
         </div>
       </div>
-
-      <span aria-hidden="true" className="scroll-progress" />
     </header>
   );
 }

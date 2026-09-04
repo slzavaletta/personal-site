@@ -27,7 +27,7 @@ export const ROLE_TRANSITION = {
   },
   next: {
     company: "Syneos Health",
-    title: "Senior Technical Program Manager",
+    title: "Senior Technical Project Manager",
     domain: "AI in clinical development",
   },
 } as const;
@@ -75,8 +75,10 @@ export const HERO = {
   role: roleLine,
   firstName: "Santiago",
   lastName: "López Zavaletta",
+  display: "The part of AI work that is",
+  displayEmphasis: "not the model.",
   statement:
-    "I spend my days on the part of AI work that is not the model: staffing the team, holding the budget, naming the risks, and getting the client to a decision they can stand behind.",
+    "Staffing the team, holding the budget, naming the risks, and getting the client to a decision they can stand behind.",
   supporting:
     "My career started in life-sciences delivery, moved through enterprise infrastructure, and grew into AI and digital delivery at scale for clients across the United States and Latin America.",
   direction:
@@ -428,4 +430,13 @@ export const INDUSTRIES = [
 export const CONTACT = {
   heading: "Contact",
   body: "If you are running AI pilots where the constraints are real—regulated industries, enterprise data, people whose work changes—and need someone to own the delivery around them, I would like to talk.",
+} as const;
+
+/*
+ * A line from the anthem, not the opening. Typeset as a colophon — a
+ * lockup at nightfall, not a sermon block.
+ */
+export const ANTHEM = {
+  line: "Sean eternos los laureles que supimos conseguir.",
+  source: "Himno Nacional Argentino",
 } as const;
