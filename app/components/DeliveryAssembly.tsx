@@ -93,7 +93,7 @@ export function DeliveryAssembly({
 
   return (
     <div
-      className={`assembly${compact ? "assembly--compact" : ""}`}
+      className={compact ? "assembly assembly--compact" : "assembly"}
       data-ready={ready}
       aria-hidden="true"
     >

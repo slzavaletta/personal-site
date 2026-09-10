@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 
 export type AssemblyController = {
   select: (index: number) => void;
@@ -50,9 +51,7 @@ export function createAssembly(
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.35;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMappingExposure = 1;
     renderer.domElement.setAttribute("aria-hidden", "true");
     host.appendChild(renderer.domElement);
 
@@ -84,51 +83,37 @@ export function createAssembly(
     cleanups.push(() => environment.dispose());
     scene.environment = environment.texture;
 
-    scene.add(new THREE.HemisphereLight(0xe6efff, 0xaaa49a, 2.2));
-    const light = new THREE.DirectionalLight(0xffffff, 4.5);
+    scene.add(new THREE.HemisphereLight(0xe6efff, 0xaaa49a, 0.65));
+    const light = new THREE.DirectionalLight(0xffffff, 2.4);
     light.position.set(-3, 7, 5);
-    cleanups.push(() => light.shadow.dispose());
-    light.castShadow = true;
-    light.shadow.mapSize.set(1024, 1024);
-    light.shadow.camera.left = light.shadow.camera.bottom = -5;
-    light.shadow.camera.right = light.shadow.camera.top = 5;
-    light.shadow.normalBias = 0.035;
     scene.add(light);
+    const rim = new THREE.DirectionalLight(0x9dbbff, 0.6);
+    rim.position.set(5, 1, -4);
+    scene.add(rim);
 
     const assembly = new THREE.Group();
     scene.add(assembly);
     const configs = [
-      { x: -1.75, z: 0.45, h: 3.65, c: 0x1557cb },
-      { x: -0.95, z: -0.85, h: 4.4, c: 0x30373c },
-      { x: 0.05, z: -1.25, h: 3.9, c: 0xcdd8e4 },
-      { x: 0.95, z: 0.45, h: 3.45, c: 0x343b40 },
-      { x: 1.85, z: -0.35, h: 3.15, c: 0x1557cb },
+      { x: -1.75, z: 0.45, h: 3.65, c: 0x0646c7 },
+      { x: -0.95, z: -0.85, h: 4.4, c: 0x242d33 },
+      { x: 0.05, z: -1.25, h: 3.9, c: 0xa8b5c1 },
+      { x: 0.95, z: 0.45, h: 3.45, c: 0x2a333a },
+      { x: 1.85, z: -0.35, h: 3.15, c: 0x0646c7 },
     ];
     const plates = configs.map((config, i) => {
       const material = new THREE.MeshPhysicalMaterial({
         color: config.c,
-        metalness: i === 0 || i === 4 ? 0.25 : 0.65,
-        roughness: i === 0 || i === 4 ? 0.12 : 0.34,
-        clearcoat: 0.65,
-        envMapIntensity: 1.2,
-        transparent: i === 0 || i === 2 || i === 4,
-        opacity: i === 2 ? 0.84 : 0.94,
+        metalness: i === 0 || i === 4 ? 0.4 : 0.72,
+        roughness: i === 0 || i === 4 ? 0.2 : 0.28,
+        clearcoat: 1,
+        clearcoatRoughness: 0.15,
+        envMapIntensity: 1,
       });
       const plate = new THREE.Mesh(
-        new THREE.BoxGeometry(0.09, config.h, 1.8),
+        new RoundedBoxGeometry(0.12, config.h, 1.8, 3, 0.035),
         material,
       );
       plate.position.set(config.x, config.h / 2 - 1.75, config.z);
-      plate.castShadow = plate.receiveShadow = true;
-      const edge = new THREE.LineSegments(
-        new THREE.EdgesGeometry(plate.geometry),
-        new THREE.LineBasicMaterial({
-          color: i === 0 || i === 4 ? 0x86b0ff : 0xb5bdc3,
-          transparent: true,
-          opacity: 0.55,
-        }),
-      );
-      plate.add(edge);
       assembly.add(plate);
       return plate;
     });
@@ -144,20 +129,40 @@ export function createAssembly(
       );
       rail.rotation.z = Math.PI / 2;
       rail.position.set(0, -0.2, z);
-      rail.castShadow = true;
       assembly.add(rail);
     }
-    const cube = new THREE.Mesh(new THREE.BoxGeometry(0.68, 0.68, 0.68), steel);
+    const cube = new THREE.Mesh(
+      new RoundedBoxGeometry(0.68, 0.68, 0.68, 3, 0.04),
+      steel,
+    );
     cube.position.set(0, -0.2, 0.55);
-    cube.castShadow = true;
     assembly.add(cube);
+    // A soft contact shadow stays inside the composition without a shadow-map
+    // pass. Its texture is generated locally; no remote image or shader assets.
+    const shadowCanvas = document.createElement("canvas");
+    shadowCanvas.width = shadowCanvas.height = 128;
+    const shadowContext = shadowCanvas.getContext("2d");
+    if (!shadowContext) throw new Error("Canvas2D is unavailable");
+    const gradient = shadowContext.createRadialGradient(64, 64, 4, 64, 64, 64);
+    gradient.addColorStop(0, "rgba(20, 28, 36, 0.3)");
+    gradient.addColorStop(0.45, "rgba(20, 28, 36, 0.12)");
+    gradient.addColorStop(1, "rgba(20, 28, 36, 0)");
+    shadowContext.fillStyle = gradient;
+    shadowContext.fillRect(0, 0, 128, 128);
+    const shadowTexture = new THREE.CanvasTexture(shadowCanvas);
+    shadowTexture.colorSpace = THREE.SRGBColorSpace;
+    cleanups.push(() => shadowTexture.dispose());
     const floor = new THREE.Mesh(
-      new THREE.PlaneGeometry(20, 20),
-      new THREE.ShadowMaterial({ opacity: 0.14 }),
+      new THREE.PlaneGeometry(7, 5),
+      new THREE.MeshBasicMaterial({
+        map: shadowTexture,
+        transparent: true,
+        depthWrite: false,
+        toneMapped: false,
+      }),
     );
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = -1.78;
-    floor.receiveShadow = true;
     scene.add(floor);
 
     let selected = initialField;
@@ -218,8 +223,8 @@ export function createAssembly(
     };
     const theme = () => {
       const dark = document.documentElement.dataset.theme === "dark";
-      renderer.toneMappingExposure = dark ? 1.65 : 1.35;
-      floor.material.opacity = dark ? 0.3 : 0.14;
+      renderer.toneMappingExposure = dark ? 1.3 : 1;
+      floor.material.opacity = dark ? 0.5 : 1;
       invalidate();
     };
     const lost = (event: Event) => {

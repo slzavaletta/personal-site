@@ -351,6 +351,10 @@
   width: 100%;
   aspect-ratio: 1;
   isolation: isolate;
+  background: var(--assembly-paper, var(--paper));
+}
+#approach .assembly {
+  --assembly-paper: var(--field);
 }
 .assembly__poster,
 .assembly__canvas {
