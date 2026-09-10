@@ -72,7 +72,7 @@ export function createAssembly(
       });
       materials.forEach((material) => material.dispose());
     });
-    const camera = new THREE.OrthographicCamera(-3.8, 3.8, 3.8, -3.8, 0.1, 50);
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 50);
     camera.position.set(7, 4.8, 8);
     camera.lookAt(0, 0.1, 0);
     const pmrem = new THREE.PMREMGenerator(renderer);
@@ -202,11 +202,7 @@ export function createAssembly(
     const resize = () => {
       const { width, height } = host.getBoundingClientRect();
       if (!width || !height) return;
-      const ratio = width / height;
-      camera.left = -3.35 * ratio;
-      camera.right = 3.35 * ratio;
-      camera.top = 3.35;
-      camera.bottom = -3.35;
+      camera.aspect = width / height;
       camera.updateProjectionMatrix();
       renderer.setSize(width, height);
       invalidate();
