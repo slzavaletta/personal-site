@@ -10,8 +10,8 @@ import { SystemsAndTools } from "@/app/components/SystemsAndTools";
 import { formatLocalClock } from "@/app/lib/time";
 
 /*
- * The page is regenerated at most once an hour so the ledger's GitHub row
- * stays current without a deploy. Everything else is static content.
+ * Keep an hourly internal page cache. The root HTTP response is no-store
+ * because Next 15 replaces Vary on rendered HTML; see next.config.mjs.
  */
 export const revalidate = 3600;
 
@@ -24,9 +24,6 @@ export default function Home() {
       <HashTarget />
       <main id="main" tabIndex={-1}>
         <EditorialHero />
-        <div className="band band--field">
-          <Ledger />
-        </div>
         <CaseStudies />
         <div className="band band--wash">
           <Approach />
@@ -35,6 +32,9 @@ export default function Home() {
           <SystemsAndTools />
         </div>
         <Experience />
+        <div className="band band--field">
+          <Ledger />
+        </div>
         <div className="night night--enter">
           <ContactSection />
         </div>

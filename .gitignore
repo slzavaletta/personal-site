@@ -38,3 +38,5 @@ next-env.d.ts
 .claude/settings.local.json
 test-results
 playwright-report
+
+.next-dev/

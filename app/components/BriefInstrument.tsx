@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 
 import { BRIEF } from "@/app/lib/content";
+
+import { DeliveryAssembly } from "@/app/components/DeliveryAssembly";
 
 const FIELDS = BRIEF.fields;
 
@@ -12,13 +14,16 @@ const FIELDS = BRIEF.fields;
  * jump — and the selected field expands in place: what tends to go wrong
  * when it is left blank, and where the habit came from.
  *
- * Server HTML carries the first field selected, so the argument is on the
- * page without JavaScript.
+ * Server HTML carries every field and panel. Hydration enhances selection;
+ * a reader without JavaScript can read all five without operating a control.
  */
 export function BriefInstrument() {
   const [activeIndex, setActiveIndex] = useState(0);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
-  const field = FIELDS[activeIndex] ?? FIELDS[0];
+  const [enhanced, setEnhanced] = useState(false);
+  useEffect(() => {
+    setEnhanced(true);
+  }, []);
 
   const select = (index: number, focus = false) => {
     const next = (index + FIELDS.length) % FIELDS.length;
@@ -54,7 +59,10 @@ export function BriefInstrument() {
   };
 
   return (
-    <div className="instrument">
+    <div className="instrument" data-enhanced={enhanced}>
+      <div className="instrument__visual">
+        <DeliveryAssembly field={activeIndex} compact />
+      </div>
       <div
         role="radiogroup"
         aria-label="Fields of the brief"
@@ -77,30 +85,34 @@ export function BriefInstrument() {
                 onClick={() => select(index)}
                 onKeyDown={(event) => onKeyDown(event, index)}
               >
+                <span className="instrument__number" aria-hidden="true">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
                 <span className="instrument__title">{item.title}</span>
                 <span className="instrument__prompt">{item.prompt}</span>
               </button>
 
-              {checked ? (
+              {
                 <div
                   role="region"
                   aria-labelledby={`brief-field-${item.id}`}
                   className="instrument__panel"
+                  hidden={enhanced && !checked}
                 >
                   <div className="instrument__block">
                     <p className="utility-label">
                       {BRIEF.panelLabels.whenMissing}
                     </p>
-                    <p className="instrument__copy">{field.whenMissing}</p>
+                    <p className="instrument__copy">{item.whenMissing}</p>
                   </div>
                   <div className="instrument__block">
                     <p className="utility-label">
                       {BRIEF.panelLabels.fromTheWork}
                     </p>
-                    <p className="instrument__copy">{field.fromTheWork}</p>
+                    <p className="instrument__copy">{item.fromTheWork}</p>
                   </div>
                 </div>
-              ) : null}
+              }
             </div>
           );
         })}

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Source_Sans_3 } from "next/font/google";
+import localFont from "next/font/local";
 
 import { THEME_BOOT_SCRIPT } from "@/app/components/theme/theme";
 import { CURRENT_TITLE, ROLE_TRANSITION, SITE_LINKS } from "@/app/lib/content";
@@ -7,23 +7,19 @@ import { SITE_EMAIL, SITE_NAME, SITE_URL } from "@/app/lib/site";
 import { getBuenosAiresHour } from "@/app/lib/time";
 import "./globals.css";
 
-/*
- * Fraunces is the display face: optical, a little soft, nothing like the
- * slab that sat on the plaster page. Source Sans 3 is the reading face —
- * characters that stay distinct at UI size, without looking like a kit.
- */
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  style: ["normal", "italic"],
+// Self-hosted, lockfile-pinned font assets also work in offline builds/previews.
+const fraunces = localFont({
+  src: "../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2",
+  weight: "100 900",
+  style: "italic",
   variable: "--font-display",
   display: "swap",
   preload: true,
 });
-
-const sourceSans = Source_Sans_3({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
+const sourceSans = localFont({
+  src: "../node_modules/@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2",
+  weight: "200 900",
+  style: "normal",
   variable: "--font-body",
   display: "swap",
   preload: true,
@@ -59,6 +55,7 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical: "/",
+    types: { "text/markdown": `${SITE_URL}/index.md` },
   },
   openGraph: {
     type: "website",
@@ -87,8 +84,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#E8EEF4" },
-    { media: "(prefers-color-scheme: dark)", color: "#0B1A2C" },
+    { media: "(prefers-color-scheme: light)", color: "#F4F2ED" },
+    { media: "(prefers-color-scheme: dark)", color: "#14212D" },
   ],
   width: "device-width",
   initialScale: 1,
