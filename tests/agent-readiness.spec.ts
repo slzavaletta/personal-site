@@ -217,7 +217,10 @@ test("desktop Three.js scene renders, responds and releases offscreen resources"
   await expect(hero.locator("canvas")).toHaveCount(1);
   await page.mouse.move(900, 350);
   await page.waitForTimeout(1500);
-  await page.screenshot({ path: test.info().outputPath("desktop-three.png") });
+  await page.screenshot({
+    path: test.info().outputPath("desktop-three.png"),
+    animations: "disabled",
+  });
   await page
     .getByRole("navigation", { name: "Primary navigation" })
     .getByRole("link", { name: "Approach", exact: true })
@@ -229,8 +232,16 @@ test("desktop Three.js scene renders, responds and releases offscreen resources"
   await expect(brief.locator(".assembly__index [data-active=true]")).toHaveText(
     "05",
   );
+  await expect(
+    page.getByRole("region", { name: /The decision/ }),
+  ).toBeInViewport({
+    ratio: 0.95,
+  });
   await page.waitForTimeout(1500);
-  await page.screenshot({ path: test.info().outputPath("approach-three.png") });
+  await page.screenshot({
+    path: test.info().outputPath("approach-three.png"),
+    animations: "disabled",
+  });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator("canvas")).toHaveCount(0);
   await expect(brief).toHaveAttribute("data-ready", "false");

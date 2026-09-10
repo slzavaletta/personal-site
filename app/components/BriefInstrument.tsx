@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+} from "react";
 
 import { BRIEF } from "@/app/lib/content";
 
@@ -20,15 +26,27 @@ const FIELDS = BRIEF.fields;
 export function BriefInstrument() {
   const [activeIndex, setActiveIndex] = useState(0);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const selectionRequested = useRef(false);
   const [enhanced, setEnhanced] = useState(false);
   useEffect(() => {
     setEnhanced(true);
   }, []);
 
+  useLayoutEffect(() => {
+    if (!selectionRequested.current) return;
+    // Closing a panel above the selection changes its screen position. Keep
+    // the newly selected field and its explanation visible after that reflow.
+    buttons.current[activeIndex]?.parentElement?.scrollIntoView({
+      block: "nearest",
+      behavior: "instant",
+    });
+  }, [activeIndex]);
+
   const select = (index: number, focus = false) => {
     const next = (index + FIELDS.length) % FIELDS.length;
+    selectionRequested.current = true;
     setActiveIndex(next);
-    if (focus) buttons.current[next]?.focus();
+    if (focus) buttons.current[next]?.focus({ preventScroll: true });
   };
 
   const onKeyDown = (
