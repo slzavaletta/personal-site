@@ -7,6 +7,9 @@ export function SystemsAndTools() {
     <section id="systems" className="section-block scroll-mt-8">
       <div className="page-shell">
         <div className="section-head reveal">
+          <span className="section-index" aria-hidden="true">
+            03 /
+          </span>
           <h2 className="editorial-heading">{SYSTEMS.heading}</h2>
           <p className="reading-copy">{SYSTEMS.body}</p>
         </div>

@@ -32,7 +32,12 @@ export function HashTarget() {
      * ids this page authors — so a crafted URL cannot hand the browser a
      * pathological selector to evaluate.
      */
-    const id = decodeURIComponent(window.location.hash.slice(1));
+    let id: string;
+    try {
+      id = decodeURIComponent(window.location.hash.slice(1));
+    } catch {
+      return;
+    }
     if (!/^[A-Za-z][\w-]{0,63}$/.test(id)) return;
 
     const target = document.getElementById(id);

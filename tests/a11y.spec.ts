@@ -49,19 +49,29 @@ async function open(page: Page, theme?: "light" | "dark") {
   }
   await page.goto("/");
   // Let the cover entrance finish so nothing is mid-fade when axe reads it.
-  await page.waitForTimeout(1400);
+  await expect(page.locator(".cover-copy")).toHaveCSS("opacity", "1");
 }
 
 test.describe("accessibility", () => {
   test("light theme has no WCAG 2.2 AA violations", async ({ page }) => {
     await open(page, "light");
     await audit(page);
+    await page.screenshot({
+      path: test.info().outputPath("theme.png"),
+      fullPage: true,
+      animations: "disabled",
+    });
   });
 
   test("dark theme has no WCAG 2.2 AA violations", async ({ page }) => {
     await open(page, "dark");
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await audit(page);
+    await page.screenshot({
+      path: test.info().outputPath("theme.png"),
+      fullPage: true,
+      animations: "disabled",
+    });
   });
 
   test("document structure: one h1, landmarks, skip link", async ({ page }) => {

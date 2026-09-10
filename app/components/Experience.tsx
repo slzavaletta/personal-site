@@ -4,7 +4,10 @@ import {
   EXPERIENCE_SECTION,
   INDUSTRIES,
   SITE_LINKS,
+  CASE_STUDIES,
 } from "@/app/lib/content";
+
+import { Case } from "@/app/components/CaseStudies";
 
 function industriesSentence() {
   const last = INDUSTRIES[INDUSTRIES.length - 1];
@@ -17,6 +20,9 @@ export function Experience() {
     <section id="experience" className="section-block scroll-mt-8">
       <div className="page-shell">
         <div className="section-head reveal">
+          <span className="section-index" aria-hidden="true">
+            04 /
+          </span>
           <h2 className="editorial-heading">{EXPERIENCE_SECTION.heading}</h2>
           <p className="reading-copy">{EXPERIENCE_SECTION.note}</p>
           <a href={SITE_LINKS.resume} download className="text-link text-base">
@@ -24,41 +30,35 @@ export function Experience() {
           </a>
         </div>
 
-        <table className="experience-table reveal">
-          <caption className="sr-only">Roles and periods</caption>
-          <thead>
-            <tr>
-              <th scope="col">Period</th>
-              <th scope="col">Company</th>
-              <th scope="col">Role</th>
-              <th scope="col">What I did</th>
-            </tr>
-          </thead>
-          <tbody>
-            {EXPERIENCE.map((item) => {
-              const upcoming = "upcoming" in item && item.upcoming;
-              const concurrent = "concurrent" in item && item.concurrent;
-              return (
-                <tr key={`${item.company}-${item.period}`}>
-                  <td className="experience-table__period">
-                    {item.period}
-                    {upcoming ? (
-                      <span className="experience-table__flag">Upcoming</span>
-                    ) : null}
-                    {concurrent ? (
-                      <span className="experience-table__flag">
-                        Concurrent with Globant
-                      </span>
-                    ) : null}
-                  </td>
-                  <td className="experience-table__company">{item.company}</td>
-                  <td>{item.title}</td>
-                  <td className="experience-table__body">{item.body}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <ol className="experience-list">
+          {EXPERIENCE.map((item) => {
+            const upcoming = "upcoming" in item && item.upcoming;
+            const concurrent = "concurrent" in item && item.concurrent;
+            return (
+              <li key={`${item.company}-${item.period}`}>
+                <div className="experience-period">
+                  {item.period}
+                  {upcoming ? (
+                    <span className="experience-flag">Upcoming</span>
+                  ) : null}
+                  {concurrent ? (
+                    <span className="experience-flag">
+                      Concurrent with Globant
+                    </span>
+                  ) : null}
+                </div>
+                <div>
+                  <h3 className="experience-company">{item.company}</h3>
+                  <p className="experience-title">{item.title}</p>
+                </div>
+                <p className="experience-body">{item.body}</p>
+              </li>
+            );
+          })}
+        </ol>
+        <div className="experience-case">
+          <Case caseStudy={CASE_STUDIES[2]} />
+        </div>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-2">
           <div>

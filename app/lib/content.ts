@@ -49,9 +49,10 @@ export const SECTIONS = [
   { id: "contact", label: "Contact", navLabel: "Contact" },
 ] as const satisfies readonly Section[];
 
-export const NAV_LINKS = SECTIONS.filter((s) => s.id !== "systems").map(
-  ({ navLabel, id }) => ({ label: navLabel, href: `#${id}` as const }),
-);
+export const NAV_LINKS = SECTIONS.map(({ navLabel, id }) => ({
+  label: navLabel,
+  href: `#${id}` as const,
+}));
 
 export const SITE_LINKS = {
   email: `mailto:${SITE_EMAIL}`,
@@ -252,13 +253,13 @@ export const SYSTEMS = {
       id: "scope-sentinel",
       name: "Scope Sentinel",
       body: "Reads a client request against the SOW, cites the exact clause, sizes the effort, and drafts the next step. When the evidence is missing, it says so.",
-      href: SITE_LINKS.skillsRepository,
+      href: `${SITE_LINKS.skillsRepository}/tree/main/skills/scope-sentinel`,
     },
     {
       id: "sow-intake",
       name: "SOW Intake",
       body: "Turns a contract into a cited delivery baseline that people and agents can use. Missing evidence is marked as missing, not filled with a plausible answer.",
-      href: SITE_LINKS.skillsRepository,
+      href: `${SITE_LINKS.skillsRepository}/tree/main/skills/sow-intake`,
     },
   ] satisfies readonly DeliverySystem[],
   infrastructure:

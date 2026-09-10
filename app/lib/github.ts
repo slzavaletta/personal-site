@@ -2,6 +2,10 @@ import "server-only";
 
 const GITHUB_USER = "slzavaletta";
 const REVALIDATE_SECONDS = 60 * 60;
+const PUBLIC_REPOS = new Set([
+  "slzavaletta/personal-site",
+  "slzavaletta/skills",
+]);
 
 export type LatestActivity = {
   repo: string;
@@ -45,17 +49,19 @@ async function fetchJson<T>(url: string): Promise<T | null> {
   try {
     const response = await fetch(url, {
       headers: headers(),
+      signal: AbortSignal.timeout(4000),
       next: { revalidate: REVALIDATE_SECONDS },
     });
     if (!response.ok) return null;
-    return (await response.json()) as T;
+    const data: unknown = await response.json();
+    return Array.isArray(data) ? (data as T) : null;
   } catch {
     return null;
   }
 }
 
 /**
- * The most recent public push to any of the owner's repositories, with its
+ * The most recent public push to the approved portfolio/skills repositories, with its
  * commit message when the events feed has one. Falls back to the most
  * recently pushed repository, and to `null` when GitHub is unreachable — the
  * ledger simply omits the row.
@@ -66,7 +72,16 @@ export async function getLatestActivity(): Promise<LatestActivity | null> {
   );
 
   const push = events?.find(
-    (event) => event.type === "PushEvent" && event.payload?.commits?.length,
+    (event) =>
+      event?.type === "PushEvent" &&
+      PUBLIC_REPOS.has(event.repo?.name) &&
+      typeof event.created_at === "string" &&
+      !Number.isNaN(Date.parse(event.created_at)) &&
+      Array.isArray(event.payload?.commits) &&
+      event.payload.commits.length > 0 &&
+      event.payload.commits.every(
+        (commit) => typeof commit?.message === "string",
+      ),
   );
 
   if (push) {
@@ -83,12 +98,19 @@ export async function getLatestActivity(): Promise<LatestActivity | null> {
   const repos = await fetchJson<Repo[]>(
     `https://api.github.com/users/${GITHUB_USER}/repos?sort=pushed&per_page=10&type=owner`,
   );
-  const repo = repos?.find((candidate) => !candidate.fork) ?? repos?.[0];
+  const repo = repos?.find(
+    (candidate) =>
+      candidate &&
+      !candidate.fork &&
+      PUBLIC_REPOS.has(candidate.full_name) &&
+      typeof candidate.pushed_at === "string" &&
+      !Number.isNaN(Date.parse(candidate.pushed_at)),
+  );
   if (!repo) return null;
 
   return {
     repo: repo.full_name,
-    url: repo.html_url,
+    url: `https://github.com/${repo.full_name}`,
     message: null,
     at: repo.pushed_at,
   };

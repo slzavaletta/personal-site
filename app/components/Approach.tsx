@@ -6,6 +6,9 @@ export function Approach() {
     <section id="approach" className="scroll-mt-8">
       <div className="page-shell section-block">
         <div className="section-head reveal">
+          <span className="section-index" aria-hidden="true">
+            02 /
+          </span>
           <p className="utility-label">{BRIEF.label}</p>
           <h2 className="editorial-heading mt-2 max-w-[20ch]">
             {BRIEF.heading}
