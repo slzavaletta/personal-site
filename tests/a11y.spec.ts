@@ -1,170 +1,310 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { BRIEF, CASE_STUDIES } from "../app/lib/content";
+import { THEME_COLORS } from "../app/components/theme/theme";
 
+const paths = [
+  "/",
+  "/approach",
+  "/systems",
+  "/profile",
+  "/contact",
+  ...CASE_STUDIES.map((item) => "/work/" + item.id),
+];
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
 async function audit(page: Page) {
-  const results = await new AxeBuilder({ page }).withTags(TAGS).analyze();
-  const summary = results.violations.map((violation) => ({
-    id: violation.id,
-    impact: violation.impact,
-    help: violation.help,
-    nodes: violation.nodes.map((node) => node.target.join(" ")).slice(0, 5),
+  const { violations } = await new AxeBuilder({ page })
+    .withTags(TAGS)
+    .analyze();
+  const summary = violations.map(({ id, impact, help, nodes }) => ({
+    id,
+    impact,
+    help,
+    nodes: nodes.map((node) => node.target.join(" ")).slice(0, 5),
   }));
   expect(summary, JSON.stringify(summary, null, 2)).toEqual([]);
 }
 
-async function contrastRatio(page: Page) {
-  return page.evaluate(() => {
-    const cs = getComputedStyle(document.body);
-    const toRgb = (value: string) => {
-      const canvas = document.createElement("canvas");
-      canvas.width = 1;
-      canvas.height = 1;
-      const ctx = canvas.getContext("2d", { willReadFrequently: true });
-      if (!ctx) return [0, 0, 0];
-      ctx.fillStyle = value;
-      ctx.fillRect(0, 0, 1, 1);
-      const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
-      return [r, g, b];
-    };
-    const linear = (channel: number) => {
-      const s = channel / 255;
-      return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
-    };
-    const luminance = ([r, g, b]: number[]) =>
-      0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b);
-    const ink = luminance(toRgb(cs.color));
-    const paper = luminance(toRgb(cs.backgroundColor));
-    const [hi, lo] = ink > paper ? [ink, paper] : [paper, ink];
-    return (hi + 0.05) / (lo + 0.05);
-  });
-}
-
-async function open(page: Page, theme?: "light" | "dark") {
-  if (theme) {
-    await page.addInitScript((value) => {
-      localStorage.setItem("theme", value);
-    }, theme);
+for (const theme of ["light", "dark"] as const) {
+  for (const path of paths) {
+    test(`${path} in ${theme}: readable landmarks and automated WCAG checks`, async ({
+      page,
+    }) => {
+      await page.addInitScript(
+        (value) => localStorage.setItem("theme", value),
+        theme,
+      );
+      await page.goto(path);
+      await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
+      await expect(page.locator("h1")).toHaveCount(1);
+      await expect(page.locator("main#main")).toBeVisible();
+      await expect(page.getByRole("contentinfo")).toBeVisible();
+      await expect(
+        page.getByRole("navigation", { name: "Primary navigation" }),
+      ).toBeVisible();
+      await page.keyboard.press("Tab");
+      await expect(
+        page.getByRole("link", { name: "Skip to content" }),
+      ).toBeFocused();
+      await page.keyboard.press("Enter");
+      await expect(page.locator("main#main")).toBeFocused();
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+      await audit(page);
+      if (path === "/")
+        await page.screenshot({
+          path: test.info().outputPath("home.png"),
+          fullPage: true,
+          animations: "disabled",
+        });
+    });
   }
-  await page.goto("/");
-  // Let the cover entrance finish so nothing is mid-fade when axe reads it.
-  await page.waitForTimeout(1400);
 }
 
-test.describe("accessibility", () => {
-  test("light theme has no WCAG 2.2 AA violations", async ({ page }) => {
-    await open(page, "light");
-    await audit(page);
-  });
-
-  test("dark theme has no WCAG 2.2 AA violations", async ({ page }) => {
-    await open(page, "dark");
-    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
-    await audit(page);
-  });
-
-  test("document structure: one h1, landmarks, skip link", async ({ page }) => {
-    await open(page);
-    await expect(page.locator("h1")).toHaveCount(1);
-    await expect(page.locator("main#main")).toBeVisible();
-    await expect(page.getByRole("contentinfo")).toBeVisible();
-    const skip = page.getByRole("link", { name: "Skip to content" });
-    await page.keyboard.press("Tab");
-    await expect(skip).toBeFocused();
-  });
-
-  test("no horizontal overflow", async ({ page }) => {
-    await open(page);
-    const overflow = await page.evaluate(
-      () =>
-        document.documentElement.scrollWidth >
-        document.documentElement.clientWidth,
-    );
-    expect(overflow).toBe(false);
-  });
+test("brief keyboard selection changes the visible panel", async ({ page }) => {
+  await page.goto("/approach");
+  const radios = page
+    .getByRole("radiogroup", { name: "Fields of the brief" })
+    .getByRole("radio");
+  await expect(radios).toHaveCount(5);
+  await radios.nth(0).focus();
+  await page.keyboard.press("ArrowDown");
+  await expect(radios.nth(1)).toBeFocused();
+  await expect(radios.nth(1)).toHaveAttribute("aria-checked", "true");
+  await expect(
+    page.getByRole("region", { name: BRIEF.fields[1].title, exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: BRIEF.fields[0].title, exact: true }),
+  ).toBeHidden();
+  await page.keyboard.press("End");
+  await expect(radios.nth(4)).toBeFocused();
+  await expect(
+    page.getByRole("region", { name: BRIEF.fields[4].title, exact: true }),
+  ).toContainText("A pilot that cannot be stopped");
+  await page.keyboard.press("Home");
+  await expect(radios.nth(0)).toBeFocused();
+  await audit(page);
 });
 
-test.describe("brief instrument", () => {
-  test("is a keyboard-operable radio group that drives the panel", async ({
-    page,
-  }) => {
-    await open(page);
-    const group = page.getByRole("radiogroup", { name: "Fields of the brief" });
-    const radios = group.getByRole("radio");
-    await expect(radios).toHaveCount(5);
-    await expect(radios.nth(0)).toHaveAttribute("aria-checked", "true");
-
-    await radios.nth(0).focus();
-    await page.keyboard.press("ArrowDown");
-    await expect(radios.nth(1)).toBeFocused();
-    await expect(radios.nth(1)).toHaveAttribute("aria-checked", "true");
-
-    await page.keyboard.press("End");
-    await expect(radios.nth(4)).toHaveAttribute("aria-checked", "true");
-
-    const panel = page.getByRole("region", { name: /The decision/ });
-    await expect(panel).toContainText("A pilot that cannot be stopped");
-  });
+test("theme choice persists through page navigation and reload", async ({
+  page,
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  await page
+    .getByRole("navigation", { name: "Primary navigation" })
+    .getByRole("link", { name: "Profile", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/profile$/);
+  await expect(
+    page.getByRole("region", { name: "Now", exact: true }),
+  ).toContainText("Syneos Health");
+  await expect(page.locator("time").first()).toHaveText(/^\d{2}:\d{2}$/);
+  await expect(
+    page.getByText("Sean eternos los laureles que supimos conseguir.", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(
+    page.locator('meta[name="theme-color"]').first(),
+  ).toHaveAttribute("content", THEME_COLORS.dark);
+  // A manual light choice must also win over a dark operating system.
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page
+    .getByRole("button", { name: "Switch to light theme" })
+    .press("Enter");
+  await page
+    .getByRole("navigation", { name: "Primary navigation" })
+    .getByRole("link", { name: "Contact", exact: true })
+    .click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(
+    page.locator('meta[name="theme-color"]').first(),
+  ).toHaveAttribute("content", THEME_COLORS.light);
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 });
 
-test.describe("living layer", () => {
-  test("ledger renders the role transition and a clock", async ({ page }) => {
-    await open(page);
-    const ledger = page
-      .getByRole("region", { name: "Now" })
-      .or(page.locator("section[aria-labelledby='ledger-heading']"));
-    await expect(ledger.first()).toContainText("Syneos Health");
-    await expect(ledger.first()).toContainText("Availability");
-    await expect(page.locator("time").first()).toHaveText(/^\d{2}:\d{2}$/);
-    await expect(
-      page.getByText("Sean eternos los laureles que supimos conseguir."),
-    ).toBeVisible();
+test("invalid saved themes follow live system changes", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("theme", "obsolete"));
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(
+    page.getByRole("button", { name: "Switch to light theme" }),
+  ).toBeEnabled();
+  await page.emulateMedia({ colorScheme: "light" });
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await page.emulateMedia({ colorScheme: "dark" });
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+});
+
+test("blocked storage keeps system detection and the manual choice during navigation", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.addInitScript(() => {
+    Object.defineProperty(window, "localStorage", {
+      get() {
+        throw new DOMException("Storage is disabled", "SecurityError");
+      },
+    });
   });
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await page.getByRole("button", { name: "Switch to light theme" }).click();
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.emulateMedia({ colorScheme: "dark" });
+  await page
+    .getByRole("navigation", { name: "Primary navigation" })
+    .getByRole("link", { name: "Systems", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/systems$/);
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  expect(errors).toEqual([]);
+});
 
-  test("theme toggle switches and persists", async ({ page }) => {
-    await open(page);
-    const html = page.locator("html");
-    const before = await html.getAttribute("data-theme");
-    const after = before === "dark" ? "light" : "dark";
+test("theme changes synchronize between open tabs", async ({
+  page,
+  context,
+}) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  const other = await context.newPage();
+  await other.goto("/contact");
+  await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  await expect(other.locator("html")).toHaveAttribute("data-theme", "dark");
+  await other.getByRole("button", { name: "Switch to light theme" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+  await other.close();
+});
 
-    await page
-      .getByRole("button", { name: `Switch to ${after} theme` })
-      .click();
-    await expect(html).toHaveAttribute("data-theme", after);
-
-    await page.reload();
-    await expect(html).toHaveAttribute("data-theme", after);
-  });
-
-  test("paper contrast holds at morning, noon, dusk and night", async ({
-    page,
-  }) => {
-    await open(page, "light");
-    const html = page.locator("html");
-    await expect(html).toHaveAttribute(
-      "data-hour",
-      /^(?:[0-9]|1[0-9]|2[0-3])$/,
+test("map connections never cross labels at desktop, narrow widths or enlarged text", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const [width, fontSize] of [
+    [1440, 16],
+    [1024, 16],
+    [768, 16],
+    [540, 16],
+    [390, 16],
+    [320, 16],
+    [320, 32],
+  ]) {
+    await page.setViewportSize({ width, height: 850 });
+    await page.goto("/");
+    await page.evaluate((size) => {
+      document.documentElement.style.fontSize = size + "px";
+    }, fontSize);
+    await expect(page.locator(".deployment-map")).toHaveAttribute(
+      "data-enhanced",
+      "true",
     );
-
-    for (const theme of ["light", "dark"] as const) {
-      await page.evaluate((value) => {
-        document.documentElement.style.setProperty("--duration-light", "0s");
-        document.documentElement.style.setProperty("--duration-standard", "0s");
-        document.body.style.transition = "none";
-        document.documentElement.setAttribute("data-theme", value);
-      }, theme);
-      for (const hour of ["7", "12", "17", "21"]) {
-        await page.evaluate((value) => {
-          document.documentElement.setAttribute("data-hour", value);
-          void document.body.offsetHeight;
-        }, hour);
-        const ratio = await contrastRatio(page);
-        expect(
-          ratio,
-          `ink on paper at theme=${theme} hour=${hour}`,
-        ).toBeGreaterThanOrEqual(4.7);
+    await page.evaluate(() => document.fonts.ready);
+    // Observe the settled measured routes, not the initial no-JS illustration.
+    const measuredViewBox = await page.locator(".map-graph").evaluate((el) => {
+      const { width, height } = el.getBoundingClientRect();
+      return `0 0 ${width} ${height}`;
+    });
+    await expect
+      .poll(() => page.locator(".map-edges").getAttribute("viewBox"))
+      .toBe(measuredViewBox);
+    const issues = await page.evaluate(() => {
+      const graph = document
+        .querySelector(".map-graph")!
+        .getBoundingClientRect();
+      const labels = [...document.querySelectorAll(".map-node,.map-hub")].map(
+        (node) => {
+          const rect = node.getBoundingClientRect();
+          return {
+            name: node.textContent,
+            x: rect.left - graph.left,
+            y: rect.top - graph.top,
+            r: rect.right - graph.left,
+            b: rect.bottom - graph.top,
+          };
+        },
+      );
+      const errors: string[] = [];
+      for (const path of document.querySelectorAll<SVGPathElement>(
+        ".map-edges path",
+      )) {
+        const length = path.getTotalLength();
+        for (let d = 0; d <= length; d += 2) {
+          const p = path.getPointAtLength(d);
+          for (const label of labels)
+            if (
+              p.x > label.x - 3 &&
+              p.x < label.r + 3 &&
+              p.y > label.y - 3 &&
+              p.y < label.b + 3
+            )
+              errors.push("Path crosses " + label.name);
+        }
       }
-    }
-  });
+      for (let i = 0; i < labels.length; i++)
+        for (let j = i + 1; j < labels.length; j++) {
+          const a = labels[i],
+            b = labels[j];
+          if (a.x < b.r && a.r > b.x && a.y < b.b && a.b > b.y)
+            errors.push("Label overlap: " + a.name + " / " + b.name);
+        }
+      if (document.documentElement.scrollWidth > innerWidth)
+        errors.push("Horizontal overflow");
+      return [...new Set(errors)];
+    });
+    expect(issues, `width=${width}, font=${fontSize}px`).toEqual([]);
+    await expect(
+      page.getByRole("button", { name: "Map view", exact: true }),
+    ).toHaveAttribute("aria-pressed", "true");
+    if (width === 320)
+      await page.screenshot({
+        path: test.info().outputPath(`map-${fontSize}.png`),
+        fullPage: true,
+        animations: "disabled",
+      });
+  }
+});
+
+test("map selection, explicit list view, case navigation and legacy links work", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Digital Twin Studio", exact: true })
+    .click();
+  await expect(page.locator("#selected-digital-twin-studio")).toBeVisible();
+  await expect(page.locator("#selected-ai-delivery")).toBeHidden();
+  await page.getByRole("button", { name: "List view", exact: true }).click();
+  await expect(page.locator(".deployment-map")).toHaveAttribute(
+    "data-layout",
+    "list",
+  );
+  await expect(
+    page.getByRole("button", { name: "M&A", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Map view", exact: true }).click();
+  await page
+    .getByRole("link", { name: /Open case.*Digital Twin Studio/ })
+    .click();
+  await expect(page).toHaveURL(/\/work\/digital-twin-studio$/);
+  await expect(
+    page.getByText(CASE_STUDIES[1].summary, { exact: true }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "← Back to the map" }).click();
+  await expect(page).toHaveURL(/\/#work$/);
+  await expect(page.locator("#work")).toBeInViewport();
+  await page.goto("/#experience");
+  await expect(page).toHaveURL(/\/profile$/);
 });

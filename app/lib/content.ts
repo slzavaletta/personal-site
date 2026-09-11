@@ -45,13 +45,14 @@ export const SECTIONS = [
   { id: "work", label: "Selected work", navLabel: "Work" },
   { id: "approach", label: "Approach", navLabel: "Approach" },
   { id: "systems", label: "Systems and tools", navLabel: "Systems" },
-  { id: "experience", label: "Experience", navLabel: "Experience" },
+  { id: "profile", label: "Experience", navLabel: "Profile" },
   { id: "contact", label: "Contact", navLabel: "Contact" },
 ] as const satisfies readonly Section[];
 
-export const NAV_LINKS = SECTIONS.filter((s) => s.id !== "systems").map(
-  ({ navLabel, id }) => ({ label: navLabel, href: `#${id}` as const }),
-);
+export const NAV_LINKS = SECTIONS.map(({ navLabel, id }) => ({
+  label: navLabel,
+  href: id === "work" ? "/" : `/${id}`,
+}));
 
 export const SITE_LINKS = {
   email: `mailto:${SITE_EMAIL}`,
@@ -107,6 +108,8 @@ export const NOW = {
 export type CaseStudy = {
   id: string;
   label: string;
+  mapLabel: string;
+  mapCaption: string;
   period: string;
   title: string;
   summary: string;
@@ -123,6 +126,8 @@ export const CASE_STUDIES = [
   {
     id: "ai-delivery",
     label: "AI delivery",
+    mapLabel: "AI delivery",
+    mapCaption: "Staffing · Capacity · P&L",
     period: "Globant · Oct 2025–present",
     title:
       "Improving margin and reducing overhead on a multi-million-dollar AI account",
@@ -135,6 +140,8 @@ export const CASE_STUDIES = [
   {
     id: "digital-twin-studio",
     label: "Digital Twin Studio",
+    mapLabel: "Digital Twin Studio",
+    mapCaption: "A new capability · Six POCs",
     period: "Globant · Dec 2024–Oct 2025",
     title: "Building a new Digital Twin capability through six POCs",
     summary:
@@ -146,6 +153,8 @@ export const CASE_STUDIES = [
   {
     id: "mergers-and-acquisitions",
     label: "M&A and corporate development",
+    mapLabel: "M&A",
+    mapCaption: "Four countries · Shared risk",
     period: "Globant · Jun 2022–Mar 2023",
     title: "Coordinating four M&A programs across four countries",
     summary:
@@ -252,13 +261,13 @@ export const SYSTEMS = {
       id: "scope-sentinel",
       name: "Scope Sentinel",
       body: "Reads a client request against the SOW, cites the exact clause, sizes the effort, and drafts the next step. When the evidence is missing, it says so.",
-      href: SITE_LINKS.skillsRepository,
+      href: `${SITE_LINKS.skillsRepository}/tree/main/skills/scope-sentinel`,
     },
     {
       id: "sow-intake",
       name: "SOW Intake",
       body: "Turns a contract into a cited delivery baseline that people and agents can use. Missing evidence is marked as missing, not filled with a plausible answer.",
-      href: SITE_LINKS.skillsRepository,
+      href: `${SITE_LINKS.skillsRepository}/tree/main/skills/sow-intake`,
     },
   ] satisfies readonly DeliverySystem[],
   infrastructure:

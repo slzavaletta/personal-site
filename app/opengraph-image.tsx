@@ -2,11 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-import {
-  buildSolDeMayoSvg,
-  SOL_GOLD,
-  SOL_NAVY,
-} from "@/app/components/SolDeMayo";
+import { buildSolDeMayoSvg, SOL_GOLD } from "@/app/components/SolDeMayo";
 import { CURRENT_TITLE, HERO, ROLE_TRANSITION } from "@/app/lib/content";
 import { SITE_NAME } from "@/app/lib/site";
 
@@ -15,11 +11,11 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const colors = {
-  paper: "#E8EEF4",
-  ink: SOL_NAVY,
-  mute: "#3A4E66",
+  paper: "#F6F8FB",
+  ink: "#192334",
+  mute: "#506078",
   gold: SOL_GOLD,
-  navy: SOL_NAVY,
+  navy: "#2854D8",
 };
 
 async function loadFont(filename: string) {
@@ -27,9 +23,9 @@ async function loadFont(filename: string) {
 }
 
 export default async function OpengraphImage() {
-  const [fraunces, frauncesItalic] = await Promise.all([
-    loadFont("Fraunces-SemiBold.ttf"),
-    loadFont("Fraunces-Italic.ttf"),
+  const [regular, semibold] = await Promise.all([
+    loadFont("InstrumentSans-Regular.ttf"),
+    loadFont("InstrumentSans-SemiBold.ttf"),
   ]);
 
   const nextLine = ROLE_TRANSITION.public
@@ -44,8 +40,8 @@ export default async function OpengraphImage() {
         display: "flex",
         backgroundColor: colors.navy,
         color: colors.paper,
-        padding: "48px 56px",
-        fontFamily: "Georgia, serif",
+        padding: "12px",
+        fontFamily: "Instrument Sans",
       }}
     >
       <div
@@ -56,8 +52,7 @@ export default async function OpengraphImage() {
           flex: 1,
           backgroundColor: colors.paper,
           color: colors.ink,
-          padding: "48px 52px 40px",
-          borderRadius: 12,
+          padding: "42px 44px 40px",
         }}
       >
         <div
@@ -85,7 +80,7 @@ export default async function OpengraphImage() {
             display: "flex",
             flexWrap: "wrap",
             maxWidth: 980,
-            fontFamily: "Fraunces",
+            fontFamily: "Instrument Sans",
             fontSize: 76,
             fontWeight: 600,
             letterSpacing: "-0.03em",
@@ -95,9 +90,7 @@ export default async function OpengraphImage() {
           <span>{`${HERO.display}\u00A0`}</span>
           <span
             style={{
-              fontFamily: "Fraunces Italic",
-              fontStyle: "italic",
-              fontWeight: 400,
+              color: colors.navy,
             }}
           >
             {HERO.displayEmphasis}
@@ -123,16 +116,16 @@ export default async function OpengraphImage() {
       ...size,
       fonts: [
         {
-          name: "Fraunces",
-          data: fraunces,
-          weight: 600,
+          name: "Instrument Sans",
+          data: regular,
+          weight: 400,
           style: "normal",
         },
         {
-          name: "Fraunces Italic",
-          data: frauncesItalic,
-          weight: 400,
-          style: "italic",
+          name: "Instrument Sans",
+          data: semibold,
+          weight: 600,
+          style: "normal",
         },
       ],
     },

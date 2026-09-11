@@ -42,6 +42,8 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  distDir: isProduction ? ".next" : ".next-dev",
+  allowedDevOrigins: ["terminal.local"],
   poweredByHeader: false,
   experimental: {
     // The route ships a single small stylesheet that blocks first paint on a
@@ -52,8 +54,30 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: "/",
+        // Next 15 overwrites HTML Vary. Disable downstream reuse of either
+        // negotiated representation while preserving Next's internal ISR.
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, no-store, max-age=0, must-revalidate",
+          },
+        ],
+      },
+      {
         source: "/:path*",
-        headers: securityHeaders,
+        headers: [
+          ...securityHeaders,
+          {
+            key: "Link",
+            value:
+              '<https://www.slzavaletta.com/llms.txt>; rel="describedby"; type="text/plain", <https://www.slzavaletta.com/index.md>; rel="alternate"; type="text/markdown"',
+          },
+          {
+            key: "Content-Signal",
+            value: "search=yes, ai-input=yes, ai-train=no",
+          },
+        ],
       },
     ];
   },
