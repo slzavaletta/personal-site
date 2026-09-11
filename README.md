@@ -1,7 +1,7 @@
 # Santiago López Zavaletta — Personal site
 
 Personal portfolio for enterprise AI delivery. Next.js 15 App Router, React 19,
-TypeScript, Tailwind 4, Base UI, Three.js, Source Sans 3 and Fraunces.
+TypeScript, Tailwind 4, Base UI, Three.js, Instrument Sans and Source Sans 3.
 Fonts are self-hosted from lockfile-pinned Fontsource packages.
 
 [slzavaletta.com](https://www.slzavaletta.com)
@@ -30,10 +30,14 @@ reviewable before merge; no DNS or hosting migration is needed.
 - `app/lib/content.ts`: canonical public wording and facts, including
   ROLE_TRANSITION, work, experience, BRIEF, systems and current activity copy.
 - `app/lib/site.ts`: canonical www URL, name, email, authored update date.
-- `app/page.tsx`: reading order, server-rendered content, hourly revalidation.
-- `app/components/DeliveryAssembly.tsx`: optional client enhancement and fallback.
-- `app/components/scene/assembly.ts`: lazy Three.js renderer, procedural lighting,
-  on-demand frames, theme/resize handling and full resource disposal.
+- `app/page.tsx`: positioning and Deployment Atlas map.
+- `app/work/[slug]/page.tsx`: three static case pages from canonical content.
+- `app/{approach,systems,profile,contact}/page.tsx`: complete topic pages.
+- `app/components/DeploymentMap.tsx`: accessible node selection and map/list
+  views, measured SVG fallback and optional client enhancement.
+- `app/lib/map-geometry.ts`: connector geometry outside complete label bounds.
+- `app/components/scene/map.ts`: lazy Three.js traces, brief flow motion,
+  on-demand frames, theme handling and full resource disposal.
 - `app/components/BriefInstrument.tsx`: keyboard radio group; every panel exists
   in initial HTML. Without JavaScript, all panels remain readable.
 - `app/globals.css`: typography, responsive editorial layout, light/dark tokens.
@@ -49,11 +53,25 @@ CONTENT_UPDATED_ON for reader-visible content changes.
 
 ## Progressive enhancement
 
-HTML contains the text, metadata, JSON-LD and destinations. A static WebP is
+HTML contains the text, metadata, JSON-LD and destinations. An SVG map is
 available before scripts. Three.js loads only for visible desktop/pointer-fine
 scenes when motion is permitted and data saving is off. Rendering stops after
 the movement settles; leaving the viewport or hiding the tab releases the scene.
 No external HDR, CDN scripts or analytics are required. The existing CSP stays.
+
+The header provides light/dark switching on every page. The system preference
+is the default; an explicit choice takes precedence, persists locally and syncs
+across tabs. The inline boot script prevents the wrong scheme at first paint.
+With blocked storage, client navigation retains the manual choice; persistence
+after a full reload is unavailable. Theme changes update browser chrome and
+recolor the map without restarting its animation.
+
+The spatial map remains the default at all widths. JavaScript measures complete
+label groups, including captions, to route connections around text. Without
+JavaScript, node links go directly to the cases. A list requires an explicit
+choice. All five brief panels remain visible without JavaScript on `/approach`.
+Old `/#approach`, `/#systems`, `/#experience` and `/#contact` links route to the
+new pages. The shared Sol de Mayo and anthem line remain intact.
 
 The clock follows Buenos Aires. The Now section can show public GitHub activity;
 GitHub failures omit that optional row. An optional server-only GITHUB_TOKEN

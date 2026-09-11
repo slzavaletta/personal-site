@@ -4,94 +4,60 @@ import {
   EXPERIENCE_SECTION,
   INDUSTRIES,
   SITE_LINKS,
-  CASE_STUDIES,
 } from "@/app/lib/content";
-
-import { Case } from "@/app/components/CaseStudies";
-
-function industriesSentence() {
-  const last = INDUSTRIES[INDUSTRIES.length - 1];
-  const head = INDUSTRIES.slice(0, -1).join(", ");
-  return `${head}, and ${last}.`;
-}
 
 export function Experience() {
   return (
-    <section id="experience" className="section-block scroll-mt-8">
-      <div className="page-shell">
-        <div className="section-head reveal">
-          <span className="section-index" aria-hidden="true">
-            04 /
-          </span>
-          <h2 className="editorial-heading">{EXPERIENCE_SECTION.heading}</h2>
-          <p className="reading-copy">{EXPERIENCE_SECTION.note}</p>
-          <a href={SITE_LINKS.resume} download className="text-link text-base">
-            Download résumé
-          </a>
-        </div>
-
-        <ol className="experience-list">
-          {EXPERIENCE.map((item) => {
-            const upcoming = "upcoming" in item && item.upcoming;
-            const concurrent = "concurrent" in item && item.concurrent;
-            return (
-              <li key={`${item.company}-${item.period}`}>
-                <div className="experience-period">
-                  {item.period}
-                  {upcoming ? (
-                    <span className="experience-flag">Upcoming</span>
-                  ) : null}
-                  {concurrent ? (
-                    <span className="experience-flag">
-                      Concurrent with Globant
-                    </span>
-                  ) : null}
-                </div>
-                <div>
-                  <h3 className="experience-company">{item.company}</h3>
-                  <p className="experience-title">{item.title}</p>
-                </div>
-                <p className="experience-body">{item.body}</p>
+    <section id="experience" aria-labelledby="experience-heading">
+      <div className="experience-head">
+        <h2 id="experience-heading">{EXPERIENCE_SECTION.heading}</h2>
+        <p>{EXPERIENCE_SECTION.note}</p>
+      </div>
+      <ol className="experience-list">
+        {EXPERIENCE.map((item) => (
+          <li key={item.company}>
+            <div>
+              {"upcoming" in item && item.upcoming && (
+                <p className="eyebrow">Upcoming</p>
+              )}
+              {"concurrent" in item && item.concurrent && (
+                <p className="eyebrow">Concurrent with Globant</p>
+              )}
+              <h3>{item.company}</h3>
+              <p className="experience-period">{item.period}</p>
+            </div>
+            <div>
+              <h4>{item.title}</h4>
+              <p>{item.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div className="credentials">
+        <div>
+          <h2>Credentials</h2>
+          <ul>
+            {CERTIFICATIONS.map((item) => (
+              <li key={item.name}>
+                {item.name}
+                <span>
+                  {"issuer" in item
+                    ? item.issuer + ", " + item.year + ". "
+                    : ""}
+                  {item.status}.
+                </span>
               </li>
-            );
-          })}
-        </ol>
-        <div className="experience-case">
-          <Case caseStudy={CASE_STUDIES[2]} />
+            ))}
+          </ul>
         </div>
-
-        <div className="mt-12 grid gap-10 lg:grid-cols-2">
-          <div>
-            <h3 className="utility-label">Credentials</h3>
-            <ul className="credential-list">
-              {CERTIFICATIONS.map((certification) => {
-                const meta = [
-                  "issuer" in certification ? certification.issuer : null,
-                  "year" in certification ? certification.year : null,
-                ]
-                  .filter(Boolean)
-                  .join(", ");
-
-                return (
-                  <li key={certification.name}>
-                    <p className="font-semibold">{certification.name}</p>
-                    <p className="mt-1 text-sm text-mute">
-                      {meta ? `${meta}. ` : null}
-                      {certification.status === "In progress"
-                        ? "In progress."
-                        : "Earned."}
-                    </p>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div>
-            <h3 className="utility-label">Where I have worked</h3>
-            <p className="mt-4 max-w-[46ch] text-base leading-relaxed">
-              {industriesSentence()}
-            </p>
-          </div>
+        <div>
+          <h2>Where I have worked</h2>
+          <p>
+            {INDUSTRIES.slice(0, -1).join(", ")}, and {INDUSTRIES.at(-1)}.
+          </p>
+          <a href={SITE_LINKS.resume} download className="text-link">
+            Download résumé ↗
+          </a>
         </div>
       </div>
     </section>

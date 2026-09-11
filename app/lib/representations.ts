@@ -38,9 +38,13 @@ export function portfolioMarkdown() {
       HERO.statement,
       HERO.supporting,
       HERO.direction,
+      `## Website pages\n\n[Work](${SITE_URL}/) · [Approach](${SITE_URL}/approach) · [Systems](${SITE_URL}/systems) · [Profile](${SITE_URL}/profile) · [Contact](${SITE_URL}/contact)`,
       `[${HERO.primaryAction.label}](${SITE_URL}/#work) · [${HERO.secondaryAction.label}](${SITE_URL}${SITE_LINKS.resume})`,
       `## ${WORK_INTRO.heading}`,
       WORK_INTRO.body,
+      ...CASE_STUDIES.map(
+        (item) => `[${item.label}](${SITE_URL}/work/${item.id})`,
+      ),
       PROOF_LINE,
       caseText(CASE_STUDIES[0]),
       `### ${blueCrab.company}\n\n${blueCrab.title} · ${blueCrab.period}\n\nConcurrent with Globant\n\n${blueCrab.body}`,
@@ -90,5 +94,5 @@ export function portfolioMarkdown() {
 }
 
 export function llmsText() {
-  return `# ${SITE_NAME}\n\n> ${HERO.role}\n\n${HERO.statement}\n\nThis is a public personal portfolio. The HTML and full Markdown are generated from the same authored content. Dates, concurrent engagements, upcoming roles, and exploratory tools are explicitly labelled. No account or API key is needed to read it.\n\n## Public sources\n\n- [Full portfolio](${SITE_URL}/index.md): complete experience, selected work, approach, systems, credentials and contact details.\n- [Website](${SITE_URL}/): human-readable version; also accepts Accept: text/markdown.\n- [Résumé](${SITE_URL}${SITE_LINKS.resume}): downloadable PDF.\n- [Scope Sentinel](${SYSTEMS.projects[0].href}): source and documentation.\n- [SOW Intake](${SYSTEMS.projects[1].href}): source and documentation.\n\nContent updated: ${CONTENT_UPDATED_ON}.\n`;
+  return `# ${SITE_NAME}\n\n> ${HERO.role}\n\n${HERO.statement}\n\nThis is a public personal portfolio. The HTML and full Markdown are generated from the same authored content. Dates, concurrent engagements, upcoming roles, and exploratory tools are explicitly labelled. No account or API key is needed to read it.\n\n## Public sources\n\n- [Full portfolio](${SITE_URL}/index.md): complete experience, selected work, approach, systems, credentials and contact details.\n- [Website](${SITE_URL}/): human-readable version; also accepts Accept: text/markdown.\n- [Approach](${SITE_URL}/approach): the full five-field delivery brief.\n- [Systems](${SITE_URL}/systems): tools, source links and infrastructure.\n- [Profile](${SITE_URL}/profile): experience, current and upcoming roles, credentials and Now.\n- [Contact](${SITE_URL}/contact): email, résumé and public profiles.\n${CASE_STUDIES.map((item) => `- [${item.label}](${SITE_URL}/work/${item.id}): ${item.title}.`).join("\n")}\n- [Résumé](${SITE_URL}${SITE_LINKS.resume}): downloadable PDF.\n- [Scope Sentinel](${SYSTEMS.projects[0].href}): source and documentation.\n- [SOW Intake](${SYSTEMS.projects[1].href}): source and documentation.\n\nContent updated: ${CONTENT_UPDATED_ON}.\n`;
 }

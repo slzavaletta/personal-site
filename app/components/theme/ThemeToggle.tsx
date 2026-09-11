@@ -1,9 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Moon, Sun } from "lucide-react";
 
-import { applyTheme, readTheme, type Theme } from "./theme";
+import {
+  applyResolvedTheme,
+  applyTheme,
+  readStoredTheme,
+  readTheme,
+  syncThemePreference,
+  THEME_STORAGE_KEY,
+  type Theme,
+} from "./theme";
 
 /**
  * Two-state toggle over the system preference. The boot script has already
@@ -12,23 +21,52 @@ import { applyTheme, readTheme, type Theme } from "./theme";
  */
 export function ThemeToggle({ className }: { className?: string }) {
   const [theme, setTheme] = useState<Theme | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
-    setTheme(readTheme());
+    // Next can restore route metadata during client navigation.
+    applyResolvedTheme(readTheme());
+  }, [pathname]);
+
+  useEffect(() => {
+    const preference = document.documentElement.getAttribute(
+      "data-theme-preference",
+    );
+    setTheme(
+      syncThemePreference(
+        preference === "light" || preference === "dark"
+          ? preference
+          : readStoredTheme(),
+      ),
+    );
 
     const media = matchMedia("(prefers-color-scheme: dark)");
     const follow = () => {
-      try {
-        if (localStorage.getItem("theme")) return;
-      } catch {
-        /* fall through: nothing stored means follow the system */
-      }
+      if (
+        document.documentElement.getAttribute("data-theme-preference") !==
+        "system"
+      )
+        return;
       const next: Theme = media.matches ? "dark" : "light";
-      document.documentElement.setAttribute("data-theme", next);
+      applyResolvedTheme(next);
       setTheme(next);
     };
+    const sync = (event: StorageEvent) => {
+      if (event.key !== null && event.key !== THEME_STORAGE_KEY) return;
+      // Ignore sessionStorage; only the shared local preference is relevant.
+      try {
+        if (event.storageArea !== localStorage) return;
+      } catch {
+        return;
+      }
+      setTheme(syncThemePreference(readStoredTheme()));
+    };
     media.addEventListener("change", follow);
-    return () => media.removeEventListener("change", follow);
+    window.addEventListener("storage", sync);
+    return () => {
+      media.removeEventListener("change", follow);
+      window.removeEventListener("storage", sync);
+    };
   }, []);
 
   const next: Theme = theme === "dark" ? "light" : "dark";
@@ -37,6 +75,7 @@ export function ThemeToggle({ className }: { className?: string }) {
     <button
       type="button"
       className={["theme-toggle", className].filter(Boolean).join(" ")}
+      disabled={theme === null}
       aria-label={
         theme ? `Switch to ${next} theme` : "Toggle light and dark theme"
       }
@@ -50,6 +89,9 @@ export function ThemeToggle({ className }: { className?: string }) {
       ) : (
         <Moon aria-hidden="true" className="size-[1.125rem]" />
       )}
+      <span aria-hidden="true">
+        {theme ? (next === "dark" ? "Dark" : "Light") : "Theme"}
+      </span>
     </button>
   );
 }

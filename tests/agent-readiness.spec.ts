@@ -4,7 +4,10 @@ import {
   CASE_STUDIES,
   EXPERIENCE,
   HERO,
+  NOW,
   SYSTEMS,
+  TOOL_GROUPS,
+  CONTACT,
 } from "../app/lib/content";
 
 const variants = [
@@ -110,13 +113,19 @@ test("RSC requests retain their representation", async ({ request }) => {
   expect(response.headers().vary.toLowerCase().split(/,\s*/)).toContain("rsc");
 });
 
-test("all five brief panels and every original case are readable without JavaScript", async ({
+test("all authored content remains readable across real pages without JavaScript", async ({
   browser,
   baseURL,
 }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto(baseURL!);
+  await expect(page.locator(".map-edges")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "AI delivery", exact: true }),
+  ).toHaveAttribute("href", "/work/ai-delivery");
+  await expect(page.locator("canvas")).toHaveCount(0);
+  await page.goto(baseURL! + "/approach");
   for (const field of BRIEF.fields) {
     await expect(
       page.getByText(field.whenMissing, { exact: true }),
@@ -125,13 +134,32 @@ test("all five brief panels and every original case are readable without JavaScr
       page.getByText(field.fromTheWork, { exact: true }),
     ).toBeVisible();
   }
-  for (const item of CASE_STUDIES)
+  for (const item of CASE_STUDIES) {
+    await page.goto(baseURL! + "/work/" + item.id);
     await expect(page.getByText(item.summary, { exact: true })).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: "The work", exact: true }),
-  ).toHaveAttribute("href", "#work");
-  await expect(page.locator(".assembly__poster").first()).toBeVisible();
-  await expect(page.locator("canvas")).toHaveCount(0);
+    await expect(page.getByText(item.context, { exact: true })).toBeVisible();
+  }
+  await page.goto(baseURL! + "/profile");
+  for (const text of [
+    HERO.supporting,
+    HERO.direction,
+    NOW.building,
+    NOW.learning,
+    NOW.availability,
+    ...EXPERIENCE.map((item) => item.body),
+  ]) {
+    await expect(page.getByText(text, { exact: true })).toBeVisible();
+  }
+  await page.goto(baseURL! + "/systems");
+  for (const text of [
+    SYSTEMS.infrastructure,
+    ...SYSTEMS.projects.map((item) => item.body),
+    ...TOOL_GROUPS.map((item) => item.note),
+  ]) {
+    await expect(page.getByText(text, { exact: true })).toBeVisible();
+  }
+  await page.goto(baseURL! + "/contact");
+  await expect(page.getByText(CONTACT.body, { exact: true })).toBeVisible();
   await context.close();
 });
 
@@ -141,29 +169,30 @@ test("reduced motion does not load Three.js and remains usable at 320px", async 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 320, height: 740 });
   await page.goto("/");
-  await expect(page.locator(".instrument")).toHaveAttribute(
+  await expect(page.locator(".deployment-map")).toHaveAttribute(
     "data-enhanced",
     "true",
   );
   await expect(page.locator("canvas")).toHaveCount(0);
-  await expect(page.locator(".assembly__poster").first()).toBeVisible();
+  await expect(page.locator(".map-edges")).toBeVisible();
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: "Open navigation" }).click();
   await page
-    .getByRole("navigation", { name: "Mobile navigation" })
+    .getByRole("navigation", { name: "Primary navigation" })
     .getByRole("link", { name: "Systems", exact: true })
     .click();
-  await expect(page).toHaveURL(/#systems$/);
+  await expect(page).toHaveURL(/\/systems$/);
   await expect(
     page.getByRole("heading", { name: SYSTEMS.heading }),
-  ).toBeFocused();
+  ).toBeVisible();
 });
 
-test("WebGL failure preserves the poster and the content", async ({ page }) => {
+test("WebGL failure preserves the spatial map and case controls", async ({
+  page,
+}) => {
   await page.addInitScript(() => {
     const original = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function (
@@ -175,19 +204,21 @@ test("WebGL failure preserves the poster and the content", async ({ page }) => {
     } as typeof original;
   });
   await page.goto("/");
-  await expect(page.locator(".instrument")).toHaveAttribute(
+  await expect(page.locator(".deployment-map")).toHaveAttribute(
     "data-enhanced",
     "true",
   );
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.locator(".assembly__poster").first()).toBeVisible();
-  await expect(page.locator(".assembly").first()).toHaveAttribute(
+  await expect(page.locator(".map-edges")).toBeVisible();
+  await expect(page.locator(".map-graph")).toHaveAttribute(
     "data-ready",
     "false",
   );
+  await page.getByRole("button", { name: "M&A", exact: true }).click();
   await expect(
-    page.getByRole("link", { name: "The work", exact: true }),
+    page.locator("#selected-mergers-and-acquisitions"),
   ).toBeVisible();
+  await expect(page.locator("canvas")).toHaveCount(0);
 });
 
 test("prefetch is not converted to Markdown", async ({ request }) => {
@@ -208,42 +239,73 @@ test("desktop Three.js scene renders, responds and releases offscreen resources"
   isMobile,
 }) => {
   test.skip(isMobile, "Touch devices deliberately use the static fallback");
+  await page.setViewportSize({ width: 1440, height: 1200 });
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  const hero = page.locator("#top .assembly");
-  await expect(hero).toHaveAttribute("data-ready", "true", { timeout: 15000 });
-  await expect(hero.locator("canvas")).toHaveCount(1);
-  await page.mouse.move(900, 350);
-  await page.waitForTimeout(1500);
+  const map = page.locator(".map-graph");
+  await map.scrollIntoViewIfNeeded();
+  await expect(map).toHaveAttribute("data-ready", "true", { timeout: 15000 });
+  await expect(map.locator("canvas")).toHaveCount(1);
+  await page
+    .getByRole("button", { name: "Digital Twin Studio", exact: true })
+    .click();
+  await expect(page.locator(".map-canvas")).toHaveAttribute(
+    "data-motion",
+    "running",
+  );
+  await expect(page.locator(".map-canvas")).toHaveAttribute(
+    "data-motion",
+    "settled",
+  );
+  await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  expect(await page.locator(".map-canvas").getAttribute("data-motion")).toBe(
+    "settled",
+  );
+  await expect(map.locator("canvas")).toHaveCount(1);
   await page.screenshot({
     path: test.info().outputPath("desktop-three.png"),
     animations: "disabled",
   });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator("canvas")).toHaveCount(0);
+  await expect(map).toHaveAttribute("data-ready", "false");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(map).toHaveAttribute("data-ready", "true");
   await page
     .getByRole("navigation", { name: "Primary navigation" })
     .getByRole("link", { name: "Approach", exact: true })
     .click();
-  await page.getByRole("radio", { name: /^The decision/ }).click();
-  const brief = page.locator("#approach .assembly");
-  await expect(hero.locator("canvas")).toHaveCount(0);
-  await expect(brief).toHaveAttribute("data-ready", "true");
-  await expect(brief.locator(".assembly__index [data-active=true]")).toHaveText(
-    "05",
-  );
-  await expect(
-    page.getByRole("region", { name: /The decision/ }),
-  ).toBeInViewport({
-    ratio: 0.95,
-  });
-  await page.waitForTimeout(1500);
-  await page.screenshot({
-    path: test.info().outputPath("approach-three.png"),
-    animations: "disabled",
-  });
-  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page).toHaveURL(/\/approach$/);
   await expect(page.locator("canvas")).toHaveCount(0);
-  await expect(brief).toHaveAttribute("data-ready", "false");
   expect(errors).toEqual([]);
+});
+
+test("every public page has a unique canonical and appears in discovery", async ({
+  request,
+}) => {
+  const paths = [
+    "/",
+    "/approach",
+    "/systems",
+    "/profile",
+    "/contact",
+    ...CASE_STUDIES.map((item) => "/work/" + item.id),
+  ];
+  const sitemap = await (await request.get("/sitemap.xml")).text();
+  const llms = await (await request.get("/llms.txt")).text();
+  for (const path of paths) {
+    const response = await request.get(path);
+    expect(response.status()).toBe(200);
+    const html = await response.text();
+    const canonical =
+      "https://www.slzavaletta.com" + (path === "/" ? "" : path);
+    expect(html).toContain(`rel="canonical" href="${canonical}"`);
+    expect(html).toContain('type="application/ld+json"');
+    expect(sitemap).toContain(`<loc>${canonical}</loc>`);
+    if (path !== "/") expect(llms).toContain(canonical);
+  }
+  expect((await request.get("/work/missing-case")).status()).toBe(404);
 });

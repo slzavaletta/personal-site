@@ -1,47 +1,39 @@
-import { Approach } from "@/app/components/Approach";
-import { CaseStudies } from "@/app/components/CaseStudies";
-import { ContactSection, SiteFooter } from "@/app/components/ContactFooter";
-import { EditorialHero } from "@/app/components/EditorialHero";
-import { Experience } from "@/app/components/Experience";
+import Link from "next/link";
+import { DeploymentMap } from "@/app/components/DeploymentMap";
 import { HashTarget } from "@/app/components/HashTarget";
-import { Ledger } from "@/app/components/Ledger";
-import { SiteHeader } from "@/app/components/SiteHeader";
-import { SystemsAndTools } from "@/app/components/SystemsAndTools";
-import { formatLocalClock } from "@/app/lib/time";
-
-/*
- * Keep an hourly internal page cache. The root HTTP response is no-store
- * because Next 15 replaces Vary on rendered HTML; see next.config.mjs.
- */
-export const revalidate = 3600;
+import { HERO, PROOF_LINE, SITE_LINKS, WORK_INTRO } from "@/app/lib/content";
 
 export default function Home() {
-  const initialClock = formatLocalClock(new Date());
-
   return (
-    <>
-      <SiteHeader initialClock={initialClock} />
+    <main id="main" tabIndex={-1} className="page-shell atlas-page">
       <HashTarget />
-      <main id="main" tabIndex={-1}>
-        <EditorialHero />
-        <CaseStudies />
-        <div className="band band--wash">
-          <Approach />
+      <section className="atlas-hero" id="top" aria-labelledby="hero-title">
+        <div>
+          <h1 id="hero-title">
+            {HERO.display} <em>{HERO.displayEmphasis}</em>
+          </h1>
+          <p className="role-line">{HERO.role}</p>
         </div>
-        <div className="band band--field">
-          <SystemsAndTools />
+        <div className="atlas-hero__aside">
+          <p className="body-copy">{HERO.statement}</p>
+          <a href={HERO.primaryAction.href} className="text-link">
+            {HERO.primaryAction.label} ↓
+          </a>
         </div>
-        <Experience />
-        <div className="band band--field">
-          <Ledger />
+      </section>
+      <section id="work" aria-labelledby="work-heading">
+        <DeploymentMap />
+        <p className="proof-line">{PROOF_LINE}</p>
+        <div className="work-foot">
+          <p>{WORK_INTRO.body}</p>
+          <div className="link-row">
+            <a href={SITE_LINKS.resume} download>
+              {HERO.secondaryAction.label} ↗
+            </a>
+            <Link href="/contact">Get in touch ↗</Link>
+          </div>
         </div>
-        <div className="night night--enter">
-          <ContactSection />
-        </div>
-      </main>
-      <div className="night">
-        <SiteFooter />
-      </div>
-    </>
+      </section>
+    </main>
   );
 }

@@ -1,8 +1,9 @@
 # Working on this site
 
 Read PRODUCT.md for the current design and README.md for commands. Historical
-plans in docs/superpowers describe superseded visual directions; the September
-10 redesign was explicitly approved by the owner, including Three.js.
+plans in docs/superpowers describe superseded visual directions. Deployment
+Atlas (direction A) is the owner's selected design. The palette and typography
+remain provisional; preserve the spatial map and the complete authored copy.
 
 - Keep public copy and facts in app/lib/content.ts. Preserve the owner's wording
   unless the task requests a copy change. Do not invent results or expertise.

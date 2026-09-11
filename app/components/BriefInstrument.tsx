@@ -1,139 +1,79 @@
 "use client";
-
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  type KeyboardEvent,
-} from "react";
-
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { BRIEF } from "@/app/lib/content";
 
-import { DeliveryAssembly } from "@/app/components/DeliveryAssembly";
-
-const FIELDS = BRIEF.fields;
-
-/**
- * The pilot decision brief as a document. The five fields are a radio group
- * — one is always selected, arrow keys move the selection, Home and End
- * jump — and the selected field expands in place: what tends to go wrong
- * when it is left blank, and where the habit came from.
- *
- * Server HTML carries every field and panel. Hydration enhances selection;
- * a reader without JavaScript can read all five without operating a control.
- */
 export function BriefInstrument() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [active, setActive] = useState(0),
+    [enhanced, setEnhanced] = useState(false);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
-  const selectionRequested = useRef(false);
-  const [enhanced, setEnhanced] = useState(false);
-  useEffect(() => {
-    setEnhanced(true);
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!selectionRequested.current) return;
-    // Closing a panel above the selection changes its screen position. Keep
-    // the newly selected field and its explanation visible after that reflow.
-    buttons.current[activeIndex]?.parentElement?.scrollIntoView({
-      block: "nearest",
-      behavior: "instant",
-    });
-  }, [activeIndex]);
-
-  const select = (index: number, focus = false) => {
-    const next = (index + FIELDS.length) % FIELDS.length;
-    selectionRequested.current = true;
-    setActiveIndex(next);
-    if (focus) buttons.current[next]?.focus({ preventScroll: true });
+  useEffect(() => setEnhanced(true), []);
+  const keyboard = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    let next = index;
+    if (["ArrowDown", "ArrowRight"].includes(event.key)) next = (index + 1) % 5;
+    else if (["ArrowUp", "ArrowLeft"].includes(event.key))
+      next = (index + 4) % 5;
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = 4;
+    else return;
+    event.preventDefault();
+    setActive(next);
+    buttons.current[next]?.focus();
   };
-
-  const onKeyDown = (
-    event: KeyboardEvent<HTMLButtonElement>,
-    index: number,
-  ) => {
-    switch (event.key) {
-      case "ArrowDown":
-      case "ArrowRight":
-        event.preventDefault();
-        select(index + 1, true);
-        break;
-      case "ArrowUp":
-      case "ArrowLeft":
-        event.preventDefault();
-        select(index - 1, true);
-        break;
-      case "Home":
-        event.preventDefault();
-        select(0, true);
-        break;
-      case "End":
-        event.preventDefault();
-        select(FIELDS.length - 1, true);
-        break;
-      default:
-    }
-  };
-
   return (
-    <div className="instrument" data-enhanced={enhanced}>
-      <div className="instrument__visual">
-        <DeliveryAssembly field={activeIndex} compact />
-      </div>
+    <div className="brief" data-enhanced={enhanced}>
       <div
+        className="brief-index"
         role="radiogroup"
         aria-label="Fields of the brief"
-        className="instrument__fields"
       >
-        {FIELDS.map((item, index) => {
-          const checked = index === activeIndex;
-          return (
-            <div key={item.id}>
-              <button
-                ref={(node) => {
-                  buttons.current[index] = node;
-                }}
-                type="button"
-                role="radio"
-                id={`brief-field-${item.id}`}
-                aria-checked={checked}
-                tabIndex={checked ? 0 : -1}
-                className="instrument__field"
-                onClick={() => select(index)}
-                onKeyDown={(event) => onKeyDown(event, index)}
-              >
-                <span className="instrument__number" aria-hidden="true">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="instrument__title">{item.title}</span>
-                <span className="instrument__prompt">{item.prompt}</span>
-              </button>
-
-              {
-                <div
-                  role="region"
-                  aria-labelledby={`brief-field-${item.id}`}
-                  className="instrument__panel"
-                  hidden={enhanced && !checked}
-                >
-                  <div className="instrument__block">
-                    <p className="utility-label">
-                      {BRIEF.panelLabels.whenMissing}
-                    </p>
-                    <p className="instrument__copy">{item.whenMissing}</p>
-                  </div>
-                  <div className="instrument__block">
-                    <p className="utility-label">
-                      {BRIEF.panelLabels.fromTheWork}
-                    </p>
-                    <p className="instrument__copy">{item.fromTheWork}</p>
-                  </div>
-                </div>
-              }
-            </div>
-          );
-        })}
+        {BRIEF.fields.map((item, i) => (
+          <button
+            ref={(el) => {
+              buttons.current[i] = el;
+            }}
+            key={item.id}
+            type="button"
+            role="radio"
+            aria-checked={active === i}
+            tabIndex={!enhanced || active === i ? 0 : -1}
+            aria-controls={"brief-panel-" + item.id}
+            id={"brief-field-" + item.id}
+            onClick={() => setActive(i)}
+            onKeyDown={(event) => keyboard(event, i)}
+          >
+            <span aria-hidden="true">{item.number}</span>
+            {item.title}
+          </button>
+        ))}
+      </div>
+      <div className="brief-panels">
+        {BRIEF.fields.map((item, i) => (
+          <section
+            className="brief-panel"
+            id={"brief-panel-" + item.id}
+            aria-labelledby={"brief-field-" + item.id}
+            key={item.id}
+            hidden={enhanced && active !== i}
+            aria-live={enhanced ? "polite" : "off"}
+          >
+            <p className="eyebrow">{item.number} / Delivery brief</p>
+            <h2>{item.title}</h2>
+            <dl>
+              <div>
+                <dt>{BRIEF.panelLabels.prompt}</dt>
+                <dd>{item.prompt}</dd>
+              </div>
+              <div>
+                <dt>{BRIEF.panelLabels.whenMissing}</dt>
+                <dd>{item.whenMissing}</dd>
+              </div>
+              <div>
+                <dt>{BRIEF.panelLabels.fromTheWork}</dt>
+                <dd>{item.fromTheWork}</dd>
+              </div>
+            </dl>
+          </section>
+        ))}
       </div>
     </div>
   );

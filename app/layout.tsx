@@ -1,17 +1,20 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
-import { THEME_BOOT_SCRIPT } from "@/app/components/theme/theme";
+import { THEME_BOOT_SCRIPT, THEME_COLORS } from "@/app/components/theme/theme";
 import { CURRENT_TITLE, ROLE_TRANSITION, SITE_LINKS } from "@/app/lib/content";
 import { SITE_EMAIL, SITE_NAME, SITE_URL } from "@/app/lib/site";
 import { getBuenosAiresHour } from "@/app/lib/time";
+import { formatLocalClock } from "@/app/lib/time";
+import { SiteHeader } from "@/app/components/SiteHeader";
+import { SiteFooter } from "@/app/components/ContactFooter";
 import "./globals.css";
 
 // Self-hosted, lockfile-pinned font assets also work in offline builds/previews.
-const fraunces = localFont({
-  src: "../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2",
-  weight: "100 900",
-  style: "italic",
+const instrument = localFont({
+  src: "../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2",
+  weight: "400 700",
+  style: "normal",
   variable: "--font-display",
   display: "swap",
   preload: true,
@@ -84,8 +87,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F4F2ED" },
-    { media: "(prefers-color-scheme: dark)", color: "#14212D" },
+    { media: "(prefers-color-scheme: light)", color: THEME_COLORS.light },
+    { media: "(prefers-color-scheme: dark)", color: THEME_COLORS.dark },
   ],
   width: "device-width",
   initialScale: 1,
@@ -122,7 +125,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fraunces.variable} ${sourceSans.variable}`}
+      className={`${instrument.variable} ${sourceSans.variable}`}
       data-hour={String(getBuenosAiresHour())}
       suppressHydrationWarning
     >
@@ -136,7 +139,9 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <SiteHeader initialClock={formatLocalClock(new Date())} />
         {children}
+        <SiteFooter />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
