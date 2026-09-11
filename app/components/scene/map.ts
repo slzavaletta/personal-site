@@ -57,8 +57,8 @@ export function createMapScene(
   scene.add(bead);
   let selected = initialSelected,
     frame = 0,
-    disposed = false,
-    start = 0;
+    disposed = false;
+  let start: number | null = null;
   let activePoints: THREE.Vector3[] = [];
   const releaseTrails = () => {
     for (const child of [...trails.children]) {
@@ -70,7 +70,10 @@ export function createMapScene(
   };
   const draw = (now: number) => {
     if (disposed) return;
-    const t = Math.min((now - start) / 1600, 1);
+    // Use the frame clock for both endpoints. Its first timestamp can precede
+    // performance.now() during setup, which would index before the path starts.
+    start ??= now;
+    const t = Math.max(0, Math.min((now - start) / 1600, 1));
     bead.visible = t < 1 && activePoints.length > 1;
     if (bead.visible) {
       const index = t * (activePoints.length - 1),
@@ -137,7 +140,7 @@ export function createMapScene(
       if (i === index) activePoints = points;
     });
     paintTheme();
-    start = performance.now();
+    start = null;
     host.dataset.motion = "running";
     frame = requestAnimationFrame(draw);
   };

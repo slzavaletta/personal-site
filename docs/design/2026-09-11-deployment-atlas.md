@@ -100,3 +100,23 @@ Verification of this follow-up:
 
 The work remains on the local feature branch. No external publication is part
 of this follow-up.
+
+## PR verification and animation timing correction
+
+After owner approval, draft PR #25 published the verified source tree through
+GitHub and Vercel created a protected preview. CI run #35 installed Chromium
+and ran all 64 executions: 61 passed, one mobile-only GPU check was skipped,
+and two desktop checks failed with a scene error or unfinished motion.
+
+The scene mixed a setup-time performance.now() value with the animation-frame
+timestamp. An earlier first frame produced a negative path index. Running the
+actual scene module with a frame timestamp of 99 ms after setup at 100 ms
+reproduced the exact error. The animation now initializes its clock from the
+first frame and bounds progress at both ends. The desktop browser regression
+delivers an earlier frame timestamp and still requires motion to settle, theme
+changes to preserve that state, and resources to be released.
+
+This follows the [requestAnimationFrame timing guidance](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame).
+The isolated scene check passes after the fix; the next CI run verifies the
+real browser path. Preview authentication still prevents verifying negotiated
+root responses at the Vercel edge from this session.

@@ -243,6 +243,13 @@ test("desktop Three.js scene renders, responds and releases offscreen resources"
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => {
+    const request = window.requestAnimationFrame.bind(window);
+    // Model a frame timestamp older than setup's performance.now(). The map
+    // must still move, finish, recolor and release resources without errors.
+    window.requestAnimationFrame = (callback) =>
+      request((timestamp) => callback(Math.max(0, timestamp - 100)));
+  });
   await page.goto("/");
   const map = page.locator(".map-graph");
   await map.scrollIntoViewIfNeeded();
