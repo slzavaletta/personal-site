@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/dev.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -16,6 +16,9 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/instrument-sans": "5.3.0",
+    "@fontsource-variable/source-sans-3": "^5.3.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.28.0",
@@ -23,7 +26,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "server-only": "^0.0.1",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "three": "^0.186.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
@@ -33,6 +37,7 @@
     "@types/node": "^22.10.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.185.4",
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.21",
     "prettier": "^3.9.6",

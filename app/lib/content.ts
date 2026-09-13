@@ -45,13 +45,14 @@ export const SECTIONS = [
   { id: "work", label: "Selected work", navLabel: "Work" },
   { id: "approach", label: "Approach", navLabel: "Approach" },
   { id: "systems", label: "Systems and tools", navLabel: "Systems" },
-  { id: "experience", label: "Experience", navLabel: "Experience" },
+  { id: "profile", label: "Experience", navLabel: "Profile" },
   { id: "contact", label: "Contact", navLabel: "Contact" },
 ] as const satisfies readonly Section[];
 
-export const NAV_LINKS = SECTIONS.filter((s) => s.id !== "systems").map(
-  ({ navLabel, id }) => ({ label: navLabel, href: `#${id}` as const }),
-);
+export const NAV_LINKS = SECTIONS.map(({ navLabel, id }) => ({
+  label: navLabel,
+  href: id === "work" ? "/" : `/${id}`,
+}));
 
 export const SITE_LINKS = {
   email: `mailto:${SITE_EMAIL}`,
@@ -89,7 +90,7 @@ export const HERO = {
 
 /** One spoken line of proof, not a stats grid. */
 export const PROOF_LINE =
-  "Ten years. A multi-million-dollar AI account. Six POCs. Three go-lives. Four deals.";
+  "Ten years in delivery: a multi-million-dollar AI account, six POCs, three go-lives and four M&A programs.";
 
 /**
  * The ledger: what is true right now. Edited by commit; the GitHub row is
@@ -107,6 +108,8 @@ export const NOW = {
 export type CaseStudy = {
   id: string;
   label: string;
+  mapLabel: string;
+  mapCaption: string;
   period: string;
   title: string;
   summary: string;
@@ -116,13 +119,15 @@ export type CaseStudy = {
 
 export const WORK_INTRO = {
   heading: "Selected work",
-  body: "Three examples: what was difficult, what I owned, and what changed.",
+  body: "Three cases. The challenge, my role, and the outcome.",
 } as const;
 
 export const CASE_STUDIES = [
   {
     id: "ai-delivery",
     label: "AI delivery",
+    mapLabel: "AI delivery",
+    mapCaption: "Staffing · Capacity · P&L",
     period: "Globant · Oct 2025–present",
     title:
       "Improving margin and reducing overhead on a multi-million-dollar AI account",
@@ -135,6 +140,8 @@ export const CASE_STUDIES = [
   {
     id: "digital-twin-studio",
     label: "Digital Twin Studio",
+    mapLabel: "Digital Twin Studio",
+    mapCaption: "A new capability · Six POCs",
     period: "Globant · Dec 2024–Oct 2025",
     title: "Building a new Digital Twin capability through six POCs",
     summary:
@@ -146,6 +153,8 @@ export const CASE_STUDIES = [
   {
     id: "mergers-and-acquisitions",
     label: "M&A and corporate development",
+    mapLabel: "M&A",
+    mapCaption: "Four countries · Shared risk",
     period: "Globant · Jun 2022–Mar 2023",
     title: "Coordinating four M&A programs across four countries",
     summary:
@@ -173,8 +182,8 @@ export type BriefField = {
  */
 export const BRIEF = {
   label: "Approach",
-  heading: "Before a pilot starts, I want five things written down",
-  body: "This is the brief I work from: what the delivery team and the client both have to agree on before the first sprint. Pick a field to see what tends to happen when it is missing, and where the habit came from.",
+  heading: "Five things to agree on before a pilot starts.",
+  body: "Before the first sprint, the client and delivery team need a shared brief. Explore each field: the question, the risk, and an example from my work.",
   panelLabels: {
     prompt: "The question",
     whenMissing: "When it is missing",
@@ -246,23 +255,21 @@ export type DeliverySystem = {
 
 export const SYSTEMS = {
   heading: "Systems I build, tools I use",
-  body: "These keep scope and evidence visible, so the next delivery decision does not depend on memory.",
+  body: "I build tools that turn contracts and client requests into delivery decisions backed by evidence. Here is the work, and the toolkit behind it.",
   projects: [
     {
       id: "scope-sentinel",
       name: "Scope Sentinel",
       body: "Reads a client request against the SOW, cites the exact clause, sizes the effort, and drafts the next step. When the evidence is missing, it says so.",
-      href: SITE_LINKS.skillsRepository,
+      href: `${SITE_LINKS.skillsRepository}/tree/main/skills/scope-sentinel`,
     },
     {
       id: "sow-intake",
       name: "SOW Intake",
       body: "Turns a contract into a cited delivery baseline that people and agents can use. Missing evidence is marked as missing, not filled with a plausible answer.",
-      href: SITE_LINKS.skillsRepository,
+      href: `${SITE_LINKS.skillsRepository}/tree/main/skills/sow-intake`,
     },
   ] satisfies readonly DeliverySystem[],
-  infrastructure:
-    "I also run the infrastructure behind my own experiments: Docker, Caddy, Tailscale, n8n, project tracking, and personal agents on a self-hosted VPS.",
 } as const;
 
 export type Tool = {
@@ -286,31 +293,31 @@ export const TOOL_GROUPS = [
     label: "Run the work",
     note: "Scope, backlogs, delivery decisions, and shared context.",
     tools: [
+      { name: "Linear", logoSrc: logo("linear") },
       { name: "Jira", logoSrc: logo("jira") },
       { name: "Power BI", logoSrc: logo("powerbi") },
-      { name: "Linear", logoSrc: logo("linear") },
       { name: "Figma", logoSrc: logo("figma") },
     ],
   },
   {
     id: "build",
     label: "Build and automate",
-    note: "Draft, test, and remove repeatable delivery work.",
+    note: "Draft, test, and automate recurring delivery work.",
     tools: [
+      { name: "ChatGPT", logoSrc: logo("openai") },
+      { name: "Grok", logoSrc: logo("grok") },
       { name: "Claude", logoSrc: logo("claude") },
-      { name: "ChatGPT / Codex", logoSrc: logo("openai") },
-      { name: "Gemini", logoSrc: logo("gemini") },
       { name: "n8n", logoSrc: logo("n8n") },
     ],
   },
   {
     id: "operate",
     label: "Ship and operate",
-    note: "Scripts, source control, containers, and the infrastructure behind the experiments.",
+    note: "Version control, scripts, and containers for building and shipping tools.",
     tools: [
+      { name: "GitHub", logoSrc: logo("github") },
       { name: "Python", logoSrc: logo("python") },
       { name: "Bash / PowerShell", logoSrc: logo("gnubash") },
-      { name: "GitHub", logoSrc: logo("github") },
       { name: "Docker", logoSrc: logo("docker") },
     ],
   },
@@ -429,7 +436,7 @@ export const INDUSTRIES = [
 
 export const CONTACT = {
   heading: "Contact",
-  body: "If you are running AI pilots where the constraints are real—regulated industries, enterprise data, people whose work changes—and need someone to own the delivery around them, I would like to talk.",
+  body: "Building an AI pilot around enterprise data, regulatory requirements, or changing workflows? If you need someone to own delivery, I would like to talk.",
 } as const;
 
 /*

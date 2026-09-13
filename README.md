@@ -1,104 +1,105 @@
 # Santiago López Zavaletta — Personal site
 
-Single-page site for a Technical Project Manager running enterprise AI and
-software delivery — staffing, P&L, risk, adoption and the client decisions
-that follow — and heading into AI in clinical development. The page is alive
-because the paper follows Buenos Aires time, the ledger is what is true
-right now, and the brief is a document the reader can operate.
+Personal portfolio for enterprise AI delivery. Next.js 15 App Router, React 19,
+TypeScript, Tailwind 4, Base UI, Three.js, Instrument Sans and Source Sans 3.
+Fonts are self-hosted from lockfile-pinned Fontsource packages.
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-10243A?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org)
-[![React](https://img.shields.io/badge/React-19-10243A?style=flat-square&logo=react&logoColor=white)](https://react.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-10243A?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-10243A?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Playwright](https://img.shields.io/badge/Playwright-axe-10243A?style=flat-square&logo=playwright&logoColor=white)](https://playwright.dev)
-[![Vercel](https://img.shields.io/badge/Vercel-deploy-10243A?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
+[slzavaletta.com](https://www.slzavaletta.com)
 
-**[slzavaletta.com](https://slzavaletta.com)**
+## Run
 
-## Highlights
-
-- **Río de la Plata direction.** Cool celeste paper and navy ink, with gold
-  reserved for the Sun of May. Paper still follows the Buenos Aires hour,
-  but it stays in the celeste family — not plaster. Headings in Fraunces.
-  Body in Source Sans 3. Dark is a scheme the reader can pin.
-- **The Sun of May.** The Sol de Mayo as it sits on the flag — gold disc,
-  copper face, sixteen straight rays and sixteen flaming ones — in the navy
-  cover panel, the colophon, the favicon and the share card.
-- **A page in bands, not one cream column.** Ledger, approach and systems
-  sit on filled fields. Systems is a two-column board of project cards and
-  wrapping tool chips — no double rule, no empty right. Cases are gold-ruled
-  cards. Experience opens with a navy table header.
-- **Motion with intent.** The cover headline enters word by word through
-  masks; sections rise on scroll via CSS `view()` timelines; hovers draw
-  celeste underlines, wash rows, and return brand colour to tool marks. All
-  of it snaps to static under `prefers-reduced-motion`.
-- **A ledger of what is true now.** Role, next role, what is being built and
-  learned, the last public push (fetched on the server, revalidated hourly),
-  and availability.
-- **Proof in prose.** One spoken line, then three articles. The outcome is
-  the last sentence, not a labelled "result signal".
-- **The brief as a document.** Five fields as a radio group with roving
-  focus; the selected field expands in place — what fails when it is
-  missing, and one example from the work.
-- **Experience as a table.** Period, company, title, what he did. Upcoming
-  and concurrent called in the period cell, in words.
-
-## Accessibility and resilience
-
-- **Nothing is gated on JavaScript.** The hero, the ledger and the brief
-  render complete in the server HTML; scripts only add behaviour.
-- **WCAG 2.2 AA in both schemes**, verified by axe on every PR (`npm run
-  test:a11y`) and by hand: one `h1`, skip link, visible focus, 44px targets,
-  usable at 320px. Contrast is sampled at hours 7, 12, 17 and 21.
-- **`prefers-reduced-motion` is a path, not a switch.** Paper temperature
-  snaps; the header hairline keeps tracking scroll depth because it conveys
-  state.
-- **Security by default.** CSP with no third-party origin, hardening
-  headers, `security.txt`, no analytics, `noopener noreferrer`, fragment
-  lookup by id.
-
-## Stack
-
-Next.js 15 (App Router, RSC, ISR) · React 19 · Tailwind v4, CSS-first · Base
-UI / Shadcn · Fraunces + Source Sans 3 via `next/font` · Lucide ·
-Playwright + axe · TypeScript 5.
-
-## Run it
-
-> Node 18.18+ (20+ recommended)
+Node 22 is used in CI (minimum 20.9). The lockfile is authoritative.
 
 ```bash
-npm install
-npm run dev        # http://localhost:3000
-npm run build      # production build (ISR, revalidates hourly)
-npm run verify     # eslint + tsc + prettier --check
-npm run test:a11y  # Playwright + axe against `next start`
+npm ci
+npm run dev         # localhost:3000
+npm run verify      # ESLint, TypeScript, Prettier
+npm run build       # required before browser tests
+npx playwright install chromium
+npm run test:a11y   # production-server browser + HTTP regressions
 ```
 
-Optional: a `GITHUB_TOKEN` environment variable raises the GitHub API rate
-limit for the ledger's "Last push" row. Without it the public limit is ample.
+`scripts/dev.mjs` preserves the Next CLI and translates supervised preview flags.
+Development uses `.next-dev` so it cannot overwrite a production test build.
 
-## Where things live
+The site keeps its existing Vercel/GitHub deployment. A feature branch/PR is
+reviewable before merge; no DNS or hosting migration is needed.
 
+## Content and architecture
+
+- `app/lib/content.ts`: canonical public wording and facts, including
+  ROLE_TRANSITION, work, experience, BRIEF, systems and current activity copy.
+- `app/lib/site.ts`: canonical www URL, name, email, authored update date.
+- `app/page.tsx`: positioning and Deployment Atlas map.
+- `app/work/[slug]/page.tsx`: three static case pages from canonical content.
+- `app/{approach,systems,profile,contact}/page.tsx`: complete topic pages.
+- `app/components/DeploymentMap.tsx`: accessible node selection and map/list
+  views, measured SVG fallback and optional client enhancement.
+- `app/lib/map-geometry.ts`: connector geometry outside complete label bounds.
+- `app/components/scene/map.ts`: lazy Three.js traces, brief flow motion,
+  on-demand frames, theme handling and full resource disposal.
+- `app/components/BriefInstrument.tsx`: keyboard radio group; every panel exists
+  in initial HTML. Without JavaScript, all panels remain readable.
+- `app/globals.css`: typography, responsive editorial layout, light/dark tokens.
+- `app/lib/representations.ts`: full Markdown and llms.txt from canonical copy.
+- `middleware.ts` and `app/lib/accept.ts`: explicit Markdown content negotiation.
+- `tests/`: WCAG checks, keyboard, resilience and public discovery regressions.
+
+See PRODUCT.md for the approved direction and AGENTS.md for maintenance rules.
+Historical design plans remain in docs/superpowers; PRODUCT.md supersedes their
+visual decisions. When the new role begins, update ROLE_TRANSITION and its
+related experience entries; check all rendered dates and metadata. Bump
+CONTENT_UPDATED_ON for reader-visible content changes.
+
+## Progressive enhancement
+
+HTML contains the text, metadata, JSON-LD and destinations. An SVG map is
+available before scripts. Three.js loads only for visible desktop/pointer-fine
+scenes when motion is permitted and data saving is off. Rendering stops after
+the movement settles; leaving the viewport or hiding the tab releases the scene.
+No external HDR, CDN scripts or analytics are required. The existing CSP stays.
+
+The header provides light/dark switching on every page. The system preference
+is the default; an explicit choice takes precedence, persists locally and syncs
+across tabs. The inline boot script prevents the wrong scheme at first paint.
+With blocked storage, client navigation retains the manual choice; persistence
+after a full reload is unavailable. Theme changes update browser chrome and
+recolor the map without restarting its animation.
+
+The spatial map remains the default at all widths. JavaScript measures complete
+label groups, including captions, to route connections around text. Without
+JavaScript, node links go directly to the cases. A list requires an explicit
+choice. All five brief panels remain visible without JavaScript on `/approach`.
+Old `/#approach`, `/#systems`, `/#experience` and `/#contact` links route to the
+new pages. The shared Sol de Mayo and anthem line remain intact.
+
+The clock follows Buenos Aires. The Now section can show public GitHub activity;
+GitHub failures omit that optional row. An optional server-only GITHUB_TOKEN
+raises the public API limit. No token is required for the site or agent access.
+
+## Public agent discovery
+
+```bash
+curl -I https://www.slzavaletta.com/
+curl -H 'Accept: text/markdown' https://www.slzavaletta.com/
+curl https://www.slzavaletta.com/index.md
+curl https://www.slzavaletta.com/llms.txt
+curl https://www.slzavaletta.com/robots.txt
 ```
-app/
-├─ page.tsx                 # page structure, reading order, revalidation
-├─ layout.tsx               # metadata, fonts, theme boot script, JSON-LD
-├─ globals.css              # paper temperature, type, layout
-├─ lib/content.ts           # copy, facts, ROLE_TRANSITION, NOW, BRIEF
-├─ lib/site.ts              # URL, name, email, content date
-├─ lib/github.ts            # server-only fetch for the ledger
-├─ lib/time.ts              # Buenos Aires clock and hour
-└─ components/
-   ├─ Ledger.tsx            # what is true now (server)
-   ├─ BriefInstrument.tsx   # the five fields as a radio group
-   ├─ theme/                # boot script and toggle
-   └─ *.tsx                 # sections
-components/ui/              # Base UI primitives: button, badge, sheet
-tests/                      # Playwright + axe
-```
 
-There is no `tailwind.config` — Tailwind v4 is configured entirely from
-`app/globals.css`. Most content edits are one file: `app/lib/content.ts`.
-When the new role starts, swap `current` and `next` in `ROLE_TRANSITION` and
-bump `CONTENT_UPDATED_ON` in `app/lib/site.ts`.
+Markdown and HTML use the same facts. HTML wins quality ties. The negotiated
+response uses `Vary: Accept` and `private, no-store`; `/index.md` is the stable,
+cacheable alternative. Link headers advertise existing Markdown and llms.txt.
+Content-Signal allows search and AI input, and declines training. It expresses a
+preference; it does not enforce access control.
+
+Use [Is It Agent Ready's Content Site profile](https://isitagentready.com/slzavaletta.com?profile=content)
+for a relevant scan. The generic scan includes API/auth/MCP checks that do not
+represent this portfolio. DNS-AID requires a separate DNS decision and remains
+outside this change. Verify negotiation on a Vercel preview and scan production
+after deployment; do not infer a live score from local tests.
+
+Next.js 15 rewrites the HTML Vary header to its own Flight fields. The root HTTP
+response is therefore explicitly `private, no-store` for both representations;
+Next retains its internal ISR cache and GitHub its hourly data cache. Markdown
+responses include `Vary: Accept`. `/index.md` remains the public cacheable URL.

@@ -23,7 +23,7 @@ export default defineConfig({
   webServer: process.env.BASE_URL
     ? undefined
     : {
-        command: `npx next start -p ${PORT}`,
+        command: `npx next start --hostname 127.0.0.1 -p ${PORT}`,
         url: baseURL,
         reuseExistingServer: !process.env.CI,
         timeout: 60_000,
