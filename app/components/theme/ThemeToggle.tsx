@@ -79,6 +79,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       aria-label={
         theme ? `Switch to ${next} theme` : "Toggle light and dark theme"
       }
+      title={theme ? `Switch to ${next} theme` : "Toggle light and dark theme"}
       onClick={() => {
         applyTheme(next);
         setTheme(next);
@@ -89,9 +90,6 @@ export function ThemeToggle({ className }: { className?: string }) {
       ) : (
         <Moon aria-hidden="true" className="size-[1.125rem]" />
       )}
-      <span aria-hidden="true">
-        {theme ? (next === "dark" ? "Dark" : "Light") : "Theme"}
-      </span>
     </button>
   );
 }

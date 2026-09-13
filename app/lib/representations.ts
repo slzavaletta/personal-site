@@ -61,7 +61,6 @@ export function portfolioMarkdown() {
         (item) =>
           `### ${item.name}\n\n${item.body}\n\n[Source on GitHub](${item.href})`,
       ),
-      SYSTEMS.infrastructure,
       ...TOOL_GROUPS.map(
         (group) =>
           `### ${group.label}\n\n${group.tools.map((tool) => tool.name).join(", ")}\n\n${group.note}`,
@@ -94,5 +93,5 @@ export function portfolioMarkdown() {
 }
 
 export function llmsText() {
-  return `# ${SITE_NAME}\n\n> ${HERO.role}\n\n${HERO.statement}\n\nThis is a public personal portfolio. The HTML and full Markdown are generated from the same authored content. Dates, concurrent engagements, upcoming roles, and exploratory tools are explicitly labelled. No account or API key is needed to read it.\n\n## Public sources\n\n- [Full portfolio](${SITE_URL}/index.md): complete experience, selected work, approach, systems, credentials and contact details.\n- [Website](${SITE_URL}/): human-readable version; also accepts Accept: text/markdown.\n- [Approach](${SITE_URL}/approach): the full five-field delivery brief.\n- [Systems](${SITE_URL}/systems): tools, source links and infrastructure.\n- [Profile](${SITE_URL}/profile): experience, current and upcoming roles, credentials and Now.\n- [Contact](${SITE_URL}/contact): email, résumé and public profiles.\n${CASE_STUDIES.map((item) => `- [${item.label}](${SITE_URL}/work/${item.id}): ${item.title}.`).join("\n")}\n- [Résumé](${SITE_URL}${SITE_LINKS.resume}): downloadable PDF.\n- [Scope Sentinel](${SYSTEMS.projects[0].href}): source and documentation.\n- [SOW Intake](${SYSTEMS.projects[1].href}): source and documentation.\n\nContent updated: ${CONTENT_UPDATED_ON}.\n`;
+  return `# ${SITE_NAME}\n\n> ${HERO.role}\n\n${HERO.statement}\n\nThis is a public personal portfolio. The HTML and full Markdown are generated from the same authored content. Dates, concurrent engagements, upcoming roles, and exploratory tools are explicitly labelled. No account or API key is needed to read it.\n\n## Public sources\n\n- [Full portfolio](${SITE_URL}/index.md): complete experience, selected work, approach, systems, credentials and contact details.\n- [Website](${SITE_URL}/): human-readable version; also accepts Accept: text/markdown.\n- [Approach](${SITE_URL}/approach): the full five-field delivery brief.\n- [Systems](${SITE_URL}/systems): delivery tools, source links and the toolkit behind the work.\n- [Profile](${SITE_URL}/profile): experience, current and upcoming roles, credentials and Now.\n- [Contact](${SITE_URL}/contact): email, résumé and public profiles.\n${CASE_STUDIES.map((item) => `- [${item.label}](${SITE_URL}/work/${item.id}): ${item.title}.`).join("\n")}\n- [Résumé](${SITE_URL}${SITE_LINKS.resume}): downloadable PDF.\n- [Scope Sentinel](${SYSTEMS.projects[0].href}): source and documentation.\n- [SOW Intake](${SYSTEMS.projects[1].href}): source and documentation.\n\nContent updated: ${CONTENT_UPDATED_ON}.\n`;
 }

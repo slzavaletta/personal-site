@@ -45,7 +45,6 @@ export function SystemsAndTools() {
           </section>
         ))}
       </div>
-      <p className="infrastructure body-copy">{SYSTEMS.infrastructure}</p>
     </>
   );
 }

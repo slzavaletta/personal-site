@@ -182,8 +182,8 @@ export type BriefField = {
  */
 export const BRIEF = {
   label: "Approach",
-  heading: "Before a pilot starts, I want five things written down",
-  body: "This is the brief I work from: what the delivery team and the client both have to agree on before the first sprint. Pick a field to see what tends to happen when it is missing, and where the habit came from.",
+  heading: "Five things to agree on before a pilot starts.",
+  body: "Before the first sprint, the client and delivery team need a shared brief. Explore each field: the question, the risk, and an example from my work.",
   panelLabels: {
     prompt: "The question",
     whenMissing: "When it is missing",
@@ -255,7 +255,7 @@ export type DeliverySystem = {
 
 export const SYSTEMS = {
   heading: "Systems I build, tools I use",
-  body: "These keep scope and evidence visible, so the next delivery decision does not depend on memory.",
+  body: "I build tools that turn contracts and client requests into delivery decisions backed by evidence. Here is the work, and the toolkit behind it.",
   projects: [
     {
       id: "scope-sentinel",
@@ -270,8 +270,6 @@ export const SYSTEMS = {
       href: `${SITE_LINKS.skillsRepository}/tree/main/skills/sow-intake`,
     },
   ] satisfies readonly DeliverySystem[],
-  infrastructure:
-    "I also run the infrastructure behind my own experiments: Docker, Caddy, Tailscale, n8n, project tracking, and personal agents on a self-hosted VPS.",
 } as const;
 
 export type Tool = {
@@ -295,31 +293,31 @@ export const TOOL_GROUPS = [
     label: "Run the work",
     note: "Scope, backlogs, delivery decisions, and shared context.",
     tools: [
+      { name: "Linear", logoSrc: logo("linear") },
       { name: "Jira", logoSrc: logo("jira") },
       { name: "Power BI", logoSrc: logo("powerbi") },
-      { name: "Linear", logoSrc: logo("linear") },
       { name: "Figma", logoSrc: logo("figma") },
     ],
   },
   {
     id: "build",
     label: "Build and automate",
-    note: "Draft, test, and remove repeatable delivery work.",
+    note: "Draft, test, and automate recurring delivery work.",
     tools: [
+      { name: "ChatGPT", logoSrc: logo("openai") },
+      { name: "Grok", logoSrc: logo("grok") },
       { name: "Claude", logoSrc: logo("claude") },
-      { name: "ChatGPT / Codex", logoSrc: logo("openai") },
-      { name: "Gemini", logoSrc: logo("gemini") },
       { name: "n8n", logoSrc: logo("n8n") },
     ],
   },
   {
     id: "operate",
     label: "Ship and operate",
-    note: "Scripts, source control, containers, and the infrastructure behind the experiments.",
+    note: "Version control, scripts, and containers for building and shipping tools.",
     tools: [
+      { name: "GitHub", logoSrc: logo("github") },
       { name: "Python", logoSrc: logo("python") },
       { name: "Bash / PowerShell", logoSrc: logo("gnubash") },
-      { name: "GitHub", logoSrc: logo("github") },
       { name: "Docker", logoSrc: logo("docker") },
     ],
   },
@@ -438,7 +436,7 @@ export const INDUSTRIES = [
 
 export const CONTACT = {
   heading: "Contact",
-  body: "If you are running AI pilots where the constraints are real—regulated industries, enterprise data, people whose work changes—and need someone to own the delivery around them, I would like to talk.",
+  body: "Building an AI pilot around enterprise data, regulatory requirements, or changing workflows? If you need someone to own delivery, I would like to talk.",
 } as const;
 
 /*

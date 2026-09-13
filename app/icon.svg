@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <title>SLZ — Santiago López Zavaletta</title>
-  <rect width="64" height="64" rx="10" fill="#2854D8"/>
-  <g fill="none" stroke="#F6F8FB" stroke-width="5" stroke-linejoin="round">
-    <path d="M23 20H14a5 5 0 0 0-5 5v1a5 5 0 0 0 5 5h3a5 5 0 0 1 5 5v3a5 5 0 0 1-5 5H8"/>
-    <path d="M30 18v26h10"/>
-    <path d="M43 20h13L43 44h14"/>
+  <path d="M8 0H64V56L56 64H0V8Z" fill="#192334"/>
+  <g fill="#F6F8FB">
+    <path d="M10 10H29V16H16V27H29V54H10V48H23V33H10Z"/>
+    <path d="M35 10H41V22H54V28H35Z"/>
+    <path d="M35 34H54V40L43 48H54V54H35V48L46 40H35Z"/>
   </g>
 </svg>

@@ -6,7 +6,7 @@ export const metadata = pageMetadata("Approach", BRIEF.body, "/approach");
 export default function ApproachPage() {
   return (
     <main id="main" tabIndex={-1} className="page-shell atlas-page">
-      <div className="page-heading">
+      <div className="page-heading page-heading--brief">
         <div>
           <p className="eyebrow">Approach / The delivery brief</p>
           <h1>{BRIEF.heading}</h1>

@@ -152,7 +152,6 @@ test("all authored content remains readable across real pages without JavaScript
   }
   await page.goto(baseURL! + "/systems");
   for (const text of [
-    SYSTEMS.infrastructure,
     ...SYSTEMS.projects.map((item) => item.body),
     ...TOOL_GROUPS.map((item) => item.note),
   ]) {

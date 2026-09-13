@@ -11,7 +11,8 @@ surface. Production is outside this change.
   It stays on one line at desktop sizes and reflows on narrow/enlarged screens.
 - Group the name, small Sol de Mayo and exact anthem in a compact footer.
   Remove the footer location. The sun remains a cultural signature, not a logo.
-- Use an outlined SLZ lettermark as the favicon and social identity mark.
+- Use SLZ as the favicon and social identity mark. The later polish replaces
+  the outlined blue badge with a compact geometric monogram in filled paths.
 - Route links retain real destinations, prefetch, modified clicks and history.
   Explicit page navigation starts at the document top, with a short native
   crossfade and a small content reveal. Keep the header out of the page motion.
@@ -29,3 +30,19 @@ References for the navigation enhancement:
 
 The next/link onNavigate hook is present in the installed Next.js 15.5.21.
 No framework upgrade or motion dependency is needed.
+
+The owner's subsequent review asked for a thinner pinned menu, a new favicon,
+a clearer Approach introduction, updated tools, removal of the VPS claim and
+a mobile/accessibility review. The bar now uses 8px vertical padding at normal
+text size, preserves 44px controls, and wraps navigation when text is enlarged.
+The theme icon retains an accessible destination label and system-first behavior.
+Approach reads vertically from title to introduction before the brief. Its
+fields collapse according to available space and text size.
+
+ChatGPT, Grok and Claude lead the AI tools in that order; Linear leads Run the
+work and GitHub leads Ship and operate. Approach, Systems and Contact copy was
+tightened with the owner's authorization. HTML, Markdown and the discovery
+description no longer claim ownership or operation of a self-hosted VPS.
+The Grok mark comes from LobeHub's icon set; its source and MIT notice are
+preserved with the local asset. Mobile reflow checks cover all eight pages at
+320px and 200% text in both themes, in addition to the existing browser suite.

@@ -1,5 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { ANTHEM, PROOF_LINE, WORK_INTRO } from "../app/lib/content";
+import {
+  ANTHEM,
+  CASE_STUDIES,
+  PROOF_LINE,
+  WORK_INTRO,
+} from "../app/lib/content";
 import { SITE_NAME } from "../app/lib/site";
 
 for (const mode of ["native", "fallback", "reduced"] as const) {
@@ -93,6 +98,7 @@ test("home copy, governance hierarchy, compact signature and SLZ identity", asyn
 for (const theme of ["light", "dark"] as const) {
   test(`pinned header remains usable and clears anchors in ${theme}`, async ({
     page,
+    isMobile,
   }) => {
     await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
     await page.goto("/");
@@ -100,6 +106,7 @@ for (const theme of ["light", "dark"] as const) {
     const height = await header.evaluate(
       (el) => el.getBoundingClientRect().height,
     );
+    expect(height).toBeLessThanOrEqual(isMobile ? 112 : 68);
     await page.evaluate(() => window.scrollTo(0, 600));
     await expect(header).toHaveAttribute("data-scrolled", "true");
     expect(await header.evaluate((el) => el.getBoundingClientRect().top)).toBe(
@@ -143,6 +150,68 @@ for (const theme of ["light", "dark"] as const) {
     await expect(
       header.getByRole("link", { name: "Contact", exact: true }),
     ).toBeInViewport({ ratio: 1 });
+  });
+
+  test(`all pages reflow with large text on a small screen in ${theme}`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 320, height: 850 });
+    const paths = [
+      "/",
+      "/approach",
+      "/systems",
+      "/profile",
+      "/contact",
+      ...CASE_STUDIES.map((item) => "/work/" + item.id),
+    ];
+    for (const path of paths) {
+      await test.step(path, async () => {
+        await page.goto(path);
+        await page.evaluate(() => document.fonts.ready);
+        expect(
+          await page
+            .locator("header")
+            .evaluate((el) => el.getBoundingClientRect().height),
+        ).toBeLessThanOrEqual(112);
+        await page.evaluate(() => {
+          document.documentElement.style.fontSize = "32px";
+        });
+        const overflow = await page.evaluate(() => ({
+          width: document.documentElement.scrollWidth,
+          viewport: innerWidth,
+          elements: [...document.querySelectorAll("main *")]
+            .filter((el) => {
+              const rect = el.getBoundingClientRect();
+              return (
+                rect.width && (rect.right > innerWidth + 1 || rect.left < -1)
+              );
+            })
+            .slice(0, 10)
+            .map((el) => `${el.tagName}.${el.className}`),
+        }));
+        expect(overflow.width, JSON.stringify(overflow)).toBeLessThanOrEqual(
+          overflow.viewport,
+        );
+        const navigation = page.getByRole("navigation", {
+          name: "Primary navigation",
+        });
+        for (const link of await navigation.getByRole("link").all()) {
+          await expect(link).toBeInViewport({ ratio: 1 });
+          const box = (await link.boundingBox())!;
+          expect(box.width).toBeGreaterThanOrEqual(44);
+          expect(box.height).toBeGreaterThanOrEqual(44);
+        }
+        if (path === "/approach") {
+          const title = (await page.locator("h1").boundingBox())!;
+          const introduction = (await page
+            .locator(".page-heading > p")
+            .boundingBox())!;
+          expect(introduction.y).toBeGreaterThan(title.y + title.height);
+          expect(introduction.x).toBeCloseTo(title.x, 0);
+        }
+      });
+    }
   });
 }
 

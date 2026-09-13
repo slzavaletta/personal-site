@@ -18,7 +18,7 @@ and exploratory tools. AI deployment is the direction, not an invented job title
 - `/work/ai-delivery`, `/work/digital-twin-studio` and
   `/work/mergers-and-acquisitions`: complete original case studies.
 - `/approach`: the full five-field delivery brief.
-- `/systems`: Scope Sentinel, SOW Intake, tools and infrastructure.
+- `/systems`: Scope Sentinel, SOW Intake and the tools used in the work.
 - `/profile`: career context, six roles, credentials, industries and Now.
 - `/contact`: authored invitation, email, résumé and public profiles.
 
@@ -28,7 +28,10 @@ hashes redirect to their new pages. The footer groups the name, a small Sol de
 Mayo and exactly “Sean eternos los laureles que supimos conseguir.” It omits the
 location. The favicon and social preview use SLZ; the sun is a cultural
 signature rather than a logo. The two home summary lines were revised at the
-owner's request on September 13, 2026; other authored copy remains intact.
+owner's request on September 13, 2026. The owner subsequently authorized copy
+polish: Approach, Systems and Contact introductions were tightened, tool order
+updated, and the inaccurate claim of running a self-hosted VPS removed from
+both public representations. Do not reintroduce that infrastructure claim.
 
 ## Visual and interaction system
 
@@ -70,6 +73,12 @@ subtle shadow and accent edge separate it from the content. Unsupported blur
 and no-JavaScript cases retain an opaque pinned header. Its measured height
 sets the anchor offset as text and navigation reflow. Reduced motion removes
 the appearance transition; the header never shrinks or hides on scroll.
+The compact bar uses 8px vertical padding at standard text size and a 44px
+icon button for the theme. Mobile uses two close rows and lets links wrap at
+larger text sizes. Approach places its introduction directly below the title,
+with a shared left edge, instead of aligning it at the foot of a side column.
+The SLZ mark is a high-contrast geometric monogram, with S beside a stacked
+L and Z. It is drawn as filled paths and shared with the social preview.
 
 Every brief panel is server-rendered; JavaScript adds radio selection. The clock
 follows Buenos Aires. Public GitHub activity is optional, server-only and cached
