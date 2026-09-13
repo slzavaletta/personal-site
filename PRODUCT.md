@@ -81,12 +81,13 @@ The compact bar uses 8px vertical padding at standard text size and a 44px
 icon button for the theme. Mobile uses two close rows and lets links wrap at
 larger text sizes. Approach places its introduction directly below the title,
 with a shared left edge, instead of aligning it at the foot of a side column.
-The SLZ mark uses the three italic serif initials on one baseline inside a
-light circular field. Letter outlines derive from the bundled Fraunces font;
-the SVG needs no font request and is shared with the social preview. The
-owner's handwritten signature is not a public asset. Its possible use in the
-footer is under discussion; do not publish the uploaded original as part of
-routine identity edits.
+The owner authorized a new handwritten SLZ brand variant on September 13, 2026.
+An open S, tall L and angular Z with a short finish sit above the printed name
+in the footer. A separate, bolder compact SLZ shares those gestures in the
+favicon and social preview. The favicon is rendered as a small static PNG at
+build time. The footer image is decorative, optimized by Next Image and blends
+into both palettes, including the no-JavaScript system preference. The owner's
+uploaded original signature is not a public asset; do not publish or trace it.
 
 Every brief panel is server-rendered; JavaScript adds radio selection. The clock
 follows Buenos Aires. Public GitHub activity is optional, server-only and cached

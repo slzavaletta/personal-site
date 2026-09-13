@@ -25,7 +25,7 @@ export default async function OpengraphImage() {
   const [regular, semibold, monogram] = await Promise.all([
     loadFont("InstrumentSans-Regular.ttf"),
     loadFont("InstrumentSans-SemiBold.ttf"),
-    readFile(join(process.cwd(), "app/icon.svg"), "utf8"),
+    readFile(join(process.cwd(), "app/brand/slz-symbol.png")),
   ]);
 
   const nextLine = ROLE_TRANSITION.public
@@ -71,7 +71,7 @@ export default async function OpengraphImage() {
             alt=""
             width={58}
             height={58}
-            src={`data:image/svg+xml;base64,${Buffer.from(monogram).toString("base64")}`}
+            src={`data:image/png;base64,${monogram.toString("base64")}`}
           />
         </div>
 

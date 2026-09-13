@@ -19,6 +19,8 @@
   --on-accent: #ffffff;
   --gold: #886024;
   --mark-filter: none;
+  --signature-filter: none;
+  --signature-blend: multiply;
   --background: var(--paper);
   --foreground: var(--ink);
   --card: var(--panel);
@@ -54,6 +56,8 @@
   --on-accent: #0e1c32;
   --gold: #d8bc7e;
   --mark-filter: brightness(0) invert(1);
+  --signature-filter: invert(1);
+  --signature-blend: screen;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
@@ -71,6 +75,8 @@
     --on-accent: #0e1c32;
     --gold: #d8bc7e;
     --mark-filter: brightness(0) invert(1);
+    --signature-filter: invert(1);
+    --signature-blend: screen;
   }
 }
 @theme inline {
@@ -948,6 +954,8 @@
   margin-bottom: 1rem;
 }
 .site-footer {
+  isolation: isolate;
+  background: var(--paper);
   border-top: 1px solid var(--rule-strong);
   padding-block: 1.75rem;
   display: flex;
@@ -962,6 +970,20 @@
   gap: 1.5rem 2.5rem;
   flex-wrap: wrap;
   min-width: 0;
+}
+.footer-brand {
+  display: grid;
+  justify-items: start;
+  gap: 0.375rem;
+  min-width: 0;
+  max-width: 100%;
+}
+.footer-brand__signature {
+  width: 11rem;
+  max-width: 100%;
+  height: auto;
+  filter: var(--signature-filter);
+  mix-blend-mode: var(--signature-blend);
 }
 .footer-name {
   font-family: var(--font-display), sans-serif;

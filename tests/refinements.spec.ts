@@ -89,11 +89,37 @@ test("home copy, governance hierarchy, compact signature and SLZ identity", asyn
   await expect(footer).toContainText(ANTHEM.line);
   await expect(footer.getByRole("img", { name: "Sol de Mayo" })).toBeVisible();
   await expect(footer).not.toContainText("Buenos Aires");
+  const brandSignature = footer.locator(".footer-brand__signature");
+  await brandSignature.scrollIntoViewIfNeeded();
+  await expect(brandSignature).toBeVisible();
+  await expect(brandSignature).toHaveAttribute("alt", "");
+  await expect
+    .poll(() =>
+      brandSignature.evaluate(
+        (image: HTMLImageElement) => image.complete && image.naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
+  for (const theme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme: theme });
+    await expect(brandSignature).toHaveCSS(
+      "mix-blend-mode",
+      theme === "dark" ? "screen" : "multiply",
+    );
+    await expect(brandSignature).toHaveCSS(
+      "filter",
+      theme === "dark" ? "invert(1)" : "none",
+    );
+  }
   const icon = page.locator('link[rel="icon"]').first();
   const response = await request.get((await icon.getAttribute("href"))!);
   expect(response.ok()).toBe(true);
-  expect(await response.text()).toContain("SLZ — Santiago López Zavaletta");
-  expect(await response.text()).not.toContain("Sun of May");
+  expect(response.headers()["content-type"]).toContain("image/png");
+  const png = await response.body();
+  expect(png.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
+  expect(png.readUInt32BE(16)).toBe(64);
+  expect(png.readUInt32BE(20)).toBe(64);
+  expect(png.length).toBeLessThan(20_000);
 });
 
 for (const theme of ["light", "dark"] as const) {
