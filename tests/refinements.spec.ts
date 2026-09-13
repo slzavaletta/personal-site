@@ -89,3 +89,90 @@ test("home copy, governance hierarchy, compact signature and SLZ identity", asyn
   expect(await response.text()).toContain("SLZ — Santiago López Zavaletta");
   expect(await response.text()).not.toContain("Sun of May");
 });
+
+for (const theme of ["light", "dark"] as const) {
+  test(`pinned header remains usable and clears anchors in ${theme}`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: theme, reducedMotion: "reduce" });
+    await page.goto("/");
+    const header = page.locator("header");
+    const height = await header.evaluate(
+      (el) => el.getBoundingClientRect().height,
+    );
+    await page.evaluate(() => window.scrollTo(0, 600));
+    await expect(header).toHaveAttribute("data-scrolled", "true");
+    expect(await header.evaluate((el) => el.getBoundingClientRect().top)).toBe(
+      0,
+    );
+    expect(
+      await header.evaluate((el) => el.getBoundingClientRect().height),
+    ).toBe(height);
+    await expect(header).toBeInViewport({ ratio: 1 });
+    await header.getByRole("link", { name: "Systems", exact: true }).click();
+    await expect(page).toHaveURL(/\/systems$/);
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+    await expect(header).toHaveAttribute("data-scrolled", "false");
+    await header.getByRole("link", { name: "Work", exact: true }).click();
+    await expect(page).toHaveURL(/\/$/);
+    // A wrapped, enlarged navigation must reserve its actual height for hashes.
+    await page.setViewportSize({ width: 320, height: 850 });
+    await page.evaluate(() => {
+      document.documentElement.style.fontSize = "32px";
+    });
+    await expect
+      .poll(() =>
+        header.evaluate((el) => {
+          const reserved = parseFloat(
+            getComputedStyle(document.documentElement).scrollPaddingTop,
+          );
+          return reserved >= el.getBoundingClientRect().height;
+        }),
+      )
+      .toBe(true);
+    await page.getByRole("link", { name: /^The work/ }).click();
+    await expect(page).toHaveURL(/\/#work$/);
+    const positions = await page.evaluate(() => ({
+      headerBottom: document.querySelector("header")!.getBoundingClientRect()
+        .bottom,
+      workTop: document.querySelector("#work")!.getBoundingClientRect().top,
+      overflow: document.documentElement.scrollWidth > innerWidth,
+    }));
+    expect(positions.workTop).toBeGreaterThanOrEqual(positions.headerBottom);
+    expect(positions.overflow).toBe(false);
+    await expect(
+      header.getByRole("link", { name: "Contact", exact: true }),
+    ).toBeInViewport({ ratio: 1 });
+  });
+}
+
+test("header stays pinned without JavaScript", async ({
+  browser,
+  baseURL,
+  isMobile,
+}) => {
+  const context = await browser.newContext({
+    baseURL,
+    javaScriptEnabled: false,
+    viewport: { width: isMobile ? 393 : 1440, height: 850 },
+  });
+  try {
+    const page = await context.newPage();
+    await page.goto("/");
+    await page.evaluate(() => window.scrollTo(0, 600));
+    await expect(page.locator("header")).toBeInViewport({ ratio: 1 });
+    expect(
+      await page
+        .locator("header")
+        .evaluate((el) => el.getBoundingClientRect().top),
+    ).toBe(0);
+    await page
+      .locator("header")
+      .getByRole("link", { name: "Contact", exact: true })
+      .click();
+    await expect(page).toHaveURL(/\/contact$/);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  } finally {
+    await context.close();
+  }
+});

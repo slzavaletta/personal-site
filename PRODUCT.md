@@ -63,6 +63,14 @@ top without a scroll animation. Native view transitions crossfade the content
 while the header stays stable; unsupported browsers use an entry animation.
 Reduced motion skips both. Hash links and browser history remain native.
 
+The header stays pinned at the top throughout scrolling, including on mobile.
+It uses CSS sticky positioning to preserve its natural layout space without a
+JavaScript spacer. After 24px of scrolling, a translucent blurred surface,
+subtle shadow and accent edge separate it from the content. Unsupported blur
+and no-JavaScript cases retain an opaque pinned header. Its measured height
+sets the anchor offset as text and navigation reflow. Reduced motion removes
+the appearance transition; the header never shrinks or hides on scroll.
+
 Every brief panel is server-rendered; JavaScript adds radio selection. The clock
 follows Buenos Aires. Public GitHub activity is optional, server-only and cached
 hourly. No account, external CDN script or analytics is needed.

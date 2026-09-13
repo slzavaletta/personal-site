@@ -5,6 +5,7 @@
 /* Provisional palette. One token group changes the whole Atlas, including 3D. */
 :root {
   color-scheme: light;
+  --header-height: 6rem;
   --paper: #f6f8fb;
   --ink: #192334;
   --mute: #506078;
@@ -107,7 +108,7 @@
     box-sizing: border-box;
   }
   html {
-    scroll-padding-top: 1.5rem;
+    scroll-padding-top: calc(var(--header-height) + 1.5rem);
   }
   body {
     margin: 0;
@@ -188,13 +189,48 @@
   max-width: 1320px;
   margin-inline: auto;
 }
+.header-sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
   view-transition-name: site-header;
+  background: var(--paper);
+  transition:
+    background-color 240ms ease,
+    box-shadow 240ms ease;
+}
+.site-header[data-scrolled="true"] {
+  box-shadow:
+    0 8px 28px color-mix(in srgb, var(--ink) 9%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--celeste) 22%, var(--rule));
+}
+@supports (backdrop-filter: blur(18px)) or (-webkit-backdrop-filter: blur(18px)) {
+  .site-header {
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);
+    backdrop-filter: blur(18px) saturate(1.2);
+  }
+  .site-header[data-scrolled="true"] {
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+  }
+}
+.header-inner {
   display: flex;
   align-items: center;
   gap: 2.25rem;
   padding-block: 1.5rem;
   border-bottom: 1px solid var(--rule-strong);
+  transition: border-color 240ms ease;
+}
+.site-header[data-scrolled="true"] .header-inner {
+  border-bottom-color: transparent;
 }
 .wordmark {
   font-family: var(--font-display), sans-serif;
@@ -1011,7 +1047,7 @@
   .atlas-hero {
     gap: 2.5rem;
   }
-  .site-header {
+  .header-inner {
     gap: 1.5rem;
   }
   .site-header nav {
@@ -1019,10 +1055,13 @@
   }
 }
 @media (max-width: 760px) {
+  :root {
+    --header-height: 10rem;
+  }
   .page-shell {
     width: calc(100% - 3rem);
   }
-  .site-header {
+  .header-inner {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 1.1rem;
