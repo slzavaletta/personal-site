@@ -18,6 +18,9 @@
   --celeste: #2854d8;
   --on-accent: #ffffff;
   --gold: #886024;
+  --halo-blue: rgb(76 122 235 / 18%);
+  --halo-cyan: rgb(68 181 202 / 16%);
+  --grain-opacity: 0.1;
   --mark-filter: none;
   --signature-filter: none;
   --signature-blend: multiply;
@@ -55,6 +58,9 @@
   --celeste: #a0c5ff;
   --on-accent: #0e1c32;
   --gold: #d8bc7e;
+  --halo-blue: rgb(66 109 218 / 25%);
+  --halo-cyan: rgb(47 149 176 / 18%);
+  --grain-opacity: 0.07;
   --mark-filter: brightness(0) invert(1);
   --signature-filter: invert(1);
   --signature-blend: screen;
@@ -74,6 +80,9 @@
     --celeste: #a0c5ff;
     --on-accent: #0e1c32;
     --gold: #d8bc7e;
+    --halo-blue: rgb(66 109 218 / 25%);
+    --halo-cyan: rgb(47 149 176 / 18%);
+    --grain-opacity: 0.07;
     --mark-filter: brightness(0) invert(1);
     --signature-filter: invert(1);
     --signature-blend: screen;
@@ -122,6 +131,7 @@
     background: var(--paper);
     font-family: var(--font-body), sans-serif;
     font-size: 1.125rem;
+    font-weight: 350;
     -webkit-font-smoothing: antialiased;
   }
   h1,
@@ -142,9 +152,9 @@
   }
   h1 {
     font-size: clamp(2.5rem, 5.2vw, 4.75rem);
-    line-height: 1.07;
-    letter-spacing: -0.045em;
-    font-weight: 600;
+    line-height: 1.09;
+    letter-spacing: -0.04em;
+    font-weight: 400;
   }
   h1 em {
     font-style: normal;
@@ -359,10 +369,31 @@
   padding-block: 3.5rem 4rem;
 }
 .atlas-hero {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
   gap: 4.5rem;
   margin-bottom: 3.2rem;
+}
+.atlas-hero::before,
+.atlas-hero::after {
+  content: "";
+  position: absolute;
+  inset: -2.5rem 0 -1.5rem;
+  z-index: -1;
+  pointer-events: none;
+}
+.atlas-hero::before {
+  background:
+    radial-gradient(ellipse at 78% 28%, var(--halo-blue), transparent 65%),
+    radial-gradient(ellipse at 98% 72%, var(--halo-cyan), transparent 60%);
+  mask-image: linear-gradient(transparent, #000 20% 70%, transparent);
+}
+.atlas-hero::after {
+  background: url("/grain.svg") repeat;
+  opacity: var(--grain-opacity);
+  mask-image: radial-gradient(ellipse at 80% 50%, #000, transparent 72%);
 }
 .atlas-hero__aside {
   padding-top: 0.5rem;
@@ -461,6 +492,41 @@
     linear-gradient(var(--grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid) 1px, transparent 1px);
   background-size: 52px 52px;
+}
+.map-graph::before,
+.map-graph::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+}
+.map-graph::before {
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 25% 30%, var(--halo-blue), transparent 65%),
+    radial-gradient(ellipse at 75% 80%, var(--halo-cyan), transparent 65%);
+}
+.map-graph::after {
+  inset: 0;
+  background: url("/grain.svg") repeat;
+  opacity: var(--grain-opacity);
+}
+@media (min-width: 768px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .map-graph::before {
+    inset: 0 auto auto 0;
+    width: 60%;
+    height: 72%;
+    background:
+      radial-gradient(ellipse at 45% 40%, var(--halo-blue), transparent 70%),
+      radial-gradient(ellipse at 65% 60%, var(--halo-cyan), transparent 65%);
+    transition: transform 850ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .map-graph[data-selected="1"]::before {
+    transform: translate(60%, -5%);
+  }
+  .map-graph[data-selected="2"]::before {
+    transform: translate(60%, 38%);
+  }
 }
 .map-edges,
 .map-canvas {
@@ -655,6 +721,8 @@
 }
 .deployment-map[data-layout="list"] .map-edges,
 .deployment-map[data-layout="list"] .map-canvas,
+.deployment-map[data-layout="list"] .map-graph::before,
+.deployment-map[data-layout="list"] .map-graph::after,
 .deployment-map[data-layout="list"] .map-hub {
   display: none;
 }

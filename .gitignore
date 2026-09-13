@@ -40,3 +40,6 @@ test-results
 playwright-report
 
 .next-dev/
+
+# Proprietary fonts are fetched at build time; never commit their binaries.
+/app/fonts/neue-montreal/

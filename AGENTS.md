@@ -2,8 +2,12 @@
 
 Read PRODUCT.md for the current design and README.md for commands. Historical
 plans in docs/superpowers describe superseded visual directions. Deployment
-Atlas (direction A) is the owner's selected design. The palette and typography
-remain provisional; preserve the spatial map and the complete authored copy.
+Atlas (direction A) is the owner's selected design. The palette remains
+provisional; PP Neue Montreal is the selected typography. The owner authorized publishing
+Neue Montreal and the Grainient-inspired treatment on September 13, 2026.
+Keep font binaries git-ignored and use scripts/prepare-fonts.mjs for the official,
+integrity-checked source. See app/fonts/README.md for provenance.
+Preserve the spatial map and the complete authored copy.
 
 - Keep public copy and facts in app/lib/content.ts. Preserve the owner's wording
   unless the task requests a copy change. Do not invent results or expertise.

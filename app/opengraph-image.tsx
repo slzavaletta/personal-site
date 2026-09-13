@@ -23,8 +23,8 @@ async function loadFont(filename: string) {
 
 export default async function OpengraphImage() {
   const [regular, semibold, monogram] = await Promise.all([
-    loadFont("InstrumentSans-Regular.ttf"),
-    loadFont("InstrumentSans-SemiBold.ttf"),
+    loadFont("neue-montreal/PPNeueMontreal-Regular.otf"),
+    loadFont("neue-montreal/PPNeueMontreal-Semibold.otf"),
     readFile(join(process.cwd(), "app/brand/slz-symbol.png")),
   ]);
 
@@ -41,7 +41,7 @@ export default async function OpengraphImage() {
         backgroundColor: colors.navy,
         color: colors.paper,
         padding: "12px",
-        fontFamily: "Instrument Sans",
+        fontFamily: "PP Neue Montreal",
       }}
     >
       <div
@@ -80,9 +80,9 @@ export default async function OpengraphImage() {
             display: "flex",
             flexWrap: "wrap",
             maxWidth: 980,
-            fontFamily: "Instrument Sans",
+            fontFamily: "PP Neue Montreal",
             fontSize: 76,
-            fontWeight: 600,
+            fontWeight: 400,
             letterSpacing: "-0.03em",
             lineHeight: 1.04,
           }}
@@ -115,13 +115,13 @@ export default async function OpengraphImage() {
       ...size,
       fonts: [
         {
-          name: "Instrument Sans",
+          name: "PP Neue Montreal",
           data: regular,
           weight: 400,
           style: "normal",
         },
         {
-          name: "Instrument Sans",
+          name: "PP Neue Montreal",
           data: semibold,
           weight: 600,
           style: "normal",

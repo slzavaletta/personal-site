@@ -176,6 +176,7 @@ export function DeploymentMap() {
           ref={graph}
           className="map-graph"
           data-ready={ready}
+          data-selected={selected}
           role="group"
           aria-label="Projects connected by delivery governance"
         >

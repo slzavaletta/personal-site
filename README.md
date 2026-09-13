@@ -1,14 +1,17 @@
 # Santiago López Zavaletta — Personal site
 
 Personal portfolio for enterprise AI delivery. Next.js 15 App Router, React 19,
-TypeScript, Tailwind 4, Base UI, Three.js, Instrument Sans and Source Sans 3.
-Fonts are self-hosted from lockfile-pinned Fontsource packages.
+TypeScript, Tailwind 4, Base UI and Three.js. The owner selected PP Neue Montreal
+with blue/cyan gradients and fine grain in the hero and project map. Original
+font binaries stay outside Git; installation and builds retrieve and verify
+the official archive. See `app/fonts/README.md` for provenance.
 
 [slzavaletta.com](https://www.slzavaletta.com)
 
 ## Run
 
-Node 22 is used in CI (minimum 20.9). The lockfile is authoritative.
+Node 22 is used in CI (minimum 20.9). The lockfile is authoritative. `npm ci` prepares the three font files from
+the pinned official archive. Cached files are verified and reused offline.
 
 ```bash
 npm ci
