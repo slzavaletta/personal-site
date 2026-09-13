@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { SiteLink as Link } from "@/app/components/PageNavigation";
 export default function NotFound() {
   return (
     <main id="main" tabIndex={-1} className="page-shell atlas-page">

@@ -24,8 +24,11 @@ and exploratory tools. AI deployment is the direction, not an invented job title
 
 Preserve all authored paragraphs. Navigation and short interface labels may
 change; results, employer claims and metrics may not be invented. Legacy section
-hashes redirect to their new pages. The shared footer preserves the Sol de Mayo
-and exactly “Sean eternos los laureles que supimos conseguir.”
+hashes redirect to their new pages. The footer groups the name, a small Sol de
+Mayo and exactly “Sean eternos los laureles que supimos conseguir.” It omits the
+location. The favicon and social preview use SLZ; the sun is a cultural
+signature rather than a logo. The two home summary lines were revised at the
+owner's request on September 13, 2026; other authored copy remains intact.
 
 ## Visual and interaction system
 
@@ -54,6 +57,11 @@ governance. It shares the measured paths with SVG, renders only while moving,
 loads lazily on visible fine-pointer desktop screens, and releases resources
 offscreen or when motion becomes disallowed. Touch, reduced motion, data saving,
 no JavaScript and unavailable WebGL retain readable HTML and the SVG map.
+
+The governance hub shares the case title scale. Page links reveal the document
+top without a scroll animation. Native view transitions crossfade the content
+while the header stays stable; unsupported browsers use an entry animation.
+Reduced motion skips both. Hash links and browser history remain native.
 
 Every brief panel is server-rendered; JavaScript adds radio selection. The clock
 follows Buenos Aires. Public GitHub activity is optional, server-only and cached

@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import { SiteLink as Link } from "./PageNavigation";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS } from "@/app/lib/content";
 import { LocalClock } from "./LocalClock";

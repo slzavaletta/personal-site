@@ -2,7 +2,6 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-import { buildSolDeMayoSvg, SOL_GOLD } from "@/app/components/SolDeMayo";
 import { CURRENT_TITLE, HERO, ROLE_TRANSITION } from "@/app/lib/content";
 import { SITE_NAME } from "@/app/lib/site";
 
@@ -14,7 +13,7 @@ const colors = {
   paper: "#F6F8FB",
   ink: "#192334",
   mute: "#506078",
-  gold: SOL_GOLD,
+  gold: "#886024",
   navy: "#2854D8",
 };
 
@@ -23,9 +22,10 @@ async function loadFont(filename: string) {
 }
 
 export default async function OpengraphImage() {
-  const [regular, semibold] = await Promise.all([
+  const [regular, semibold, monogram] = await Promise.all([
     loadFont("InstrumentSans-Regular.ttf"),
     loadFont("InstrumentSans-SemiBold.ttf"),
+    readFile(join(process.cwd(), "app/icon.svg"), "utf8"),
   ]);
 
   const nextLine = ROLE_TRANSITION.public
@@ -71,7 +71,7 @@ export default async function OpengraphImage() {
             alt=""
             width={58}
             height={58}
-            src={`data:image/svg+xml,${encodeURIComponent(buildSolDeMayoSvg())}`}
+            src={`data:image/svg+xml;base64,${Buffer.from(monogram).toString("base64")}`}
           />
         </div>
 
@@ -108,7 +108,6 @@ export default async function OpengraphImage() {
           }}
         >
           <span style={{ color: colors.ink }}>{nextLine}</span>
-          <span style={{ color: colors.mute }}>Buenos Aires</span>
         </div>
       </div>
     </div>,

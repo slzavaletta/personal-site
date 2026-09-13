@@ -8,6 +8,7 @@ import { getBuenosAiresHour } from "@/app/lib/time";
 import { formatLocalClock } from "@/app/lib/time";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { SiteFooter } from "@/app/components/ContactFooter";
+import { PageNavigation } from "@/app/components/PageNavigation";
 import "./globals.css";
 
 // Self-hosted, lockfile-pinned font assets also work in offline builds/previews.
@@ -139,9 +140,13 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <SiteHeader initialClock={formatLocalClock(new Date())} />
-        {children}
-        <SiteFooter />
+        <PageNavigation>
+          <SiteHeader initialClock={formatLocalClock(new Date())} />
+          <div className="route-content">
+            {children}
+            <SiteFooter />
+          </div>
+        </PageNavigation>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

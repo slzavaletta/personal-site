@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { SiteLink as Link } from "@/app/components/PageNavigation";
 import { notFound } from "next/navigation";
 import { BRIEF, CASE_STUDIES } from "@/app/lib/content";
 import { pageMetadata } from "@/app/lib/page-metadata";

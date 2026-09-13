@@ -1,14 +1,14 @@
 "use client";
-import Link from "next/link";
+import { SiteLink as Link } from "./PageNavigation";
 import { useEffect, useRef, useState } from "react";
 import { CASE_STUDIES, WORK_INTRO } from "@/app/lib/content";
 import { mapGeometry, type MapGeometry } from "@/app/lib/map-geometry";
 import type { MapController } from "./scene/map";
 
 const staticRoutes = [
-  "M 202 219 C 202 360 274 433 344 433",
-  "M 610 162 C 610 200 430 200 430 249 L 430 355 C 430 380 433 383 433 402",
-  "M 645 362 C 829 374 829 433 539 433",
+  "M 202 219 C 202 360 235 447 268 447",
+  "M 610 162 C 610 200 430 200 430 249 L 430 365 C 430 388 481 385 481 406",
+  "M 645 362 C 829 374 829 447 696 447",
 ];
 
 export function DeploymentMap() {

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { SiteLink as Link } from "@/app/components/PageNavigation";
 import { DeploymentMap } from "@/app/components/DeploymentMap";
 import { HashTarget } from "@/app/components/HashTarget";
 import { HERO, PROOF_LINE, SITE_LINKS, WORK_INTRO } from "@/app/lib/content";

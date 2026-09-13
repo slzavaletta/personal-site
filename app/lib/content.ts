@@ -90,7 +90,7 @@ export const HERO = {
 
 /** One spoken line of proof, not a stats grid. */
 export const PROOF_LINE =
-  "Ten years. A multi-million-dollar AI account. Six POCs. Three go-lives. Four deals.";
+  "Ten years in delivery: a multi-million-dollar AI account, six POCs, three go-lives and four M&A programs.";
 
 /**
  * The ledger: what is true right now. Edited by commit; the GitHub row is
@@ -119,7 +119,7 @@ export type CaseStudy = {
 
 export const WORK_INTRO = {
   heading: "Selected work",
-  body: "Three examples: what was difficult, what I owned, and what changed.",
+  body: "Three cases. The challenge, my role, and the outcome.",
 } as const;
 
 export const CASE_STUDIES = [
