@@ -49,6 +49,21 @@ for (const theme of ["light", "dark"] as const) {
       ).toBeFocused();
       await page.keyboard.press("Enter");
       await expect(page.locator("main#main")).toBeFocused();
+      await expect(page.locator("main#main")).toHaveCSS(
+        "outline-style",
+        "none",
+      );
+      // Removing the page frame must not remove focus cues on real controls.
+      await page.keyboard.press("Tab");
+      const control = page.locator(":focus-visible");
+      await expect(control).toHaveCount(1);
+      expect(
+        await control.evaluate((el) =>
+          el.matches("a, button, input, select, textarea"),
+        ),
+      ).toBe(true);
+      await expect(control).toHaveCSS("outline-style", "solid");
+      await expect(control).toHaveCSS("outline-width", "2px");
       expect(
         await page.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth,

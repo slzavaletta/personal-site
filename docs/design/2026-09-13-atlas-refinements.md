@@ -11,8 +11,9 @@ surface. Production is outside this change.
   It stays on one line at desktop sizes and reflows on narrow/enlarged screens.
 - Group the name, small Sol de Mayo and exact anthem in a compact footer.
   Remove the footer location. The sun remains a cultural signature, not a logo.
-- Use SLZ as the favicon and social identity mark. The later polish replaces
-  the outlined blue badge with a compact geometric monogram in filled paths.
+- Use SLZ as the favicon and social identity mark. Following two rejected
+  geometric treatments, the latest version uses the three italic serif
+  initials on one baseline inside a light circular field.
 - Route links retain real destinations, prefetch, modified clicks and history.
   Explicit page navigation starts at the document top, with a short native
   crossfade and a small content reveal. Keep the header out of the page motion.
@@ -46,3 +47,14 @@ description no longer claim ownership or operation of a self-hosted VPS.
 The Grok mark comes from LobeHub's icon set; its source and MIT notice are
 preserved with the local asset. Mobile reflow checks cover all eight pages at
 320px and 200% text in both themes, in addition to the existing browser suite.
+
+The next review identified full-height side lines after page navigation. They
+were the global focus-visible outline applied to the programmatically focused
+main landmark. A selector limited to that noninteractive focus target removes
+the frame while preserving focus transfer, skip navigation and visible focus
+on links and buttons. Existing browser cases now check both sides of that
+requirement after navigation and keyboard skip-link activation.
+
+The handwritten signature supplied by the owner remains unpublished. A
+separate mark made for public branding is recommended for a possible footer
+addition; the new favicon is typography, not a tracing of that signature.

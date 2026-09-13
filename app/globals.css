@@ -168,6 +168,11 @@
     outline: 2px solid var(--celeste);
     outline-offset: 5px;
   }
+  /* Route changes and the skip link focus this noninteractive landmark.
+     Keep its keyboard position without drawing a frame around the page. */
+  main[tabindex="-1"]:focus {
+    outline: none;
+  }
   ::selection {
     background: var(--celeste);
     color: var(--on-accent);

@@ -65,6 +65,10 @@ The governance hub shares the case title scale. Page links reveal the document
 top without a scroll animation. Native view transitions crossfade the content
 while the header stays stable; unsupported browsers use an entry animation.
 Reduced motion skips both. Hash links and browser history remain native.
+The main landmark receives focus after navigation and skip-link activation,
+but never a visible page-sized outline. Interactive controls retain their
+visible keyboard focus indicators. Do not remove focus transfer or globally
+disable outlines to address the page-frame issue.
 
 The header stays pinned at the top throughout scrolling, including on mobile.
 It uses CSS sticky positioning to preserve its natural layout space without a
@@ -77,8 +81,12 @@ The compact bar uses 8px vertical padding at standard text size and a 44px
 icon button for the theme. Mobile uses two close rows and lets links wrap at
 larger text sizes. Approach places its introduction directly below the title,
 with a shared left edge, instead of aligning it at the foot of a side column.
-The SLZ mark is a high-contrast geometric monogram, with S beside a stacked
-L and Z. It is drawn as filled paths and shared with the social preview.
+The SLZ mark uses the three italic serif initials on one baseline inside a
+light circular field. Letter outlines derive from the bundled Fraunces font;
+the SVG needs no font request and is shared with the social preview. The
+owner's handwritten signature is not a public asset. Its possible use in the
+footer is under discussion; do not publish the uploaded original as part of
+routine identity edits.
 
 Every brief panel is server-rendered; JavaScript adds radio selection. The clock
 follows Buenos Aires. Public GitHub activity is optional, server-only and cached

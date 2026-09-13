@@ -39,6 +39,7 @@ for (const mode of ["native", "fallback", "reduced"] as const) {
         new RegExp(path === "/" ? "/$" : path + "$"),
       );
       await expect(page.locator("main")).toBeFocused();
+      await expect(page.locator("main")).toHaveCSS("outline-style", "none");
       await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
       await expect(page.locator("header")).toBeInViewport({ ratio: 1 });
       if (mode === "reduced")
