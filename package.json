@@ -12,7 +12,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "verify": "npm run lint && npm run check && npm run format:check",
-    "test:a11y": "playwright test"
+    "test:a11y": "playwright test",
+    "postinstall": "node scripts/prepare-fonts.mjs",
+    "prebuild": "node scripts/prepare-fonts.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -40,6 +42,7 @@
     "@types/three": "^0.185.4",
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.21",
+    "fflate": "0.8.3",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "shadcn": "^4.16.0",

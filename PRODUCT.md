@@ -38,8 +38,20 @@ both public representations. Do not reintroduce that infrastructure claim.
 Provisional light palette: white #F6F8FB, ink #192334, cobalt #2854D8, map field
 #EAF0F8 and gold #886024. Dark mode: navy #0E192B and pale blue #A0C5FF. Alternatives
 for owner review include graphite/copper. Central CSS tokens permit a final
-palette change without rewriting components. Instrument Sans provides headings
-and navigation; Source Sans 3 provides body text. Both are self-hosted.
+palette change without rewriting components. The owner selected PP Neue Montreal
+on September 13, 2026. The local branch uses Regular for primary headlines,
+Semibold for emphasis, and Text Book for paragraphs, all self-hosted. H1 uses a
+lighter weight and slightly more line spacing. The owner authorized publication on
+September 13, 2026. Font binaries remain excluded from the public repository. Installation and builds
+retrieve the official archive with pinned SHA-256 verification; see
+app/fonts/README.md for provenance.
+
+The approved Grainient-inspired treatment adds original blue/cyan radial
+gradients and static fine grain to the hero and map. Long-form pages and map
+labels retain solid surfaces. On desktop with a fine pointer and motion allowed,
+the map halo moves when a project is selected. Touch and reduced-motion readers
+get a static composition. The texture uses a local procedural SVG; no Grainient
+assets or additional client libraries are loaded.
 
 Light and dark modes are required across all routes. Follow the operating system
 until the reader chooses a mode using the labeled header button. Apply a saved

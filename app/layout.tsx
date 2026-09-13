@@ -11,18 +11,32 @@ import { SiteFooter } from "@/app/components/ContactFooter";
 import { PageNavigation } from "@/app/components/PageNavigation";
 import "./globals.css";
 
-// Self-hosted, lockfile-pinned font assets also work in offline builds/previews.
-const instrument = localFont({
-  src: "../node_modules/@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2",
-  weight: "400 700",
+// Official, unmodified files prepared at build time; provenance in app/fonts/README.md.
+const montreal = localFont({
+  src: [
+    { path: "./fonts/neue-montreal/PPNeueMontreal-Regular.otf", weight: "400" },
+    {
+      path: "./fonts/neue-montreal/PPNeueMontreal-Semibold.otf",
+      weight: "600",
+    },
+  ],
   style: "normal",
   variable: "--font-display",
   display: "swap",
   preload: true,
 });
-const sourceSans = localFont({
-  src: "../node_modules/@fontsource-variable/source-sans-3/files/source-sans-3-latin-wght-normal.woff2",
-  weight: "200 900",
+const montrealText = localFont({
+  src: [
+    {
+      path: "./fonts/neue-montreal/PPNeueMontrealText-Book.otf",
+      weight: "350",
+    },
+    { path: "./fonts/neue-montreal/PPNeueMontreal-Regular.otf", weight: "400" },
+    {
+      path: "./fonts/neue-montreal/PPNeueMontreal-Semibold.otf",
+      weight: "600",
+    },
+  ],
   style: "normal",
   variable: "--font-body",
   display: "swap",
@@ -126,7 +140,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrument.variable} ${sourceSans.variable}`}
+      className={`${montreal.variable} ${montrealText.variable}`}
       data-hour={String(getBuenosAiresHour())}
       suppressHydrationWarning
     >
