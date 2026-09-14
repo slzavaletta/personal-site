@@ -2,17 +2,18 @@ import Image from "next/image";
 import brandSignature from "@/app/brand/slz-signature.png";
 import { ANTHEM } from "@/app/lib/content";
 import { SITE_NAME } from "@/app/lib/site";
+import { BackToTop } from "./BackToTop";
 
 export function SiteFooter() {
   return (
-    <footer className="site-footer page-shell">
+    <footer id="footer" className="site-footer page-shell">
       <div className="footer-identity">
         <div className="footer-brand">
           <Image
             src={brandSignature}
             alt=""
             aria-hidden="true"
-            sizes="176px"
+            sizes="(max-width: 760px) 96px, 176px"
             className="footer-brand__signature"
           />
           <span className="footer-name">{SITE_NAME}</span>
@@ -31,9 +32,7 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
-      <a className="footer-top" href="#main">
-        Back to top ↑
-      </a>
+      <BackToTop />
     </footer>
   );
 }

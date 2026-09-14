@@ -123,6 +123,63 @@ test("home copy, governance hierarchy, compact signature and SLZ identity", asyn
 });
 
 for (const theme of ["light", "dark"] as const) {
+  test(`compact footer and return to top remain accessible in ${theme}`, async ({
+    page,
+    isMobile,
+  }, testInfo) => {
+    await page.emulateMedia({
+      colorScheme: theme,
+      reducedMotion: theme === "dark" ? "reduce" : "no-preference",
+    });
+    await page.goto("/");
+    await page.evaluate(() => document.fonts.ready);
+    const footer = page.getByRole("contentinfo");
+    const backToTop = footer.getByRole("link", { name: "Back to top" });
+    for (const width of isMobile ? [320, 393] : [1440]) {
+      await page.setViewportSize({ width, height: 850 });
+      await footer.scrollIntoViewIfNeeded();
+      if (isMobile) {
+        const brand = (await footer.locator(".footer-brand").boundingBox())!;
+        const signature = (await footer.locator(".signature").boundingBox())!;
+        expect(brand.x + brand.width).toBeLessThan(signature.x);
+        expect(brand.y + brand.height / 2).toBeCloseTo(
+          signature.y + signature.height / 2,
+          0,
+        );
+        await expect(footer.locator(".footer-top__label")).toBeHidden();
+      }
+      await expect(footer).toContainText(ANTHEM.line);
+      await expect(footer).toContainText(SITE_NAME);
+      const target = (await backToTop.boundingBox())!;
+      expect(target.width).toBeGreaterThanOrEqual(44);
+      expect(target.height).toBeGreaterThanOrEqual(44);
+      expect(
+        await page.evaluate(() => document.documentElement.scrollWidth),
+      ).toBeLessThanOrEqual(width);
+      const footerBox = (await footer.boundingBox())!;
+      const captureTop = Math.max(0, footerBox.y - 32);
+      await page.screenshot({
+        path: testInfo.outputPath(`footer-${width}.png`),
+        animations: "disabled",
+        clip: {
+          x: footerBox.x,
+          y: captureTop,
+          width: footerBox.width,
+          height: footerBox.y + footerBox.height - captureTop,
+        },
+      });
+    }
+    await backToTop.focus();
+    await expect(backToTop).toHaveCSS("outline-style", "solid");
+    await backToTop.press("Enter");
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+    await expect(page.locator("main")).toBeFocused();
+    await expect(page.locator("main")).toHaveCSS("outline-style", "none");
+    await expect(page).toHaveURL(/#main$/);
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("link", { name: /^The work/ })).toBeFocused();
+  });
+
   test(`pinned header remains usable and clears anchors in ${theme}`, async ({
     page,
     isMobile,
@@ -268,6 +325,11 @@ test("header stays pinned without JavaScript", async ({
       .click();
     await expect(page).toHaveURL(/\/contact$/);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    const backToTop = page.getByRole("link", { name: "Back to top" });
+    await backToTop.click();
+    await expect(page).toHaveURL(/\/contact#main$/);
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+    await expect(page.locator("main")).toBeFocused();
   } finally {
     await context.close();
   }

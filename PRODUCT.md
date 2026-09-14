@@ -101,6 +101,15 @@ build time. The footer image is decorative, optimized by Next Image and blends
 into both palettes, including the no-JavaScript system preference. The owner's
 uploaded original signature is not a public asset; do not publish or trace it.
 
+The mobile footer keeps the handwritten SLZ on the left and the sun/anthem
+group on the right in one row. The complete printed name remains available to
+screen readers and stays visible on desktop. The anthem wraps naturally;
+enlarged text may reflow within its group. A 48px return-to-top control sits on
+the footer's top rule: a labeled pill on desktop and a circular arrow on mobile.
+It returns focus to main and scrolls smoothly only when motion is permitted.
+Without JavaScript the same control remains a native anchor. The footer stays
+in document flow; no floating identity or control covers the page content.
+
 Every brief panel is server-rendered; JavaScript adds radio selection. The clock
 follows Buenos Aires. Public GitHub activity is optional, server-only and cached
 hourly. No account, external CDN script or analytics is needed.
