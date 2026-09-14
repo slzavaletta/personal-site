@@ -1022,15 +1022,11 @@
   margin-bottom: 1rem;
 }
 .site-footer {
+  position: relative;
   isolation: isolate;
   background: var(--paper);
   border-top: 1px solid var(--rule-strong);
-  padding-block: 1.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem 2.5rem;
-  flex-wrap: wrap;
+  padding-block: 2.5rem 2rem;
 }
 .footer-identity {
   display: flex;
@@ -1083,11 +1079,97 @@
   margin-top: 0.25rem;
 }
 .footer-top {
-  font-size: 0.8125rem;
-  color: var(--mute);
-  min-height: 44px;
-  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0.75rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.8125rem;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
+}
+.footer-top__label {
+  padding-left: 0.35rem;
+}
+.footer-top svg {
+  flex: none;
+  transition: transform 180ms ease;
+}
+.footer-top:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer-top:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .footer-top:hover svg {
+    transform: translateY(-3px);
+  }
+}
+@media (max-width: 760px) {
+  .site-footer {
+    padding-block: 2.25rem 1.5rem;
+  }
+  .footer-identity {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+    gap: 1rem;
+    align-items: center;
+  }
+  .footer-brand__signature {
+    width: 6rem;
+  }
+  .footer-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  .signature {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .signature > div {
+    flex: 1 1 8rem;
+    min-width: 0;
+  }
+  .signature__sun {
+    width: 2rem;
+    height: 2rem;
+  }
+  .signature__line {
+    font-size: 0.875rem;
+  }
+  .signature__source {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+  .footer-top__label {
+    display: none;
+  }
 }
 @container atlas (max-width:920px) {
   .map-explorer {
